@@ -24,18 +24,18 @@
         "description": "Location where resources will be provisioned"
       }
     },
-    //"adminUsername": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "Admin username for virtual machines"
-    //  }
-    //},
-    //"adminPassword": {
-    //  "type": "securestring",
-    //  "metadata": {
-    //    "description": "Admin password on provisioned machines"
-    //  }
-    //},
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
+    },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
@@ -44,19 +44,229 @@
     }
   },
   "variables": {
-    "storageAccountType": "Standard_LRS"
+    "storageAccountType": "Standard_LRS",
+    "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
+    "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmas01')]",
+    "subnetName": "DevBetaMgmt",
+    "publicIPName": "[concat(parameters('customerPrefix'),'dbmPublicIP')]",
+    "DCvmName": "[concat(parameters('customerPrefix'),devbetaad",
+    "nicName": "nic",
+    "DCVMSize": "Standard_A1",
+    "imagePublisher": "MicrosoftWindowsServer",
+    "imageOffer": "WindowsServer",
+    "imageSKU": "2012-R2-Datacenter"
+
   },
   "resources": [
+    //Create Storage account for Mgmt VMs
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(parameters('customerPrefix'),'dbmstor01')]",
+      "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "StorageAccount"
+        "displayName": "DevBeta StorageAccount"
       },
       "properties": {
         "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    //Create Availability Set for the Domain Controllers
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[concat(parameters('customerPrefix'),'dbmas01')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "DevBeta Availability Set"
+      },
+      "properties": {
+        "platformFaultDomainCount": "2"
+      }
+    },
+    //Create public IP addresses for servers
+    //{
+    //  "apiVersion": "2015-05-01-preview",
+    //  "type": "Microsoft.Network/publicIPAddresses",
+    //  "name": "[concat(variables('publicIPName'),'0')]",
+    //  "location": "[parameters('location')]",
+    //  "tags": {
+    //    "displayName": "DevBeta Public IP 0"
+    //  },
+    //  "properties": {
+    //    "publicIPAllocationMethod": "Dynamic"
+    //  }
+    //},
+    //{
+    //  "apiVersion": "2015-05-01-preview",
+    //  "type": "Microsoft.Network/publicIPAddresses",
+    //  "name": "[concat(variables('publicIPName'),'1')]",
+    //  "location": "[parameters('location')]",
+    //  "tags": {
+    //    "displayName": "DevBeta Public IP 1"
+    //  },
+    //  "properties": {
+    //    "publicIPAllocationMethod": "Dynamic"
+    //  }
+    //},
+    //Create Network Interfaces
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), '0')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '0')]",
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+      ],
+      "tags": {
+        "displayName": "DevBeta DC Interface 0"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              //"publicIPAddress": {
+              //  "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPName')), '0')]"
+              //},
+              "subnet": {
+                "id": "[variables('subnetName')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), '1')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '1')]",
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+      ],
+      "tags": {
+        "displayName": "DevBeta DC Interface 1"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              //"publicIPAddress": {
+              //  "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPName')), '1')]"
+              //},
+              "subnet": {
+                "id": "[variables('subnetName')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    //Create Virtual Machines
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('DCvmName'), '01')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "DevBeta DC 01"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('DCVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('DCvmName'), '01')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('imageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'01-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('nicName')), '0')]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('DCvmName'), '02')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '1')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "DevBeta DC 02"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('DCVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('DCvmName'), '02')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('imageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'02-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('nicName')), '1')]"
+            }
+          ]
+        }
       }
     }
   ],

@@ -24,18 +24,18 @@
         "description": "Location where resources will be provisioned"
       }
     },
-    //"adminUsername": {
-    //  "type": "string",
-    //  "metadata": {
-    //    "description": "Admin username for virtual machines"
-    //  }
-    //},
-    //"adminPassword": {
-    //  "type": "securestring",
-    //  "metadata": {
-    //    "description": "Admin password on provisioned machines"
-    //  }
-    //},
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
+    },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
