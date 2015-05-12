@@ -3,19 +3,19 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "customerPrefix": {
-      "value": null
+      "value": "sky"
     },
     "location": {
-      "value": null
+      "value": "West US"
     },
     "adminUsername": {
-      "value": null
+      "value": "nimda"
     },
     "adminPassword": {
-      "value": null
+      "value": "Office365"
     },
     "virtualNetworkName": {
-      "value": null
+      "value": "SKYVNET01"
     }
   }
 }
