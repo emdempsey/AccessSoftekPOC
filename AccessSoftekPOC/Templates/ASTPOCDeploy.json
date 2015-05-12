@@ -3,11 +3,9 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "customerPrefix": {
-      "maxLength": 3,
       "metadata": {
         "description": "The 3 character prefix of the customer name"
       },
-      "minLength": 3,
       "type": "string"
     },
     "location": {
