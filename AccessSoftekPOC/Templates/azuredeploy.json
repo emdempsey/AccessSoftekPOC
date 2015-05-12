@@ -47,6 +47,7 @@
     "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.json"
   },
   "resources": [
+    //Create Virtual Network and Public resources
     {
       "apiVersion": "2015-01-01",
       "name": "PublicTemplate",
@@ -57,7 +58,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": {"value": "[parameters('virtualNetworkName')]"}
+          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" }
         }
       }
     }
