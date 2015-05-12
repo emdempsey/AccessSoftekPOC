@@ -1,0 +1,12 @@
+https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-virtual-network%2Fazuredeploy.json
+
+https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Femdempsey%2FAccessSoftekPOC%2Fmaster%2FAccessSoftekPOC%2FTemplates%2FASTPOCDeploy.json
+
+https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Femdempsey%2FAccessSoftekPOC%2Fmaster%2FAccessSoftekPOC%2FTemplates%2FLoadBalancedVirtualMachine.json
+
+
+https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-virtual-network/azuredeploy.json
+
+https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.json
+
+https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.param.dev.json
