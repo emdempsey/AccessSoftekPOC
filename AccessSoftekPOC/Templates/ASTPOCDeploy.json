@@ -76,12 +76,24 @@
             ]
         },
         "subnets": [
-            {
-                "name": "Public",
-                "properties": {
-                    "addressPrefix": "10.0.1.0/24"
-                }
+          {
+            "name": "Public",
+            "properties": {
+              "addressPrefix": "10.0.1.0/24"
             }
+          },
+          {
+            "name": "DevWeb",
+            "properties": {
+              "addressPrefix": "10.0.2.0/24"
+            }
+          },
+          {
+            "name": "DevApp",
+            "properties": {
+              "addressPrefix": "10.0.3.0/24"
+            }
+          }
         ]
       }
     }
