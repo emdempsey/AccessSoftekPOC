@@ -6,10 +6,12 @@
       "metadata": {
         "description": "The 3 character prefix of the customer name"
       },
-      "type": "string"
+      "type": "string",
+      "defaultValue": "sky"
     },
     "location": {
       "type": "string",
+      "defaultValue": "West US",
       "allowedValues": [
         "West US",
         "East US",
@@ -26,18 +28,21 @@
     },
     "adminUsername": {
       "type": "string",
+      "defaultValue": "nimda",
       "metadata": {
         "description": "Admin username for virtual machines"
       }
     },
     "adminPassword": {
       "type": "securestring",
+      "defaultValue": "Office365",
       "metadata": {
         "description": "Admin password on provisioned machines"
       }
     },
     "virtualNetworkName": {
       "type": "string",
+      "defaultValue": "SKYVNET01",
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
