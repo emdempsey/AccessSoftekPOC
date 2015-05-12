@@ -1,6 +1,21 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerPrefix": {
+      "value": null
+    },
+    "location": {
+      "value": null
+    },
+    "adminUsername": {
+      "value": null
+    },
+    "adminPassword": {
+      "value": null
+    },
+    "virtualNetworkName": {
+      "value": null
     }
+  }
 }
