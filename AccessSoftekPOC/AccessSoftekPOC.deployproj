@@ -33,11 +33,12 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
-    <Content Include="Templates\ASTPOCDeploy.json" />
-    <None Include="Templates\ASTPOCDeploy.param.dev.json" />
+    <Content Include="Templates\VNetandPublic.json" />
+    <None Include="Templates\astazuredeploy.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\azuredeploy.json" />
+    <None Include="Templates\astazuredeploy.json" />
+    <None Include="Templates\DevBetaMgmt.json" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

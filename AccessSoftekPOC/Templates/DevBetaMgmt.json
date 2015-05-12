@@ -44,25 +44,23 @@
     }
   },
   "variables": {
-    "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.json"
+    "storageAccountType": "Standard_LRS"
   },
   "resources": [
-    //Create Virtual Network and Public resources
     {
-      "apiVersion": "2015-01-01",
-      "name": "PublicTemplate",
-      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[concat(parameters('customerPrefix'),'dbmstor01')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "StorageAccount"
+      },
       "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('PublicTemplateLink')]", "contentVersion": "1.0.0.0" },
-        "parameters": {
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" }
-        }
+        "accountType": "[variables('storageAccountType')]"
       }
     }
   ],
   "outputs": {
+
   }
 }

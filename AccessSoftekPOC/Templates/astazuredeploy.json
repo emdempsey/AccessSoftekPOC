@@ -1,0 +1,87 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string"
+    },
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "West US",
+        "East US",
+        "North Central US",
+        "Central US",
+        "South Central US",
+        "East Asia",
+        "Southeast Asia",
+        "West Europe"
+      ],
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
+    //"adminUsername": {
+    //  "type": "string",
+    //  "metadata": {
+    //    "description": "Admin username for virtual machines"
+    //  }
+    //},
+    //"adminPassword": {
+    //  "type": "securestring",
+    //  "metadata": {
+    //    "description": "Admin password on provisioned machines"
+    //  }
+    //},
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual Network to be created"
+      }
+    }
+  },
+  "variables": {
+    "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNetandPublic.json",
+    "DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json"
+  },
+  "resources": [
+    //Create Virtual Network and Public resources
+    {
+      "apiVersion": "2015-01-01",
+      "name": "PublicTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('PublicTemplateLink')]", "contentVersion": "1.0.0.0" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" }
+        }
+      }
+    },
+    //Create Dev-Beta Mgmt Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "DevBetaMgmtTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('DevBetaMgmtTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

@@ -10,3 +10,10 @@ https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vi
 https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.json
 
 https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.param.dev.json
+
+$ResourceGroupName = 'TestASTDeploy'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/azuredeploy.json'
+$TemplateParametersFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ASTPOCDeploy.param.dev.json'
+
+
+New-AzureResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParametersFile -Force -Verbose
