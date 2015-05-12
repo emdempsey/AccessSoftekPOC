@@ -37,8 +37,7 @@
     <None Include="Templates\ASTPOCDeploy.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\LoadBalancedVirtualMachine.json" />
-    <None Include="Templates\LoadBalancedVirtualMachine.param.dev.json" />
+    <None Include="Templates\azuredeploy.json" />
     <None Include="Tools\AzCopy.exe" />
     <None Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>

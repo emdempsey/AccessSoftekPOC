@@ -24,18 +24,6 @@
         "description": "Location where resources will be provisioned"
       }
     },
-    "adminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "Admin username for virtual machines"
-      }
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Admin password on provisioned machines"
-      }
-    },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
@@ -92,6 +80,30 @@
             "name": "DevApp",
             "properties": {
               "addressPrefix": "10.0.3.0/24"
+            }
+          },
+          {
+            "name": "DevData",
+            "properties": {
+              "addressPrefix": "10.0.4.0/24"
+            }
+          },
+          {
+            "name": "BetaWeb",
+            "properties": {
+              "addressPrefix": "10.0.5.0/24"
+            }
+          },
+          {
+            "name": "BetaApp",
+            "properties": {
+              "addressPrefix": "10.0.6.0/24"
+            }
+          },
+          {
+            "name": "BetaData",
+            "properties": {
+              "addressPrefix": "10.0.7.0/24"
             }
           }
         ]
