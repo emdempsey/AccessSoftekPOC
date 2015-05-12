@@ -54,7 +54,7 @@
       "type": "Microsoft.Resources/deployments",
       "properties": {
         "mode": "Incremental",
-        "templateLink": { "uri": "[variables('PublicTemplateLink')", "contentVersion": "1.0.0.0" },
+        "templateLink": { "uri": "[variables('PublicTemplateLink')]", "contentVersion": "1.0.0.0" },
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
