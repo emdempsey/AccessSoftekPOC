@@ -116,7 +116,7 @@
       "name": "[concat(variables('nicName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '0')]",
+        //"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '0')]",
         "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
       ],
       "tags": {
@@ -145,7 +145,7 @@
       "name": "[concat(variables('nicName'), '1')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '1')]",
+        //"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '1')]",
         "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
       ],
       "tags": {
