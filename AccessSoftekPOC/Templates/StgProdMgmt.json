@@ -1,0 +1,251 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string"
+    },
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "West US",
+        "East US",
+        "North Central US",
+        "Central US",
+        "South Central US",
+        "East Asia",
+        "Southeast Asia",
+        "West Europe"
+      ],
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual Network to be created"
+      }
+    }
+  },
+  "variables": {
+    "availabilitySetName": "[concat(parameters('customerPrefix'),'spmdcas01')]",
+    "DCvmName": "[concat(parameters('customerPrefix'),'stgprodad')]",
+    "DCVMSize": "Standard_A1",
+    "DCimageOffer": "WindowsServer",
+    "DCimagePublisher": "MicrosoftWindowsServer",
+    "DCimageSKU": "2012-R2-Datacenter",
+    "DCnicName": "StgProd-DC-nic",
+    "storageAccountName": "[concat(parameters('customerPrefix'),'spmstor01')]",
+    "storageAccountType": "Standard_LRS",
+    "subnetName": "StgProdMgmt",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
+  },
+  "resources": [
+    //Create Storage account for Mgmt VMs
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "StgProd StorageAccount"
+      },
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    //Create Availability Set for the Domain Controllers
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('availabilitySetName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "StgProd DC Availability Set"
+      },
+      "properties": {
+        "platformFaultDomainCount": "2"
+      }
+    },
+    //Create Network Interfaces
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('DCnicName'), '0')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "StgProd DC Interface 0"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "10.0.15.4",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('DCnicName'), '1')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "StgProd DC Interface 1"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "10.0.15.5",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
+      }
+    },
+    //Create Virtual Machines
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('DCvmName'), '01')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '0')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "StgProd DC 01"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('DCVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('DCvmName'), '01')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('DCimagePublisher')]",
+            "offer": "[variables('DCimageOffer')]",
+            "sku": "[variables('DCimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'01-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '0')]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('DCvmName'), '02')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "StgProd DC 02"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('DCVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('DCvmName'), '02')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('DCimagePublisher')]",
+            "offer": "[variables('DCimageOffer')]",
+            "sku": "[variables('DCimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'02-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '1')]"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+
+  }
+}
