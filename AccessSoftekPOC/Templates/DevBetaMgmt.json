@@ -137,7 +137,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '0')]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
@@ -174,7 +174,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('nicName')), '0')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '0')]"
             }
           ]
         }
@@ -187,7 +187,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '1')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
@@ -224,7 +224,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('nicName')), '1')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '1')]"
             }
           ]
         }
