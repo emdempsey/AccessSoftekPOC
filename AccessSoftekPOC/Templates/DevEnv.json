@@ -184,7 +184,7 @@
           ]
         }
       }
-    }
+    },
     //Create Web Virtual Machine
     {
       "apiVersion": "2015-05-01-preview",
