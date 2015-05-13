@@ -46,6 +46,48 @@
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
+    },
+    "customerVPNAddress": {
+      "type": "string",
+      "defaultValue": "1.1.1.1",
+      "metadata": {
+        "description": "The IP address of the VPN device on the customer network"
+      }
+    },
+    "customerVPNSubnet": {
+      "type": "string",
+      "defaultValue": "172.16.0.0/16",
+      "metadata": {
+        "description": "One of the subnets onthe customer's local network"
+      }
+    },
+    "customerVPNVendor": {
+      "type": "string",
+      "defaultValue": "Cisco",
+      "metadata": {
+        "description": "The vendor of the VPN device"
+      }
+    },
+    "customerVPNPlatform": {
+      "type": "string",
+      "defaultValue": "ISR",
+      "metadata": {
+        "description": "The platform of the VPN device"
+      }
+    },
+    "customerVPNfamily": {
+      "type": "string",
+      "defaultValue": "IOS 15.1 (dynamic)",
+      "metadata": {
+        "description": "The OS family of the VPN Device"
+      }
+    },
+    "customerVPNP2SSubnet": {
+      "type": "string",
+      "defaultValue": "192.168.0.0/24",
+      "metadata": {
+        "description": "A single IP address prefix inside the list of prefixes that will be used when assigning IP addresses to incoming Point-to-Site client connection requests"
+      }
     }
   },
   "variables": {

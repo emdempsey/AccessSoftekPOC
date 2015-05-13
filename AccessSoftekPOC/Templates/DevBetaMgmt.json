@@ -75,10 +75,10 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat(parameters('customerPrefix'),'dbmas01')]",
+      "name": "[concat(parameters('customerPrefix'),'dbmdcas01')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DevBeta Availability Set"
+        "displayName": "DevBeta DC Availability Set"
       },
       "properties": {
         "platformFaultDomainCount": "2"
