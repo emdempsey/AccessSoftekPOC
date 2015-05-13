@@ -192,39 +192,39 @@
           }
         ]
       } //VNet Properties close
-    }, //Virtual Network close
+    }//, //Virtual Network close
     //Create Local Network Site/Gateway
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/localnetworkgateways",
-      "name": "[concat(parameters('customerPrefix'),'-lan01')]",
-      "tags": {
-        "displayName": "Customer Local Network"
-      },
-      "properties": {
-        "ipAddress": "[parameters('customerVPNAddress')]",
-        "subnet": "[parameters('customerVPNSubnet')]",
-        "vendor": "[parameters('customerVPNVendor')]",
-        "platform": "[parameters('customerVPNplatform')]",
-        "osFamily": "[parameters('customerVPNfamily')]"
-      }
-    },
-    //Create Virtual Network Gateway
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/virtualNetworkGateways",
-      "name": "[concat(parameters('virtualNetworkName'),'-Gateway')]",
-      "tags": {
-        "displayName": "Customer Virtual Network Gateway"
-      },
-      "properties": {
-        "gatewayType": "DynamicRouting",
-        "gatewaySize": "Default",
-        "bgpEnabled": false,
-        "vpnClientAddressPool": "[parameters('customerVPNP2SSubnet')]",
-        "defaultSite": "[concat(parameters('customerPrefix'),'-lan01')]"
-      }
-    }
+    //{
+    //  "apiVersion": "2015-05-01-preview",
+    //  "type": "Microsoft.Network/localnetworkgateways",
+    //  "name": "[concat(parameters('customerPrefix'),'-lan01')]",
+    //  "tags": {
+    //    "displayName": "Customer Local Network"
+    //  },
+    //  "properties": {
+    //    "ipAddress": "[parameters('customerVPNAddress')]",
+    //    "subnet": "[parameters('customerVPNSubnet')]",
+    //    "vendor": "[parameters('customerVPNVendor')]",
+    //    "platform": "[parameters('customerVPNplatform')]",
+    //    "osFamily": "[parameters('customerVPNfamily')]"
+    //  }
+    //},
+    ////Create Virtual Network Gateway
+    //{
+    //  "apiVersion": "2015-05-01-preview",
+    //  "type": "Microsoft.Network/virtualNetworkGateways",
+    //  "name": "[concat(parameters('virtualNetworkName'),'-Gateway')]",
+    //  "tags": {
+    //    "displayName": "Customer Virtual Network Gateway"
+    //  },
+    //  "properties": {
+    //    "gatewayType": "DynamicRouting",
+    //    "gatewaySize": "Default",
+    //    "bgpEnabled": false,
+    //    "vpnClientAddressPool": "[parameters('customerVPNP2SSubnet')]",
+    //    "defaultSite": "[concat(parameters('customerPrefix'),'-lan01')]"
+    //  }
+    //}
   ],
     "outputs": {
     }
