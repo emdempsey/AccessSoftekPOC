@@ -44,18 +44,19 @@
     }
   },
   "variables": {
-    "storageAccountType": "Standard_LRS",
-    "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
     "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmas01')]",
-    "subnetName": "DevBetaMgmt",
-    "publicIPName": "[concat(parameters('customerPrefix'),'dbmPublicIP')]",
-    "DCvmName": "[concat(parameters('customerPrefix'),devbetaad",
-    "nicName": "nic",
+    "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
     "DCVMSize": "Standard_A1",
-    "imagePublisher": "MicrosoftWindowsServer",
-    "imageOffer": "WindowsServer",
-    "imageSKU": "2012-R2-Datacenter"
-
+    "DCimageOffer": "WindowsServer",
+    "DCimagePublisher": "MicrosoftWindowsServer",
+    "DCimageSKU": "2012-R2-Datacenter",
+    "nicName": "nic",
+    "publicIPName": "[concat(parameters('customerPrefix'),'dbmPublicIP')]",
+    "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
+    "storageAccountType": "Standard_LRS",
+    "subnetName": "DevBetaMgmt",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
   },
   "resources": [
     //Create Storage account for Mgmt VMs
@@ -84,31 +85,6 @@
         "platformFaultDomainCount": "2"
       }
     },
-    //Create public IP addresses for servers
-    //{
-    //  "apiVersion": "2015-05-01-preview",
-    //  "type": "Microsoft.Network/publicIPAddresses",
-    //  "name": "[concat(variables('publicIPName'),'0')]",
-    //  "location": "[parameters('location')]",
-    //  "tags": {
-    //    "displayName": "DevBeta Public IP 0"
-    //  },
-    //  "properties": {
-    //    "publicIPAllocationMethod": "Dynamic"
-    //  }
-    //},
-    //{
-    //  "apiVersion": "2015-05-01-preview",
-    //  "type": "Microsoft.Network/publicIPAddresses",
-    //  "name": "[concat(variables('publicIPName'),'1')]",
-    //  "location": "[parameters('location')]",
-    //  "tags": {
-    //    "displayName": "DevBeta Public IP 1"
-    //  },
-    //  "properties": {
-    //    "publicIPAllocationMethod": "Dynamic"
-    //  }
-    //},
     //Create Network Interfaces
     {
       "apiVersion": "2015-05-01-preview",
@@ -124,11 +100,8 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              //"publicIPAddress": {
-              //  "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPName')), '0')]"
-              //},
               "subnet": {
-                "id": "[variables('subnetName')]"
+                "id": "[variables('subnetRef')]"
               }
             }
           }
@@ -149,11 +122,8 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              //"publicIPAddress": {
-              //  "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPName')), '1')]"
-              //},
               "subnet": {
-                "id": "[variables('subnetName')]"
+                "id": "[variables('subnetRef')]"
               }
             }
           }
@@ -188,9 +158,9 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[variables('imagePublisher')]",
-            "offer": "[variables('imageOffer')]",
-            "sku": "[variables('imageSKU')]",
+            "publisher": "[variables('DCimagePublisher')]",
+            "offer": "[variables('DCimageOffer')]",
+            "sku": "[variables('DCimageSKU')]",
             "version": "latest"
           },
           "osDisk": {
@@ -238,9 +208,9 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[variables('imagePublisher')]",
-            "offer": "[variables('imageOffer')]",
-            "sku": "[variables('imageSKU')]",
+            "publisher": "[variables('DCimagePublisher')]",
+            "offer": "[variables('DCimageOffer')]",
+            "sku": "[variables('DCimageSKU')]",
             "version": "latest"
           },
           "osDisk": {
