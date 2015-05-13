@@ -106,7 +106,13 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" }
+          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
+          "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
+          "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
+          "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
+          "customerVPNfamily": { "value": "[parameters('customerVPNfamily')]" },
+          "customerVPNP2SSubnet": {"value": "[parameters('customerVPNP2SSubnet')]"}
         }
       }
     },
