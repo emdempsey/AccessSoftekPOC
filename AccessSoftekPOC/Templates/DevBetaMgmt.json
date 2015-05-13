@@ -44,7 +44,7 @@
     }
   },
   "variables": {
-    "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmas01')]",
+    "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmdcas01')]",
     "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
     "DCVMSize": "Standard_A1",
     "DCimageOffer": "WindowsServer",
@@ -75,7 +75,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat(parameters('customerPrefix'),'dbmdcas01')]",
+      "name": "[variables('availabilitySetName')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "DevBeta DC Availability Set"
