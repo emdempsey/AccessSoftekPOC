@@ -50,8 +50,7 @@
     "DCimageOffer": "WindowsServer",
     "DCimagePublisher": "MicrosoftWindowsServer",
     "DCimageSKU": "2012-R2-Datacenter",
-    "nicName": "nic",
-    "publicIPName": "[concat(parameters('customerPrefix'),'dbmPublicIP')]",
+    "DCnicName": "DevBeta-DC-nic",
     "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
     "storageAccountType": "Standard_LRS",
     "subnetName": "DevBetaMgmt",
@@ -89,7 +88,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('nicName'), '0')]",
+      "name": "[concat(variables('DCnicName'), '0')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "DevBeta DC Interface 0"
@@ -111,7 +110,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('nicName'), '1')]",
+      "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "DevBeta DC Interface 1"
