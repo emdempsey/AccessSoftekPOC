@@ -98,13 +98,20 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "10.0.14.4",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
             }
           }
-        ]
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.14.4",
+            "10.0.14.5"
+          ]
+        }
       }
     },
     {
@@ -120,13 +127,20 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "10.0.14.5",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
             }
           }
-        ]
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.14.4",
+            "10.0.14.5"
+          ]
+        }
       }
     },
     //Create Virtual Machines
