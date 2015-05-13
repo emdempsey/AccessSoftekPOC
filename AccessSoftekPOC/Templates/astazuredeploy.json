@@ -93,7 +93,8 @@
   "variables": {
     "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNetandPublic.json",
     "DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json",
-    "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json"
+    "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
+    "DevEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json"
   },
   "resources": [
     //Create Virtual Network and Public resources
@@ -148,6 +149,26 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    },
+    //Create Dev Environment Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "DevEnvTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('DevEnvTemplateLink')]" },
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
