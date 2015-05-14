@@ -774,7 +774,8 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [ ]
         },
         "networkProfile": {
           "networkInterfaces": [
@@ -824,7 +825,8 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [ ]
         },
         "networkProfile": {
           "networkInterfaces": [
