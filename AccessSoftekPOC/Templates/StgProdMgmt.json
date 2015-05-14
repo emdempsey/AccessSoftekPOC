@@ -44,7 +44,7 @@
     }
   },
   "variables": {
-    "availabilitySetName": "[concat(parameters('customerPrefix'),'spmdcas01')]",
+    "availabilitySetName": "[concat(parameters('customerPrefix'),'spmdcas')]",
     "DCvmName": "[concat(parameters('customerPrefix'),'stgprodad')]",
     "DCVMSize": "Standard_A1",
     "DCimageOffer": "WindowsServer",
