@@ -50,7 +50,7 @@
     "AppnicName": "Dev-App-nic",
     "AppSubnetName": "DevApp",
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
-    "AppvmName": "[concat(parameters('customerPrefix'),'devapp01')]",
+    "AppvmName": "[concat(parameters('customerPrefix'),'devapp')]",
     "AppVMSize": "Standard_A2",
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
@@ -59,7 +59,7 @@
     "DataStorageAccountName": "[concat(parameters('customerPrefix'),'ddstor01')]",
     "DataSubnetName": "DevData",
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
-    "DatavmName": "[concat(parameters('customerPrefix'),'devdata01')]",
+    "DatavmName": "[concat(parameters('customerPrefix'),'devdata')]",
     "DataVMSize": "Standard_A2",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
@@ -70,7 +70,7 @@
     "WebnicName": "Dev-Web-nic",
     "WebSubnetName": "DevWeb",
     "WebSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('WebSubnetName'))]",
-    "WebvmName": "[concat(parameters('customerPrefix'),'devweb01')]",
+    "WebvmName": "[concat(parameters('customerPrefix'),'devweb')]",
     "WebVMSize": "Standard_A2"
   },
   "resources": [
