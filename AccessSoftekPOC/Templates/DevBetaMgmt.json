@@ -65,7 +65,7 @@
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DevBeta StorageAccount"
+        "displayName": "Mgmt Storage Account"
       },
       "properties": {
         "accountType": "[variables('storageAccountType')]"
@@ -78,7 +78,7 @@
       "name": "[variables('availabilitySetName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DevBeta DC Availability Set"
+        "displayName": "DC Availability Set"
       },
       "properties": {
         "platformFaultDomainCount": "2"
@@ -91,7 +91,7 @@
       "name": "[concat(variables('DCnicName'), '0')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DevBeta DC Interface 0"
+        "displayName": "DC Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -120,7 +120,7 @@
       "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DevBeta DC Interface 1"
+        "displayName": "DC Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -155,7 +155,7 @@
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "DevBeta DC 01"
+        "displayName": "DC VM"
       },
       "properties": {
         "availabilitySet": {
@@ -205,7 +205,7 @@
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "DevBeta DC 02"
+        "displayName": "DC VM"
       },
       "properties": {
         "availabilitySet": {
