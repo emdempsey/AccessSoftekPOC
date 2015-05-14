@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\astazuredeploy.json" />
+    <None Include="Templates\ProdEnv.json" />
+    <None Include="Templates\StgEnv.json" />
     <None Include="Templates\BetaEnv.json" />
     <None Include="Templates\DevEnv.json" />
     <None Include="Templates\StgProdMgmt.json" />
