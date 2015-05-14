@@ -56,7 +56,7 @@
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
     "AppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'app')]",
     "AppVMSize": "Standard_A2",
-    "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'appas')]",
+    "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
     "DataimageSKU": "Enterprise-Optimized-for-OLTP",
