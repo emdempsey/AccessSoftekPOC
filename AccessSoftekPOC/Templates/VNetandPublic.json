@@ -225,7 +225,5 @@
     //    "defaultSite": "[concat(parameters('customerPrefix'),'-lan01')]"
     //  }
     //}
-  ],
-    "outputs": {
-    }
+  ]
 }
