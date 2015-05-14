@@ -59,7 +59,7 @@
     "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
-    "DataimageSKU": "Enterprise-Optimized-for-OLTP",
+    "DataimageSKU": "Enterprise",
     "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
     "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor')]",
     "DataSubnetName": "[concat(variables('Environment'),'Data')]",
