@@ -117,7 +117,9 @@
           "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
           "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
           "customerVPNfamily": { "value": "[parameters('customerVPNfamily')]" },
-          "customerVPNP2SSubnet": {"value": "[parameters('customerVPNP2SSubnet')]"}
+          "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
       }
     },
