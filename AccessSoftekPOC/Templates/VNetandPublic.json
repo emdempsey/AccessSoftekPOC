@@ -127,6 +127,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('PubnicName'), '0')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+      ],
       "tags": {
         "displayName": "Public Interface"
       },
@@ -155,6 +158,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('PubnicName'), '1')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+      ],
       "tags": {
         "displayName": "Public Interface"
       },
@@ -288,106 +294,106 @@
       } //VNet Properties close
     }, //, //Virtual Network close
     //Create Public Virtual Machines - Kemp or other NLB and WAF device
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('PubvmName'), '01')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '0')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
-      ],
-      "tags": {
-        "displayName": "Public VM"
-      },
-      "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
-        },
-        "hardwareProfile": {
-          "vmSize": "[variables('PubVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('PubvmName'), '01')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('PubimagePublisher')]",
-            "offer": "[variables('PubimageOffer')]",
-            "sku": "[variables('PubimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'01-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0')]"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('PubvmName'), '02')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '1')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
-      ],
-      "tags": {
-        "displayName": "Public VM"
-      },
-      "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
-        },
-        "hardwareProfile": {
-          "vmSize": "[variables('PubVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('PubvmName'), '02')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('PubimagePublisher')]",
-            "offer": "[variables('PubimageOffer')]",
-            "sku": "[variables('PubimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'02-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '1')]"
-            }
-          ]
-        }
-      }
-    }
+    //{
+    //  "apiVersion": "2015-05-01-preview",
+    //  "type": "Microsoft.Compute/virtualMachines",
+    //  "name": "[concat(variables('PubvmName'), '01')]",
+    //  "location": "[parameters('location')]",
+    //  "dependsOn": [
+    //    "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
+    //    "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '0')]",
+    //    "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
+    //  ],
+    //  "tags": {
+    //    "displayName": "Public VM"
+    //  },
+    //  "properties": {
+    //    "availabilitySet": {
+    //      "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
+    //    },
+    //    "hardwareProfile": {
+    //      "vmSize": "[variables('PubVMSize')]"
+    //    },
+    //    "osProfile": {
+    //      "computername": "[concat(variables('PubvmName'), '01')]",
+    //      "adminUsername": "[parameters('adminUsername')]",
+    //      "adminPassword": "[parameters('adminPassword')]"
+    //    },
+    //    "storageProfile": {
+    //      "imageReference": {
+    //        "publisher": "[variables('PubimagePublisher')]",
+    //        "offer": "[variables('PubimageOffer')]",
+    //        "sku": "[variables('PubimageSKU')]",
+    //        "version": "latest"
+    //      },
+    //      "osDisk": {
+    //        "name": "osdisk",
+    //        "vhd": {
+    //          "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'01-osdisk.vhd')]"
+    //        },
+    //        "caching": "ReadWrite",
+    //        "createOption": "FromImage"
+    //      }
+    //    },
+    //    "networkProfile": {
+    //      "networkInterfaces": [
+    //        {
+    //          "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0')]"
+    //        }
+    //      ]
+    //    }
+    //  }
+    //},
+    //{
+    //  "apiVersion": "2015-05-01-preview",
+    //  "type": "Microsoft.Compute/virtualMachines",
+    //  "name": "[concat(variables('PubvmName'), '02')]",
+    //  "location": "[parameters('location')]",
+    //  "dependsOn": [
+    //    "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
+    //    "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '1')]",
+    //    "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
+    //  ],
+    //  "tags": {
+    //    "displayName": "Public VM"
+    //  },
+    //  "properties": {
+    //    "availabilitySet": {
+    //      "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
+    //    },
+    //    "hardwareProfile": {
+    //      "vmSize": "[variables('PubVMSize')]"
+    //    },
+    //    "osProfile": {
+    //      "computername": "[concat(variables('PubvmName'), '02')]",
+    //      "adminUsername": "[parameters('adminUsername')]",
+    //      "adminPassword": "[parameters('adminPassword')]"
+    //    },
+    //    "storageProfile": {
+    //      "imageReference": {
+    //        "publisher": "[variables('PubimagePublisher')]",
+    //        "offer": "[variables('PubimageOffer')]",
+    //        "sku": "[variables('PubimageSKU')]",
+    //        "version": "latest"
+    //      },
+    //      "osDisk": {
+    //        "name": "osdisk",
+    //        "vhd": {
+    //          "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'02-osdisk.vhd')]"
+    //        },
+    //        "caching": "ReadWrite",
+    //        "createOption": "FromImage"
+    //      }
+    //    },
+    //    "networkProfile": {
+    //      "networkInterfaces": [
+    //        {
+    //          "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '1')]"
+    //        }
+    //      ]
+    //    }
+    //  }
+    //}
     //Create Local Network Site/Gateway
     //{
     //  "apiVersion": "2015-05-01-preview",
