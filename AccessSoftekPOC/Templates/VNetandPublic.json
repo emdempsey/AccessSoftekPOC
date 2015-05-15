@@ -65,6 +65,18 @@
       "metadata": {
         "description": "A single IP address prefix inside the list of prefixes that will be used when assigning IP addresses to incoming Point-to-Site client connection requests"
       }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for VMs"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "admin password applied to VMs"
+      }
     }
   },
   "variables": {
@@ -72,7 +84,7 @@
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "vlm-azure",
     "PubimagePublisher": "KempTech",
-    "PubimageSKU": "vlm-200-hrl",
+    "PubimageSKU": "basic-byol",
     "PubnicName": "[concat(variables('Environment'),'-nic')]",
     "PubStorageAccountName": "[concat(parameters('customerPrefix'),variables('Environment'),'stor01')]",
     "PubSubnetName": "Public",
@@ -118,7 +130,7 @@
       "name": "[concat(variables('PubnicName'), '1')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "Pub Interface"
+        "displayName": "Public Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -284,9 +296,9 @@
           "vmSize": "[variables('PubVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('PubvmName'), '01')]" //,
-          //"adminUsername": "[parameters('adminUsername')]",
-          //"adminPassword": "[parameters('adminPassword')]"
+          "computername": "[concat(variables('PubvmName'), '01')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
@@ -334,9 +346,9 @@
           "vmSize": "[variables('PubVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('PubvmName'), '02')]"//,
-          //"adminUsername": "[parameters('adminUsername')]",
-          //"adminPassword": "[parameters('adminPassword')]"
+          "computername": "[concat(variables('PubvmName'), '02')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
