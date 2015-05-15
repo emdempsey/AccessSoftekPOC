@@ -95,6 +95,32 @@
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
   },
   "resources": [
+    //Create Web Availability Set
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('PubAvailabilitySetName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Public Availability Set"
+      },
+      "properties": {
+        "platformFaultDomainCount": "2"
+      }
+    },
+    //Create Public Storage Account
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('PubStorageAccountName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Public Storage Account"
+      },
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
     //Create Web Network Interfaces
     {
       "apiVersion": "2015-05-01-preview",
@@ -150,19 +176,6 @@
             "10.0.15.5"
           ]
         }
-      }
-    },
-    //Create Public Storage Account
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('PubStorageAccountName')]",
-      "location": "[parameters('location')]",
-      "tags": {
-        "displayName": "Public Storage Account"
-      },
-      "properties": {
-        "accountType": "[variables('storageAccountType')]"
       }
     },
     //Create Virtual Network
