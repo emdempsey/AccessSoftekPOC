@@ -169,7 +169,7 @@
       "name": "DevEnvTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -189,7 +189,7 @@
       "name": "BetaEnvTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -209,7 +209,7 @@
       "name": "StgEnvTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -229,7 +229,7 @@
       "name": "ProdEnvTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
       "properties": {
         "mode": "Incremental",
