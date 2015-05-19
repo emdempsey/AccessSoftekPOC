@@ -77,6 +77,12 @@
       "metadata": {
         "description": "admin password applied to VMs"
       }
+    },
+    "dnsNameForPublicIP": {
+      "type": "string",
+      "metadata": {
+        "description": "lower case DNS name used for public access to the services"
+      }
     }
   },
   "variables": {
@@ -92,7 +98,9 @@
     "PubvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'vm')]",
     "PubVMSize": "Standard_A3",
     "storageAccountType": "Standard_LRS",
-    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
+    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
+    "publicIPAddressType": "Static"
   },
   "resources": [
     //Create Web Availability Set
@@ -108,6 +116,23 @@
         "platformFaultDomainCount": "2"
       }
     },
+    //Create Public IP Address for Public Access
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Public IP Address"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsNameForPublicIP')]"
+        }
+      }
+    },
+    //Create load balancer for public access
     //Create Public Storage Account
     {
       "apiVersion": "2015-05-01-preview",
