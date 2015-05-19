@@ -30,6 +30,13 @@
         "description": "The name of the virtual Network to be created"
       }
     },
+    "vnetAddressSpacePrefix": {
+      "type": "string",
+      "defaultValue": "10.0",
+      "metadata": {
+        "description": "The address space used by the Virtual network"
+      }
+    },
     "customerVPNAddress": {
       "type": "string",
       "metadata": {
