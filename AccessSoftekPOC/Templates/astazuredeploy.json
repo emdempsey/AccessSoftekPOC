@@ -40,13 +40,6 @@
         "description": "Admin password on provisioned machines"
       }
     },
-    "virtualNetworkName": {
-      "type": "string",
-      "defaultValue": "SKYVNET01",
-      "metadata": {
-        "description": "The name of the virtual Network to be created"
-      }
-    },
     "customerVPNAddress": {
       "type": "string",
       "defaultValue": "1.1.1.1",
@@ -91,6 +84,7 @@
     }
   },
   "variables": {
+    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
     "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNetandPublic.json",
     "DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json",
     "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
@@ -111,7 +105,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
           "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
           "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
@@ -137,7 +131,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
@@ -157,7 +151,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
@@ -177,7 +171,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
@@ -197,7 +191,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
@@ -217,7 +211,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
@@ -237,7 +231,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[parameters('virtualNetworkName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
