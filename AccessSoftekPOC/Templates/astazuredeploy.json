@@ -91,7 +91,7 @@
     },
     "dnsNameForPublicIP": {
       "type": "string",
-      "defaultValue": "AST",
+      "defaultValue": "astservices",
       "metadata": {
         "description": "lower case DNS name used for public access to the services"
       }
