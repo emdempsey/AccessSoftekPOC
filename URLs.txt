@@ -14,11 +14,12 @@ https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekP
 https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.param.dev.json
 
 ***Vars and Commands for deployment testing***
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
 $ResourceGroupName = 'ASTServices'
 
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.json'
+$ResourceGroupLocation = "West US"
 
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.json'
 
 $TemplateParametersFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.param.dev.json'
 
