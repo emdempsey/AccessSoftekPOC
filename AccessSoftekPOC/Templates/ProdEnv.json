@@ -44,19 +44,11 @@
     }
   },
   "variables": {
-    "Environment": "Prod",
-    "EnvAbbr": "p",
-    "AppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'appas')]",
     "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
-    "AppimageOffer": "WindowsServer",
-    "AppimagePublisher": "MicrosoftWindowsServer",
-    "AppimageSKU": "2012-R2-Datacenter",
-    "AppnicName": "[concat(variables('Environment'),'-App-nic')]",
     "AppSubnetName": "[concat(variables('Environment'), 'App')]",
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
-    "AppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'app')]",
-    "AppVMSize": "Standard_A2",
     "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
+    "DataDiskSize": 1023,
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
     "DataimageSKU": "Enterprise",
@@ -66,21 +58,36 @@
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
-    "DataDiskSize": 1023,
+    "EnvAbbr": "p",
+    "Environment": "Prod",
     "FSWimageOffer": "WindowsServer",
     "FSWimagePublisher": "MicrosoftWindowsServer",
     "FSWimageSKU": "2012-R2-Datacenter",
     "FSWnicName": "[concat(variables('Environment'),'-FSW-nic')]",
     "FSWvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'fsw')]",
     "FSWVMSize": "Standard_A1",
+    "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
+    "MFMAppimageOffer": "WindowsServer",
+    "MFMAppimagePublisher": "MicrosoftWindowsServer",
+    "MFMAppimageSKU": "2012-R2-Datacenter",
+    "MFMAppnicName": "[concat(variables('Environment'),'-MFMApp-nic')]",
+    "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
+    "MFMAppVMSize": "Standard_A2",
+    "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orphappas')]",
+    "OrphAppimageOffer": "WindowsServer",
+    "OrphAppimagePublisher": "MicrosoftWindowsServer",
+    "OrphAppimageSKU": "2012-R2-Datacenter",
+    "OrphAppnicName": "[concat(variables('Environment'),'-OrphApp-nic')]",
+    "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orphapp')]",
+    "OrphAppVMSize": "Standard_A2",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
-    "WebStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wstor01')]",
     "WebAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'webas')]",
     "WebimageOffer": "WindowsServer",
     "WebimagePublisher": "MicrosoftWindowsServer",
     "WebimageSKU": "2012-R2-Datacenter",
     "WebnicName": "[concat(variables('Environment'),'-Web-nic')]",
+    "WebStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wstor01')]",
     "WebSubnetName": "[concat(variables('Environment'),'Web')]",
     "WebSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('WebSubnetName'))]",
     "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
@@ -100,14 +107,27 @@
         "platformFaultDomainCount": "3"
       }
     },
-    //Create App Availability Set
+    //Create MFM App Availability Sets
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
-      "name": "[variables('AppAvailabilitySetName')]",
+      "name": "[variables('MFMAppAvailabilitySetName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "App Availability Set"
+        "displayName": "MFM Availability Set"
+      },
+      "properties": {
+        "platformFaultDomainCount": "3"
+      }
+    },
+    //Create Orph App Availability Sets
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('OrphAppAvailabilitySetName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Orph Availability Set"
       },
       "properties": {
         "platformFaultDomainCount": "3"
@@ -262,14 +282,14 @@
         }
       }
     },
-    //Create App Network Interfaces
+    //Create MFM App Network Interfaces
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('AppnicName'), '0')]",
+      "name": "[concat(variables('MFMAppnicName'), '0')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "App Interface"
+        "displayName": "MFM App Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -294,10 +314,10 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('AppnicName'), '1')]",
+      "name": "[concat(variables('MFMAppnicName'), '1')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "App Interface"
+        "displayName": "MFM App Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -322,10 +342,95 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('AppnicName'), '2')]",
+      "name": "[concat(variables('MFMAppnicName'), '2')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "App Interface"
+        "displayName": "MFM App Interface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('AppSubnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
+      }
+    },
+    //Create Orph App Network Interfaces
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('OrphAppnicName'), '0')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "OrphApp Interface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('AppSubnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('OrphAppnicName'), '1')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Orph App Interface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('AppSubnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('OrphAppnicName'), '2')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Orph App Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -584,43 +689,43 @@
         }
       }
     },
-    //Create App Virtual Machines
+    //Create MFM App Virtual Machines
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('AppvmName'), '01')]",
+      "name": "[concat(variables('MFMAppvmName'), '01')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('AppnicName'), '0')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('AppAvailabilitySetName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '0')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('MFMAppAvailabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "App VM"
+        "displayName": "MFM App VM"
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('AppAvailabilitySetName'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('MFMAppAvailabilitySetName'))]"
         },
         "hardwareProfile": {
-          "vmSize": "[variables('AppVMSize')]"
+          "vmSize": "[variables('MFMAppVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('AppvmName'), '01')]",
+          "computername": "[concat(variables('MFMAppvmName'), '01')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[variables('AppimagePublisher')]",
-            "offer": "[variables('AppimageOffer')]",
-            "sku": "[variables('AppimageSKU')]",
+            "publisher": "[variables('MFMAppimagePublisher')]",
+            "offer": "[variables('MFMAppimageOffer')]",
+            "sku": "[variables('MFMAppimageSKU')]",
             "version": "latest"
           },
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('AppvmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('MFMAppvmName'),'01-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -629,7 +734,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('AppnicName')), '0')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('MFMAppnicName')), '0')]"
             }
           ]
         }
@@ -638,39 +743,39 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('AppvmName'), '02')]",
+      "name": "[concat(variables('MFMAppvmName'), '02')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('AppnicName'), '1')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('AppAvailabilitySetName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '1')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('MFMAppAvailabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "App VM"
+        "displayName": "MFM App VM"
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('AppAvailabilitySetName'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('MFMAppAvailabilitySetName'))]"
         },
         "hardwareProfile": {
-          "vmSize": "[variables('AppVMSize')]"
+          "vmSize": "[variables('MFMAppVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('AppvmName'), '02')]",
+          "computername": "[concat(variables('MFMAppvmName'), '02')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[variables('AppimagePublisher')]",
-            "offer": "[variables('AppimageOffer')]",
-            "sku": "[variables('AppimageSKU')]",
+            "publisher": "[variables('MFMAppimagePublisher')]",
+            "offer": "[variables('MFMAppimageOffer')]",
+            "sku": "[variables('MFMAppimageSKU')]",
             "version": "latest"
           },
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('AppvmName'),'02-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('MFMAppvmName'),'02-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -679,7 +784,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('AppnicName')), '1')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('MFMAppnicName')), '1')]"
             }
           ]
         }
@@ -688,39 +793,39 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('AppvmName'), '03')]",
+      "name": "[concat(variables('MFMAppvmName'), '03')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('AppnicName'), '2')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('AppAvailabilitySetName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '2')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('MFMAppAvailabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "App VM"
+        "displayName": "MFM App VM"
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('AppAvailabilitySetName'))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('MFMAppAvailabilitySetName'))]"
         },
         "hardwareProfile": {
-          "vmSize": "[variables('AppVMSize')]"
+          "vmSize": "[variables('MFMAppVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('AppvmName'), '03')]",
+          "computername": "[concat(variables('MFMAppvmName'), '03')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[variables('AppimagePublisher')]",
-            "offer": "[variables('AppimageOffer')]",
-            "sku": "[variables('AppimageSKU')]",
+            "publisher": "[variables('MFMAppimagePublisher')]",
+            "offer": "[variables('MFMAppimageOffer')]",
+            "sku": "[variables('MFMAppimageSKU')]",
             "version": "latest"
           },
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('AppvmName'),'03-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('MFMAppvmName'),'03-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -729,7 +834,158 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('AppnicName')), '2')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('MFMAppnicName')), '2')]"
+            }
+          ]
+        }
+      }
+    },
+    //Create Orph App Virtual Machines
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('OrphAppvmName'), '01')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '0')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('OrphAppAvailabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "Orph App VM"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('OrphAppAvailabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('OrphAppVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('OrphAppvmName'), '01')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('OrphAppimagePublisher')]",
+            "offer": "[variables('OrphAppimageOffer')]",
+            "sku": "[variables('OrphAppimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('OrphAppvmName'),'01-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('OrphAppnicName')), '0')]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('OrphAppvmName'), '02')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '1')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('OrphAppAvailabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "Orph App VM"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('OrphAppAvailabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('OrphAppVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('OrphAppvmName'), '02')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('OrphAppimagePublisher')]",
+            "offer": "[variables('OrphAppimageOffer')]",
+            "sku": "[variables('OrphAppimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('OrphAppvmName'),'02-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('OrphAppnicName')), '1')]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('OrphAppvmName'), '03')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '2')]",
+        "[concat('Microsoft.Compute/availabilitySets/', variables('OrphAppAvailabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "Orph App VM"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('OrphAppAvailabilitySetName'))]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[variables('OrphAppVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('OrphAppvmName'), '03')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('OrphAppimagePublisher')]",
+            "offer": "[variables('OrphAppimageOffer')]",
+            "sku": "[variables('OrphAppimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('AppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('OrphAppvmName'),'03-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('OrphAppnicName')), '2')]"
             }
           ]
         }
