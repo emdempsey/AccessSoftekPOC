@@ -88,6 +88,13 @@
       "metadata": {
         "description": "The address space used by the Virtual network"
       }
+    },
+    "dnsNameForPublicIP": {
+      "type": "string",
+      "defaultValue": "AST",
+      "metadata": {
+        "description": "lower case DNS name used for public access to the services"
+      }
     }
   },
   "variables": {
@@ -121,7 +128,8 @@
           "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "vnetAddressSpacePrefix": {"value": "[parameters('vnetAddressSpacePrefix')]"}
+          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" },
+          "dnsNameForPublicIP": { "value": "[parameters('dnsNameForPublicIP')]" }
         }
       }
     },
