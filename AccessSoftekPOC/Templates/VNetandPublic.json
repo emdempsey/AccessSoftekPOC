@@ -109,7 +109,11 @@
     "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
     "publicIPAddressType": "Static",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]"
+    "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]"
   },
   "resources": [
     //Create Web Availability Set
@@ -461,43 +465,79 @@
     //  }
     //}
     //Create load balancer for public access
-    //{
-    //  "apiVersion": "2015-05-01-preview",
-    //  "type": "Microsoft.Network/loadBalancers",
-    //  "name": "[variables('loadBalancerName')]",
-    //  "location": "[parameters('location')]",
-    //  "tags": {
-    //    "displayName": "Public Load Balancer"
-    //  },
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-    //    "[concat('Microsoft.Network/networkInterfaces/',variables('PubnicName'),'0')]",
-    //    "[concat('Microsoft.Network/networkInterfaces/',variables('PubnicName'),'1')]"
-    //  ],
-    //  "properties": {
-    //    "frontendIPConfigurations": [
-    //      {
-    //        "name": "LoadBalancerFrontend",
-    //        "properties": {
-    //          "publicIPAddress": {
-    //            "id": "[variables('publicIPAddressID')]"
-    //          }
-    //        }
-    //      }
-    //    ],
-    //    "backendAddressPools": [
-    //      {
-    //        "name": "BackendPool",
-    //        "properties": {
-    //          "backendIPAconfigurations": [
-    //            {
-    //              "id": ""
-    //            }
-    //          ]
-    //        }
-    //      }
-    //    ]
-    //  }
-    //}
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/loadBalancers",
+      "name": "[variables('loadBalancerName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Public Load Balancer"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/',variables('PubnicName'),'0')]",
+        "[concat('Microsoft.Network/networkInterfaces/',variables('PubnicName'),'1')]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('publicIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BackendPool1",
+            "properties": {
+              "backendIPAconfigurations": [
+                {
+                  "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0/ipConfigurations/ipconfig1')]"
+
+                },
+                {
+                  "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '1/ipConfigurations/ipconfig1')]"
+                }
+              ]
+            }
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "HTTP",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('frontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('lbPoolID')]"
+              },
+              "protocol": "tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('lbProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "tcp",
+              "port": 80,
+              "intervalInSeconds": "5",
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    }
   ]
 }
