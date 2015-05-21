@@ -95,9 +95,9 @@
   "variables": {
     "Environment": "pub",
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
-    "PubimageOffer": "WindowsServer",//"vlm-azure",
-    "PubimagePublisher": "MicrosoftWindowsServer",//"KempTech",
-    "PubimageSKU": "2012-R2-Datacenter",//"basic-byol",
+    "PubimageOffer": "WindowsServer", //"vlm-azure",
+    "PubimagePublisher": "MicrosoftWindowsServer", //"KempTech",
+    "PubimageSKU": "2012-R2-Datacenter", //"basic-byol",
     "PubnicName": "[concat(variables('Environment'),'-nic')]",
     "PubStorageAccountName": "[concat(parameters('customerPrefix'),variables('Environment'),'stor01')]",
     "PubSubnetName": "Public",
@@ -178,7 +178,12 @@
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('PubSubnetRef')]"
-              }
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('lbID'), '/backendAddressPools/BackendPool1')]"
+                }
+              ]
             }
           }
         ],
@@ -209,7 +214,12 @@
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('PubSubnetRef')]"
-              }
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('lbID'), '/backendAddressPools/BackendPool1')]"
+                }
+              ]
             }
           }
         ],
@@ -491,18 +501,7 @@
         ],
         "backendAddressPools": [
           {
-            "name": "BackendPool1",
-            "properties": {
-              "backendIPAconfigurations": [
-                {
-                  "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0/ipConfigurations/ipconfig1')]"
-
-                },
-                {
-                  "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '1/ipConfigurations/ipconfig1')]"
-                }
-              ]
-            }
+            "name": "BackendPool1"
           }
         ],
         "loadBalancingRules": [
