@@ -120,7 +120,8 @@
               "destinationPortRange": "80",
               "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
               "access": "Allow",
-              "direction": "Inbound"
+              "direction": "Inbound",
+              "priority": 100
             }
           },
           {
@@ -133,7 +134,8 @@
               "destinationPortRange": "443",
               "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
               "access": "Allow",
-              "direction": "Inbound"
+              "direction": "Inbound",
+              "priority": 101
             }
           }
         ]
