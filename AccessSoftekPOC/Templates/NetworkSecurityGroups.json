@@ -1,0 +1,149 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "BetaAppNSGName": {
+      "type": "string"
+    },
+    "BetaAppSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "BetaDataNSGName": {
+      "type": "string"
+    },
+    "BetaDataSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "BetaWebNSGName": {
+      "type": "string"
+    },
+    "BetaWebSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "DevAppNSGName": {
+      "type": "string"
+    },
+    "DevAppSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "DevBetaMgmtNSGName": {
+      "type": "string"
+    },
+    "DevBetaMgmtSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "DevDataNSGName": {
+      "type": "string"
+    },
+    "DevDataSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "DevWebNSGName": {
+      "type": "string"
+    },
+    "DevWebSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "ProdAppNSGName": {
+      "type": "string"
+    },
+    "ProdAppSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "ProdDataNSGName": {
+      "type": "string"
+    },
+    "ProdDataSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "ProdWebNSGName": {
+      "type": "string"
+    },
+    "ProdWebSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "PubNSGName": {
+      "type": "string"
+    },
+    "PubSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "StgAppNSGName": {
+      "type": "string"
+    },
+    "StgAppSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "StgDataNSGName": {
+      "type": "string"
+    },
+    "StgDataSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "StgProdMgmtNSGName": {
+      "type": "string"
+    },
+    "StgProdMgmtSubnetAddressPrefix": {
+      "type": "string"
+    },
+    "StgWebNSGName": {
+      "type": "string"
+    },
+    "StgWebSubnetAddressPrefix": {
+      "type": "string"
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    //Public security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('PubNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Public NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Traffic",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "HTTPS_Traffic",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    }
+    //Dev security policies
+    //Beta security policies
+    //Stg security policies
+    //Prod security policies
+    //DevBeta Mgmt security policies
+    //StgProd Mgmt security policies
+  ]
+}

@@ -93,27 +93,72 @@
     }
   },
   "variables": {
+    "BetaAppSubnetName": "BetaApp",
+    "BetaDataSubnetName": "BetaData",
+    "BetaWebSubnetName": "BetaWeb",
+    "DevAppSubnetName": "DevApp",
+    "DevBetaMgmtSubnetName": "DevBetaMgmt",
+    "DevDataSubnetName": "DevData",
+    "DevWebSubnetName": "DevWeb",
     "Environment": "pub",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
+    "NSGTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/NetworkSecurityGroups.json",
+    "ProdAppSubnetName": "ProdApp",
+    "ProdDataSubnetName": "ProdData",
+    "ProdWebSubnetName": "ProdWeb",
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "WindowsServer", //"vlm-azure",
     "PubimagePublisher": "MicrosoftWindowsServer", //"KempTech",
     "PubimageSKU": "2012-R2-Datacenter", //"basic-byol",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
+    "publicIPAddressType": "Static",
     "PubnicName": "[concat(variables('Environment'),'-nic')]",
     "PubStorageAccountName": "[concat(parameters('customerPrefix'),variables('Environment'),'stor01')]",
     "PubSubnetName": "Public",
     "PubSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
     "PubvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'vm')]",
     "PubVMSize": "Standard_A3",
+    "StgAppSubnetName": "StgApp",
+    "StgDataSubnetName": "StgData",
+    "StgProdMgmtSubnetName": "StgProdMgmt",
+    "StgWebSubnetName": "StgWeb",
     "storageAccountType": "Standard_LRS",
+    "PubSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.1.0/24')]",
+    "DevWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0/24')]",
+    "DevAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.3.0/24')]",
+    "DevDataSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.4.0/24')]",
+    "BetaWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.5.0/24')]",
+    "BetaAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.6.0/24')]",
+    "BetaDataSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.7.0/24')]",
+    "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
+    "StgAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.9.0/24')]",
+    "StgDataSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.10.0/24')]",
+    "ProdWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.11.0/24')]",
+    "ProdAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.12.0/24')]",
+    "ProdDataSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.13.0/24')]",
+    "DevBetaMgmtSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.14.0/24')]",
+    "StgProdMgmtSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.15.0/24')]",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
-    "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
-    "publicIPAddressType": "Static",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
-    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
-    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
-    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]"
+    "PubNSGName": "[concat(variables('PubSubnetName'),'nsg01')]",
+    "DevWebNSGName": "[concat(variables('DevWebSubnetName'),'nsg01')]",
+    "DevAppNSGName": "[concat(variables('DevAppSubnetName'),'nsg01')]",
+    "DevDataNSGName": "[concat(variables('DevDataSubnetName'),'nsg01')]",
+    "BetaWebNSGName": "[concat(variables('BetaWebSubnetName'),'nsg01')]",
+    "BetaAppNSGName": "[concat(variables('BetaAppSubnetName'),'nsg01')]",
+    "BetaDataNSGName": "[concat(variables('BetaDataSubnetName'),'nsg01')]",
+    "StgWebNSGName": "[concat(variables('StgWebSubnetName'),'nsg01')]",
+    "StgAppNSGName": "[concat(variables('StgAppSubnetName'),'nsg01')]",
+    "StgDataNSGName": "[concat(variables('StgDataSubnetName'),'nsg01')]",
+    "ProdWebNSGName": "[concat(variables('ProdWebSubnetName'),'nsg01')]",
+    "ProdAppNSGName": "[concat(variables('ProdAppSubnetName'),'nsg01')]",
+    "ProdDataNSGName": "[concat(variables('ProdDataSubnetName'),'nsg01')]",
+    "DevBetaMgmtNSGName": "[concat(variables('DevBetaMgmtSubnetName'),'nsg01')]",
+    "StgProdMgmtNSGName": "[concat(variables('StgProdMgmtSubnetName'),'nsg01')]"
   },
   "resources": [
     //Create Web Availability Set
@@ -233,6 +278,52 @@
         }
       }
     },
+    //Create Network Security Groups
+    {
+      "apiVersion": "2015-01-01",
+      "name": "NetworkSecurityGroupTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('NSGTemplateLink')]" },
+        "parameters": {
+          "BetaAppNSGName": { "value": "[variables('BetaAppNSGName')]" },
+          "BetaAppSubnetAddressPrefix": { "value": "[variables('BetaAppSubnetAddressPrefix')]" },
+          "BetaDataNSGName": { "value": "[variables('BetaDataNSGName')]" },
+          "BetaDataSubnetAddressPrefix": { "value": "[variables('BetaDataSubnetAddressPrefix')]" },
+          "BetaWebNSGName": { "value": "[variables('BetaWebNSGName')]" },
+          "BetaWebSubnetAddressPrefix": { "value": "[variables('BetaWebSubnetAddressPrefix')]" },
+          "DevAppNSGName": { "value": "[variables('DevAppNSGName')]" },
+          "DevAppSubnetAddressPrefix": { "value": "[variables('DevAppSubnetAddressPrefix')]" },
+          "DevBetaMgmtNSGName": { "value": "[variables('DevBetaMgmtNSGName')]" },
+          "DevBetaMgmtSubnetAddressPrefix": { "value": "[variables('DevBetaMgmtSubnetAddressPrefix')]" },
+          "DevDataNSGName": { "value": "[variables('DevDataNSGName')]" },
+          "DevDataSubnetAddressPrefix": { "value": "[variables('DevDataSubnetAddressPrefix')]" },
+          "DevWebNSGName": { "value": "[variables('DevWebNSGName')]" },
+          "DevWebSubnetAddressPrefix": { "value": "[variables('DevWebSubnetAddressPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "ProdAppNSGName": { "value": "[variables('ProdAppNSGName')]" },
+          "ProdAppSubnetAddressPrefix": { "value": "[variables('ProdAppSubnetAddressPrefix')]" },
+          "ProdDataNSGName": { "value": "[variables('ProdDataNSGName')]" },
+          "ProdDataSubnetAddressPrefix": { "value": "[variables('ProdDataSubnetAddressPrefix')]" },
+          "ProdWebNSGName": { "value": "[variables('ProdWebNSGName')]" },
+          "ProdWebSubnetAddressPrefix": { "value": "[variables('ProdWebSubnetAddressPrefix')]" },
+          "PubNSGName": { "value": "[variables('PubNSGName')]" },
+          "PubSubnetAddressPrefix": { "value": "[variables('PubSubnetAddressPrefix')]" },
+          "StgAppNSGName": { "value": "[variables('StgAppNSGName')]" },
+          "StgAppSubnetAddressPrefix": { "value": "[variables('StgAppSubnetAddressPrefix')]" },
+          "StgDataNSGName": { "value": "[variables('StgDataNSGName')]" },
+          "StgDataSubnetAddressPrefix": { "value": "[variables('StgDataSubnetAddressPrefix')]" },
+          "StgProdMgmtNSGName": { "value": "[variables('StgProdMgmtNSGName')]" },
+          "StgProdMgmtSubnetAddressPrefix": { "value": "[variables('StgProdMgmtSubnetAddressPrefix')]" },
+          "StgWebNSGName": { "value": "[variables('StgWebNSGName')]" },
+          "StgWebSubnetAddressPrefix": { "value": "[variables('StgWebSubnetAddressPrefix')]" }
+        }
+      }
+    },
     //Create Virtual Network
     {
       "apiVersion": "2015-05-01-preview",
@@ -242,6 +333,9 @@
       "tags": {
         "displayName": "VirtualNetwork"
       },
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'NetworkSecurityGroupTemplate')]"
+      ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -250,91 +344,94 @@
         },
         "subnets": [
           {
-            "name": "Public",
+            "name": "[variables('PubSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.1.0/24"
+              "addressPrefix": "[variables('PubSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('PubNSGName'))]"
+              }
             }
           },
           {
-            "name": "DevWeb",
+            "name": "[variables('DevWebSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.2.0/24"
             }
           },
           {
-            "name": "DevApp",
+            "name": "[variables('DevAppSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.3.0/24"
             }
           },
           {
-            "name": "DevData",
+            "name": "[variables('DevDataSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.4.0/24"
             }
           },
           {
-            "name": "BetaWeb",
+            "name": "[variables('BetaWebSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.5.0/24"
             }
           },
           {
-            "name": "BetaApp",
+            "name": "[variables('BetaAppSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.6.0/24"
             }
           },
           {
-            "name": "BetaData",
+            "name": "[variables('BetaDataSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.7.0/24"
             }
           },
           {
-            "name": "StgWeb",
+            "name": "[variables('StgWebSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.8.0/24"
             }
           },
           {
-            "name": "StgApp",
+            "name": "[variables('StgAppSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.9.0/24"
             }
           },
           {
-            "name": "StgData",
+            "name": "[variables('StgDataSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.10.0/24"
             }
           },
           {
-            "name": "ProdWeb",
+            "name": "[variables('ProdWebSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.11.0/24"
             }
           },
           {
-            "name": "ProdApp",
+            "name": "[variables('ProdAppSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.12.0/24"
             }
           },
           {
-            "name": "ProdData",
+            "name": "[variables('ProdDataSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.13.0/24"
             }
           },
           {
-            "name": "DevBetaMgmt",
+            "name": "[variables('DevBetaMgmtSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.14.0/24"
             }
           },
           {
-            "name": "StgProdMgmt",
+            "name": "[variables('StgProdMgmtSubnetName')]",
             "properties": {
               "addressPrefix": "10.0.15.0/24"
             }
@@ -342,7 +439,6 @@
         ]
       } //VNet Properties close
     }, //, //Virtual Network close
-
     //Create Local Network Site/Gateway
     //{
     //  "apiVersion": "2015-05-01-preview",
