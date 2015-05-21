@@ -283,9 +283,6 @@
       "apiVersion": "2015-01-01",
       "name": "NetworkSecurityGroupTemplate",
       "type": "Microsoft.Resources/deployments",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('NSGTemplateLink')]" },
