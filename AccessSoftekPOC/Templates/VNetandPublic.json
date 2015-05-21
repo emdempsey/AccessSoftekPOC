@@ -165,7 +165,8 @@
       "name": "[concat(variables('PubnicName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
       ],
       "tags": {
         "displayName": "Public Interface"
@@ -201,7 +202,8 @@
       "name": "[concat(variables('PubnicName'), '1')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
       ],
       "tags": {
         "displayName": "Public Interface"
@@ -484,9 +486,7 @@
         "displayName": "Public Load Balancer"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/',variables('PubnicName'),'0')]",
-        "[concat('Microsoft.Network/networkInterfaces/',variables('PubnicName'),'1')]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
       ],
       "properties": {
         "frontendIPConfigurations": [
