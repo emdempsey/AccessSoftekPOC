@@ -45,12 +45,22 @@
   },
   "variables": {
     "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmdcas')]",
+    "BastionvmName": "[concat(parameters('customerPrefix'),'devbetabas')]",
+    "BastionVMSize": "Standard_A1",
+    "BastionimageOffer": "WindowsServer",
+    "BastionimagePublisher": "MicrosoftWindowsServer",
+    "BastionimageSKU": "2012-R2-Datacenter",
+    "BastionnicName": "DevBeta-BAS-nic",
     "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
     "DCVMSize": "Standard_A1",
     "DCimageOffer": "WindowsServer",
     "DCimagePublisher": "MicrosoftWindowsServer",
     "DCimageSKU": "2012-R2-Datacenter",
     "DCnicName": "DevBeta-DC-nic",
+    "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'dbmbastion')]",
+    "publicIPAddressName": "[concat(parameters('customerPrefix'),'dbmpip1')]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "publicIPAddressType": "Dynamic",
     "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
     "storageAccountType": "Standard_LRS",
     "subnetName": "DevBetaMgmt",
@@ -71,6 +81,22 @@
         "accountType": "[variables('storageAccountType')]"
       }
     },
+    //Create Public IP Address for Bastion host
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Public IP Address"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('dnsNameForPublicIP')]"
+        }
+      }
+    }
     //Create Availability Set for the Domain Controllers
     {
       "apiVersion": "2015-05-01-preview",
@@ -129,6 +155,40 @@
             "properties": {
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "10.0.14.5",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.14.4",
+            "10.0.14.5"
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('BastionnicName'), '0')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+      ],     
+      "tags": {
+        "displayName": "Bastion Interface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+              },
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
@@ -239,6 +299,52 @@
           "networkInterfaces": [
             {
               "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '1')]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('BastionvmName'), '01')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('BastionnicName'), '0')]"
+      ],
+      "tags": {
+        "displayName": "Bastion VM"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('BastionVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('BastionvmName'), '01')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('BastionimagePublisher')]",
+            "offer": "[variables('BastionimageOffer')]",
+            "sku": "[variables('BastionimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('BastionvmName'),'01-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('BastionnicName')), '0')]"
             }
           ]
         }
