@@ -663,7 +663,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[parameters('DevAppNSGName')]",
+      "name": "[parameters('DevDataNSGName')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "Dev Data Subnet NSG"
