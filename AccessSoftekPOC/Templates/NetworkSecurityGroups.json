@@ -111,7 +111,7 @@
       "properties": {
         "securityRules": [
           {
-            "name": "HTTP_Traffic",
+            "name": "HTTP_Inbound_Internet",
             "properties": {
               "description": "This rule allows inbound HTTP traffic from the internet",
               "protocol": "Tcp",
@@ -125,7 +125,7 @@
             }
           },
           {
-            "name": "HTTPS_Traffic",
+            "name": "HTTPS_Inbound_Internet",
             "properties": {
               "description": "This rule allows inbound HTTP traffic from the internet",
               "protocol": "Tcp",
@@ -136,6 +136,118 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 101
+            }
+          },
+          {
+            "name": "HTTP_Outbound_DevWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Dev Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_DevWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Dev Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "HTTP_Outbound_BetaWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Beta Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_BetaWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Beta Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
+          },
+          {
+            "name": "HTTP_Outbound_StgWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Stg Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 205
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_StgWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Stg Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 206
+            }
+          },
+          {
+            "name": "HTTP_Outbound_ProdWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Prod Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 207
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_ProdWeb",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Prod Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 208
             }
           }
         ]
