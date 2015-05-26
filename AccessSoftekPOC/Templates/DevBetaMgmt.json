@@ -88,7 +88,7 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "Public IP Address"
+        "displayName": "Bastion Public IP Address"
       },
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
