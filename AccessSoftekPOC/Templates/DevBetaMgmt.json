@@ -96,7 +96,7 @@
           "domainNameLabel": "[variables('dnsNameForPublicIP')]"
         }
       }
-    }
+    },
     //Create Availability Set for the Domain Controllers
     {
       "apiVersion": "2015-05-01-preview",
