@@ -57,7 +57,7 @@
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A1",
     "EnvAbbr": "b",
-    "Environment": "Beta",
+    "Environment": "beta",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
     "MFMAppimageOffer": "WindowsServer",
     "MFMAppimagePublisher": "MicrosoftWindowsServer",

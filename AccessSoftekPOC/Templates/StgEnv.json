@@ -59,7 +59,7 @@
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
     "EnvAbbr": "s",
-    "Environment": "Stg",
+    "Environment": "stg",
     "FSWimageOffer": "WindowsServer",
     "FSWimagePublisher": "MicrosoftWindowsServer",
     "FSWimageSKU": "2012-R2-Datacenter",
