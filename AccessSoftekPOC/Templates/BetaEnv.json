@@ -55,7 +55,7 @@
     "DataSubnetName": "[concat(variables('Environment'),'Data')]",
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
-    "DataVMSize": "Standard_A2",
+    "DataVMSize": "Standard_A4",
     "EnvAbbr": "b",
     "Environment": "Beta",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
