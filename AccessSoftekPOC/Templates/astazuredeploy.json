@@ -172,7 +172,7 @@
           "adminPassword": {"value": "[parameters('adminPassword')]"}
         }
       }
-    }//,
+    },
     //Create Beta Environment Stack
     {
       "apiVersion": "2015-01-01",
@@ -193,7 +193,7 @@
         }
       }
     },
-    Create Stg-Prod Mgmt Stack
+    //Create Stg-Prod Mgmt Stack
     {
       "apiVersion": "2015-01-01",
       "name": "StgProdMgmtTemplate",
