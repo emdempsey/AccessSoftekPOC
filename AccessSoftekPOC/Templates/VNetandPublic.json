@@ -352,85 +352,127 @@
           {
             "name": "[variables('DevWebSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.2.0/24"
+              "addressPrefix": "[variables('DevWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevAppSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.3.0/24"
+              "addressPrefix": "[variables('DevAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevDataSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.4.0/24"
+              "addressPrefix": "[variables('DevDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('BetaWebSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.5.0/24"
+              "addressPrefix": "[variables('BetaWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BetaWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('BetaAppSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.6.0/24"
+              "addressPrefix": "[variables('BetaAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BetaAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('BetaDataSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.7.0/24"
+              "addressPrefix": "[variables('BetaDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BetaDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgWebSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.8.0/24"
+              "addressPrefix": "[variables('StgWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgAppSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.9.0/24"
+              "addressPrefix": "[variables('StgAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgDataSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.10.0/24"
+              "addressPrefix": "[variables('StgDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('ProdWebSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.11.0/24"
+              "addressPrefix": "[variables('ProdWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ProdWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('ProdAppSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.12.0/24"
+              "addressPrefix": "[variables('ProdAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ProdAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('ProdDataSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.13.0/24"
+              "addressPrefix": "[variables('ProdDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ProdDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevBetaMgmtSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.14.0/24"
+              "addressPrefix": "[variables('DevBetaMgmtSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevBetaMgmtNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgProdMgmtSubnetName')]",
             "properties": {
-              "addressPrefix": "10.0.15.0/24"
+              "addressPrefix": "[variables('StgProdMgmtSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgProdMgmtNSGName'))]"
+              }
             }
           }
         ]

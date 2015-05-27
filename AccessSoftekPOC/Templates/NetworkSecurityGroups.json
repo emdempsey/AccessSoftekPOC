@@ -1176,8 +1176,510 @@
           }
         ]
       }
+    },
+    //Stg Web security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('StgWebNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Stg Web Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Inbound_PubSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Public Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "HTTPS_Inbound_PubSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Public Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "HTTP_Outbound_StgApp",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Stg App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_StgApp",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Stg App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "LDAP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the StgProd Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          }
+        ]
+      }
+    },
+    //Stg App security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('StgAppNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Stg App Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Inbound_StgWebSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Stg Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "HTTPS_Inbound_StgWebSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Stg Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "SQL_Inbound_StgData",
+            "properties": {
+              "description": "This rule allows Inbound SQL traffic to the Stg Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 103
+            }
+          },
+          {
+            "name": "SQL_Outbound_StgData",
+            "properties": {
+              "description": "This rule allows outbound SQL traffic to the Stg Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "1433",
+              "destinationAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "LDAP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          }
+        ]
+      }
+    },
+    //Stg Data security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('StgDataNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Stg Data Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SQL_Inbound_StgApp",
+            "properties": {
+              "description": "This rule allows inbound SQL traffic from the Stg App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "1433",
+              "destinationAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "LDAP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          }
+        ]
+      }
+    },
+    //Prod Web security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('ProdWebNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Prod Web Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Inbound_PubSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Public Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "HTTPS_Inbound_PubSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Public Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "HTTP_Outbound_ProdApp",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Prod App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_ProdApp",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Prod App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "LDAP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the StgProd Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          }
+        ]
+      }
+    },
+    //Prod App security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('ProdAppNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Prod App Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Inbound_ProdWebSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Prod Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "HTTPS_Inbound_ProdWebSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Prod Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "SQL_Inbound_Prodata",
+            "properties": {
+              "description": "This rule allows Inbound SQL traffic to the Prod Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 103
+            }
+          },
+          {
+            "name": "SQL_Outbound_ProdData",
+            "properties": {
+              "description": "This rule allows outbound SQL traffic to the Prod Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "1433",
+              "destinationAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "LDAP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          }
+        ]
+      }
+    },
+    //Prod Data security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('ProdDataNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Prod Data Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SQL_Inbound_ProdApp",
+            "properties": {
+              "description": "This rule allows inbound SQL traffic from the Prod App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "1433",
+              "destinationAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "LDAP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          }
+        ]
+      }
     }
-    //Stg security policies
-    //Prod security policies
   ]
 }
