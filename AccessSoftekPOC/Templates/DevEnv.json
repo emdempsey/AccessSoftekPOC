@@ -41,6 +41,12 @@
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
+    },
+    "vnetAddressSpacePrefix": {
+      "metadata": {
+        "description": "The address space used by the Virtual network"
+      },
+      "type": "string"
     }
   },
   "variables": {
@@ -71,6 +77,15 @@
     "OrphAppnicName": "[concat(variables('Environment'),'-OrpApp-nic')]",
     "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orpapp')]",
     "OrphAppVMSize": "Standard_A1",
+    "SQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "SQLDBDatabaseName": "[concat(parameters('customerPrefix'),variables('Environment'),'cmsdb01')]",
+    "SQLDBEdition": "Standard",
+    "SQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.255')]",
+    "SQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0')]",
+    "SQLDBMaxSizeBytes": "268435456000",
+    "SQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+    "SQLDBServerName": "[concat(parameters('customerPrefix'),variables('Environment'),'dbsrv01')]",
+    "SQLDBVersion": "12.0",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "WebAppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wastor01')]",
@@ -109,7 +124,7 @@
       "properties": {
         "accountType": "[variables('storageAccountType')]"
       }
-    },   
+    },
     //Create Web Network Interface
     {
       "apiVersion": "2015-05-01-preview",
@@ -413,6 +428,54 @@
           ]
         }
       }
+    },
+    //Create SQL PaaS Instance and DB for CMS
+    {
+      "apiVersion": "2014-04-01-preview",
+      "location": "[parameters('Location')]",
+      "name": "[variables('SQLDBServerName')]",
+      "type": "Microsoft.Sql/servers",
+      "tags": {
+        "displayName": "Dev SQL PaaS"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('adminUsername')]",
+        "administratorLoginPassword": "[parameters('adminPassword')]",
+        "version": "[variables('SQLDBVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "tags": {
+            "displayName": "Dev CMS DB"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('SQLDBServerName'))]"
+          ],
+          "location": "[parameters('Location')]",
+          "name": "[variables('SQLDBDatabaseName')]",
+          "properties": {
+            "collation": "[variables('SQLDBCollation')]",
+            "edition": "[variables('SQLDBEdition')]",
+            "maxSizeBytes": "[variables('SQLDBMaxSizeBytes')]",
+            "requestedServiceObjectiveId": "[variables('SQLDBRequestedServiceObjectiveId')]"
+          }
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('SQLDBServerName'))]"
+          ],
+          "location": "[parameters('Location')]",
+          "name": "FirewallRule1",
+          "properties": {
+            "endIpAddress": "[variables('SQLDBFirewallEndIP')]",
+            "startIpAddress": "[variables('SQLDBFirewallStartIP')]"
+          },
+          "type": "firewallrules"
+        }
+      ]
     }
   ]
 }
