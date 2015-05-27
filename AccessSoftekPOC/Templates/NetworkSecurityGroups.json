@@ -714,10 +714,470 @@
           }
         ]
       }
+    },
+    //Beta Web security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('BetaWebNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Beta Web Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Inbound_PubSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Public Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "HTTPS_Inbound_PubSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Public Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "RDP_Inbound_DevBetaMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "HTTP_Outbound_BetaApp",
+            "properties": {
+              "description": "This rule allows outbound HTTP traffic to the Beta App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_BetaApp",
+            "properties": {
+              "description": "This rule allows outbound HTTPS traffic to the Dev App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "LDAP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          }
+        ]
+      }
+    },
+    //Beta App security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('BetaAppNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Beta App Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP_Inbound_BetaWebSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Beta Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "HTTPS_Inbound_BetaWebSubnet",
+            "properties": {
+              "description": "This rule allows inbound HTTP traffic from the Beta Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "SQL_Inbound_BetaData",
+            "properties": {
+              "description": "This rule allows Inbound SQL traffic to the Beta Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "RDP_Inbound_DevBetaMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 103
+            }
+          },
+          {
+            "name": "SQL_Outbound_BetaData",
+            "properties": {
+              "description": "This rule allows outbound SQL traffic to the Beta Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "1433",
+              "destinationAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "LDAP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          }
+        ]
+      }
+    },
+    //Beta Data security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('BetaDataNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Beta Data Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SQL_Inbound_BetaApp",
+            "properties": {
+              "description": "This rule allows inbound SQL traffic from the Beta App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "1433",
+              "destinationAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "RDP_Inbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "LDAP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound LDAP traffic to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          }
+        ]
+      }
+    },
+    //StgProd Mgmt security policies
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[parameters('StgProdMgmtNSGName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Stg-Prod Mgmt Subnet NSG"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTPS_Inbound_Internet",
+            "properties": {
+              "description": "This rule allows inbound HTTPS traffic from the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 100
+            }
+          },
+          {
+            "name": "RDP_Inbound_Internet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "Internet",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            }
+          },
+          {
+            "name": "LDAP_Inbound_StgWeb",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Stg Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 102
+            }
+          },
+          {
+            "name": "LDAP_Inbound_StgApp",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Stg App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 103
+            }
+          },
+          {
+            "name": "LDAP_Inbound_StgData",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Stg Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 104
+            }
+          },
+          {
+            "name": "LDAP_Inbound_ProdWeb",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Prod Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 105
+            }
+          },
+          {
+            "name": "LDAP_Inbound_ProdApp",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Prod App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 106
+            }
+          },
+          {
+            "name": "LDAP_Inbound_ProdData",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Prod Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 107
+            }
+          },
+          {
+            "name": "RDP_Outbound_StgWeb",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic to the Stg Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 201
+            }
+          },
+          {
+            "name": "RDP_Outbound_StgApp",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic to the Stg App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "RDP_Outbound_StgData",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic to the Stg Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          },
+          {
+            "name": "RDP_Outbound_ProdWeb",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic to the Prod Web Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
+          },
+          {
+            "name": "RDP_Outbound_ProdApp",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic to the Prod App Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 205
+            }
+          },
+          {
+            "name": "RDP_Outbound_ProdData",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic to the Prod Data Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 206
+            }
+          }
+        ]
+      }
     }
-    //Beta security policies
     //Stg security policies
     //Prod security policies
-    //StgProd Mgmt security policies
   ]
 }
