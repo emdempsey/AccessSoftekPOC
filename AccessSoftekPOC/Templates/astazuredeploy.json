@@ -192,27 +192,27 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
-    }//,
-    ////Create Stg-Prod Mgmt Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "StgProdMgmtTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
-    //    "parameters": {
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "location": { "value": "[parameters('location')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": { "value": "[parameters('adminPassword')]" }
-    //    }
-    //  }
-    //},    
+    },
+    //Create Stg-Prod Mgmt Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "StgProdMgmtTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    }//,    
     ////Create Stage Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
