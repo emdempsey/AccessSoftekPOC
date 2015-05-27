@@ -144,7 +144,7 @@
     "PubSubnetName": "Public",
     "PubSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
     "PubvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'vm')]",
-    "PubVMSize": "Standard_A3",
+    "PubVMSize": "Standard_A1",
     "StgAppNSGName": "[concat(variables('StgAppSubnetName'),'nsg01')]",
     "StgAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.9.0/24')]",
     "StgAppSubnetName": "StgApp",
