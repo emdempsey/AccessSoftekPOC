@@ -34,6 +34,9 @@
     }
   },
   "variables": {
+    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtdcdsc.ps1.zip')]",
+    "adPDCConfigurationFunction": "astdevbetamgmtdcdsc.ps1\\AD1",
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
     "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmdcas')]",
     "BastionvmName": "[concat(parameters('customerPrefix'),'devbetabas')]",
     "BastionVMSize": "Standard_A1",
@@ -165,8 +168,8 @@
       "name": "[concat(variables('BastionnicName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
-      ],     
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+      ],
       "tags": {
         "displayName": "Bastion Interface"
       },
@@ -242,7 +245,30 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('DCvmName'), '01/CreateADForest')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "DC1 DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines', variables('DCvmName'),'01')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('adPDCModulesURL')]",
+              "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]"
+            }
+          }
+        }
+      ]
     },
     {
       "apiVersion": "2015-05-01-preview",
@@ -252,7 +278,8 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
       ],
       "tags": {
         "displayName": "DC VM"
