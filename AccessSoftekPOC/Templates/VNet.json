@@ -14,7 +14,7 @@
         "description": "The IP address of the VPN device on the customer network"
       }
     },
-    "customerVPNfamily": {
+    "customerVPNFamily": {
       "type": "string",
       "metadata": {
         "description": "The OS family of the VPN Device"

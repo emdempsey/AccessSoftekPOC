@@ -4,94 +4,72 @@
   "parameters": {
     "adminPassword": {
       "type": "securestring",
-      "defaultValue": "Office365",
       "metadata": {
         "description": "Admin password on provisioned machines"
       }
     },
     "adminUsername": {
       "type": "string",
-      "defaultValue": "nimda",
       "metadata": {
         "description": "Admin username for virtual machines"
       }
     },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
     "customerPrefix": {
+      "type": "string",
       "metadata": {
         "description": "The 3 character prefix of the customer name"
-      },
-      "type": "string",
-      "defaultValue": "sky"
+      }
     },
     "customerVPNAddress": {
       "type": "string",
-      "defaultValue": "1.1.1.1",
       "metadata": {
         "description": "The IP address of the VPN device on the customer network"
       }
     },
-    "customerVPNfamily": {
+    "customerVPNFamily": {
       "type": "string",
-      "defaultValue": "IOS 15.1 (dynamic)",
       "metadata": {
         "description": "The OS family of the VPN Device"
       }
     },
     "customerVPNP2SSubnet": {
       "type": "string",
-      "defaultValue": "192.168.0.0/24",
       "metadata": {
         "description": "A single IP address prefix inside the list of prefixes that will be used when assigning IP addresses to incoming Point-to-Site client connection requests"
       }
     },
     "customerVPNPlatform": {
       "type": "string",
-      "defaultValue": "ISR",
       "metadata": {
         "description": "The platform of the VPN device"
       }
     },
     "customerVPNSubnet": {
       "type": "string",
-      "defaultValue": "172.16.0.0/16",
       "metadata": {
         "description": "One of the subnets onthe customer's local network"
       }
     },
     "customerVPNVendor": {
       "type": "string",
-      "defaultValue": "Cisco",
       "metadata": {
         "description": "The vendor of the VPN device"
       }
     },
     "dnsNameForPublicIP": {
       "type": "string",
-      "defaultValue": "astservices",
       "metadata": {
         "description": "lower case DNS name used for public access to the services"
       }
     },
-    "location": {
-      "type": "string",
-      "defaultValue": "West US",
-      "allowedValues": [
-        "West US",
-        "East US",
-        "North Central US",
-        "Central US",
-        "South Central US",
-        "East Asia",
-        "Southeast Asia",
-        "West Europe"
-      ],
-      "metadata": {
-        "description": "Location where resources will be provisioned"
-      }
-    },
     "vnetAddressSpacePrefix": {
       "type": "string",
-      "defaultValue": "10.0",
       "metadata": {
         "description": "The address space used by the Virtual network"
       }
@@ -120,7 +98,7 @@
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
-          "customerVPNfamily": { "value": "[parameters('customerVPNfamily')]" },
+          "customerVPNFamily": { "value": "[parameters('customerVPNFamily')]" },
           "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
           "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
           "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
