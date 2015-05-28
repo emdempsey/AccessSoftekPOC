@@ -256,7 +256,7 @@
             "displayName": "DC1 DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines', variables('DCvmName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
