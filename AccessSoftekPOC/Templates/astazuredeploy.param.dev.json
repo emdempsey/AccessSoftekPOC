@@ -2,20 +2,17 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "customerPrefix": {
-      "value": "sky"
-    },
-    "location": {
-      "value": "West US"
-    },
-    "adminUsername": {
-      "value": "nimda"
-    },
-    "adminPassword": {
-      "value": "Office365"
-    },
-    "virtualNetworkName": {
-      "value": "SKYVNET01"
-    }
+    "adminPassword": { "value": "Office365" },
+    "adminUsername": { "value": "nimda" },
+    "customerPrefix": { "value": "sky" },
+    "customerVPNAddress": { "value": "1.1.1.1" },
+    "customerVPNfamily": { "value": "IOS 15.1 (dynamic)" },
+    "customerVPNP2SSubnet": { "value": "192.168.0.0/24" },
+    "customerVPNPlatform": { "value": "ISR" },
+    "customerVPNSubnet": { "value": "172.16.0.0/16" },
+    "customerVPNVendor": { "value": "Cisco" },
+    "dnsNameForPublicIP": { "value": "astservices" },
+    "location": { "value": "West US" },
+    "vnetAddressSpacePrefix": { "value": "10.0" }
   }
 }
