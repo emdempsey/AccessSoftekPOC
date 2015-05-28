@@ -60,7 +60,7 @@
     "DataSubnetName": "[concat(variables('Environment'),'Data')]",
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
-    "DataVMSize": "Standard_A1",
+    "DataVMSize": "Standard_A4",
     "EnvAbbr": "d",
     "Environment": "dev",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
@@ -69,14 +69,14 @@
     "MFMAppimageSKU": "2012-R2-Datacenter",
     "MFMAppnicName": "[concat(variables('Environment'),'-MFMApp-nic')]",
     "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
-    "MFMAppVMSize": "Standard_A1",
+    "MFMAppVMSize": "Standard_A2",
     "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
     "OrphAppimageOffer": "WindowsServer",
     "OrphAppimagePublisher": "MicrosoftWindowsServer",
     "OrphAppimageSKU": "2012-R2-Datacenter",
     "OrphAppnicName": "[concat(variables('Environment'),'-OrpApp-nic')]",
     "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orpapp')]",
-    "OrphAppVMSize": "Standard_A1",
+    "OrphAppVMSize": "Standard_A2",
     "SQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
     "SQLDBDatabaseName": "[concat(parameters('customerPrefix'),variables('Environment'),'cmsdb01')]",
     "SQLDBEdition": "Standard",
@@ -96,7 +96,7 @@
     "WebSubnetName": "[concat(variables('Environment'),'Web')]",
     "WebSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('WebSubnetName'))]",
     "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
-    "WebVMSize": "Standard_A1"
+    "WebVMSize": "Standard_A2"
   },
   "resources": [
     //Create Storage account for Web and App VMs
