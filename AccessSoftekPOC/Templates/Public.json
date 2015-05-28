@@ -68,7 +68,7 @@
     "PubSubnetName": "Public",
     "PubSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
     "PubvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'vm')]",
-    "PubVMSize": "Standard_A1",
+    "PubVMSize": "Standard_A3",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
   },
