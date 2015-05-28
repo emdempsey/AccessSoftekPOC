@@ -242,46 +242,46 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
-    } //,
-    ////Create Stage Environment Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "StgEnvTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('StgEnvTemplateLink')]" },
-    //    "parameters": {
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "location": { "value": "[parameters('location')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": {"value": "[parameters('adminPassword')]"}
-    //    }
-    //  }
-    //},
-    ////Create Prod Environment Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "ProdEnvTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('ProdEnvTemplateLink')]" },
-    //    "parameters": {
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "location": { "value": "[parameters('location')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": {"value": "[parameters('adminPassword')]"}
-    //    }
-    //  }
-    //}
+    } ,
+    //Create Stage Environment Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "StgEnvTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgEnvTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": {"value": "[parameters('adminPassword')]"}
+        }
+      }
+    },
+    //Create Prod Environment Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "ProdEnvTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('ProdEnvTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": {"value": "[parameters('adminPassword')]"}
+        }
+      }
+    }
   ]
 }
