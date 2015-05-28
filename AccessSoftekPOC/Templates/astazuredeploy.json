@@ -118,8 +118,6 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('VNetTemplateLink')]", "contentVersion": "1.0.0.0" },
         "parameters": {
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
           "customerVPNfamily": { "value": "[parameters('customerVPNfamily')]" },
@@ -127,7 +125,6 @@
           "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
           "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
           "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
-          "dnsNameForPublicIP": { "value": "[parameters('dnsNameForPublicIP')]" },
           "location": { "value": "[parameters('location')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
@@ -146,19 +143,12 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('PublicTemplateLink')]", "contentVersion": "1.0.0.0" },
         "parameters": {
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
-          "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
-          "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
-          "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
-          "customerVPNfamily": { "value": "[parameters('customerVPNfamily')]" },
-          "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
-          "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" },
-          "dnsNameForPublicIP": { "value": "[parameters('dnsNameForPublicIP')]" }
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "dnsNameForPublicIP": { "value": "[parameters('dnsNameForPublicIP')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
     },

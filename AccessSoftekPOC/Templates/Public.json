@@ -20,6 +20,12 @@
       },
       "type": "string"
     },
+    "dnsNameForPublicIP": {
+      "metadata": {
+        "description": "lower case DNS name used for public access to the services"
+      },
+      "type": "string"
+    },
     "location": {
       "type": "string",
       "allowedValues": [
@@ -35,12 +41,6 @@
       "metadata": {
         "description": "Location where resources will be provisioned"
       }
-    },
-    "dnsNameForPublicIP": {
-      "metadata": {
-        "description": "lower case DNS name used for public access to the services"
-      },
-      "type": "string"
     },
     "virtualNetworkName": {
       "type": "string",
