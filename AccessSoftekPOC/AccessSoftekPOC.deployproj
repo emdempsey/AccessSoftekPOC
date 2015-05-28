@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\astazuredeploy.json" />
+    <None Include="Templates\astdevbetamgmtdcdsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\ProdEnv.json" />
     <None Include="Templates\Public.json" />
