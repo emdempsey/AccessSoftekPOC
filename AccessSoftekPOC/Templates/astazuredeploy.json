@@ -98,21 +98,50 @@
     }
   },
   "variables": {
-    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
-    "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNetandPublic.json",
-    "DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json",
-    "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
-    "DevEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json",
     "BetaEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/BetaEnv.json",
+    "DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json",
+    "DevEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json",
+    "ProdEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json",
+    "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/Public.json",
     "StgEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json",
-    "ProdEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json"
+    "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
+    "VNetTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNet.json",
+    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
   },
   "resources": [
-    //Create Virtual Network and Public resources
+    //Create Virtual Network
+    {
+      "apiVersion": "2015-01-01",
+      "name": "VNetTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('VNetTemplateLink')]", "contentVersion": "1.0.0.0" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
+          "customerVPNfamily": { "value": "[parameters('customerVPNfamily')]" },
+          "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
+          "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
+          "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
+          "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
+          "dnsNameForPublicIP": { "value": "[parameters('dnsNameForPublicIP')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
+        }
+      }
+    },
+    //Create Public resources
     {
       "apiVersion": "2015-01-01",
       "name": "PublicTemplate",
       "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('PublicTemplateLink')]", "contentVersion": "1.0.0.0" },
@@ -139,11 +168,31 @@
       "name": "DevBetaMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
       ],
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('DevBetaMgmtTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('location')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    },
+    //Create Stg-Prod Mgmt Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "StgProdMgmtTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
         "parameters": {
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "location": { "value": "[parameters('location')]" },
@@ -170,7 +219,7 @@
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "vnetAddressSpacePrefix": {"value": "[parameters('vnetAddressSpacePrefix')]"}
+          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
         }
       }
     },
@@ -193,27 +242,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
-    },
-    //Create Stg-Prod Mgmt Stack
-    {
-      "apiVersion": "2015-01-01",
-      "name": "StgProdMgmtTemplate",
-      "type": "Microsoft.Resources/deployments",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
-        "parameters": {
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "location": { "value": "[parameters('location')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "adminUsername": { "value": "[parameters('adminusername')]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" }
-        }
-      }
-    }//,    
+    } //,
     ////Create Stage Environment Stack
     //{
     //  "apiVersion": "2015-01-01",

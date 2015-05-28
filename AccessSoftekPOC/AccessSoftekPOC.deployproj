@@ -33,13 +33,14 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
-    <Content Include="Templates\VNetandPublic.json" />
+    <Content Include="Templates\VNet.json" />
     <None Include="Templates\astazuredeploy.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\astazuredeploy.json" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\ProdEnv.json" />
+    <None Include="Templates\Public.json" />
     <None Include="Templates\StgEnv.json" />
     <None Include="Templates\BetaEnv.json" />
     <None Include="Templates\DevEnv.json" />
