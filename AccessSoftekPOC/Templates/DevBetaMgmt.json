@@ -374,7 +374,7 @@
           },
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]",
-            "Microsoft.Resources/deployments/UpdatePDCNIC"
+            "Microsoft.Resources/deployments/UpdateDevBetaPDCNIC"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
@@ -444,7 +444,7 @@
           },
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]",
-            "Microsoft.Resources/deployments/UpdatePDCNIC"
+            "Microsoft.Resources/deployments/UpdateDevBetaPDCNIC"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
