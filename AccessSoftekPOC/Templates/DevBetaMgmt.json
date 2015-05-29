@@ -34,11 +34,15 @@
     }
   },
   "variables": {
-    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtdcdsc.ps1.zip')]",
+    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtpdcdsc.ps1.zip')]",
     "adPDCConfigurationFunction": "astdevbetamgmtdcdsc.ps1\\AD1",
+    "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtbdcdsc.ps1.zip')]",
+    "adBDCConfigurationFunction": "astdevbetamgmtbdcdsc.ps1\\AD2",
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmdcas')]",
     "BastionvmName": "[concat(parameters('customerPrefix'),'devbetabas')]",
+    "BastionModulesUrl": "[concat(variables('AssetLocation'),'/astdevbetamgmtbastdsc.ps1.zip')]",
+    "BastionConfigurationFunction": "astdevbetamgmtbastdsc.ps1\\Bast",
     "BastionVMSize": "Standard_A1",
     "BastionimageOffer": "WindowsServer",
     "BastionimagePublisher": "MicrosoftWindowsServer",
@@ -358,7 +362,31 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('DCvmName'), '02/CreateBDC')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "BDC DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]",
+            "Microsoft.Resources/deployments/UpdatePDCNIC"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('adBDCModulesURL')]",
+              "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]"
+            }
+          }
+        }
+      ]
     },
     {
       "apiVersion": "2015-05-01-preview",
@@ -404,7 +432,31 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('BastionvmName'), '01/ConfigureDevBetaBastion')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "Bastion DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]",
+            "Microsoft.Resources/deployments/UpdatePDCNIC"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('BastionModulesURL')]",
+              "ConfigurationFunction": "[variables('BastionConfigurationFunction')]"
+            }
+          }
+        }
+      ]
     }
   ]
 }
