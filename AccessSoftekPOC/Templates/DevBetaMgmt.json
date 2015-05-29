@@ -279,7 +279,7 @@
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
       ],
       "tags": {
         "displayName": "DC VM"
