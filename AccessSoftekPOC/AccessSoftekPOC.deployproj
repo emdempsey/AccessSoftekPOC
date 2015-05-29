@@ -45,6 +45,7 @@
     <None Include="Templates\DSC\astdevbetamgmtdcdsc.ps1.zip" />
     <None Include="Templates\DSC\astwebroledsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
+    <None Include="Templates\nic.json" />
     <None Include="Templates\ProdEnv.json" />
     <None Include="Templates\Public.json" />
     <None Include="Templates\StgEnv.json" />

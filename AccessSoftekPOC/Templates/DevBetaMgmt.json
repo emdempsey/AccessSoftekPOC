@@ -51,6 +51,7 @@
     "DCimageSKU": "2012-R2-Datacenter",
     "DCnicName": "DevBeta-DC-nic",
     "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'dbmbastion')]",
+    "nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),'dbmpip1')]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressType": "Dynamic",
@@ -110,7 +111,7 @@
       "name": "[concat(variables('DCnicName'), '0')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DC Interface"
+        "displayName": "PDC Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -124,13 +125,7 @@
               }
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.14.4",
-            "10.0.14.5"
-          ]
-        }
+        ]
       }
     },
     {
@@ -139,7 +134,7 @@
       "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DC Interface"
+        "displayName": "BDC Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -208,7 +203,7 @@
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "DC VM"
+        "displayName": "PDC VM"
       },
       "properties": {
         "availabilitySet": {
@@ -253,7 +248,7 @@
           "name": "[concat(variables('DCvmName'), '01/CreateADForest')]",
           "location": "[parameters('location')]",
           "tags": {
-            "displayName": "DC1 DSC"
+            "displayName": "PDC DSC"
           },
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
@@ -270,6 +265,51 @@
         }
       ]
     },
+    //Update the DNS servers on the DC 0 NIC
+    {
+      "name": "UpdatePDCNIC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "10.0.14.4",
+                  "subnet": {
+                    "id": "[variables('subnetRef')]"
+                  }
+                }
+              }
+            ]
+          },
+          "nicName": {
+            "value": "[concat(variables('DCnicName'), '0')]"
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.14.4",
+              "10.0.14.5"
+            ]
+          }
+
+        }
+      }
+    },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -278,11 +318,10 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "DC VM"
+        "displayName": "BDC VM"
       },
       "properties": {
         "availabilitySet": {
