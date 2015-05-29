@@ -271,7 +271,7 @@
     },
     //Update the DNS servers on the DC 0 NIC
     {
-      "name": "UpdatePDCNIC",
+      "name": "UpdateDevBetaPDCNIC",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
