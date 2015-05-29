@@ -34,11 +34,16 @@
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
     <Content Include="Templates\VNet.json" />
+    <None Include="Templates\astappmfmdsc.ps1.zip" />
     <None Include="Templates\astazuredeploy.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\astazuredeploy.json" />
+    <None Include="Templates\ASTConfigData.psd1" />
+    <None Include="Templates\astdevbetamgmtbastdsc.ps1.zip" />
+    <None Include="Templates\astdevbetamgmtbdcdsc.ps1.zip" />
     <None Include="Templates\astdevbetamgmtdcdsc.ps1.zip" />
+    <None Include="Templates\astwebroledsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\ProdEnv.json" />
     <None Include="Templates\Public.json" />
