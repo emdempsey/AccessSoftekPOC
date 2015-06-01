@@ -309,7 +309,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resource/deployments/UpdateDevBetaPDCNIC"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -354,7 +354,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resource/deployments/UpdateDevBetaPDCNIC"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"        
       ],
       "properties": {
         "mode": "Incremental",
