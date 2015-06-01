@@ -152,13 +152,7 @@
               }
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.14.4",
-            "10.0.14.5"
-          ]
-        }
+        ]        
       }
     },
     {
@@ -187,16 +181,10 @@
               }
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.14.4",
-            "10.0.14.5"
-          ]
-        }
+        ]
       }
     },
-    //Create Virtual Machines
+    //Create PDC Virtual Machine
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -270,7 +258,7 @@
         }
       ]
     },
-    //Update the DNS servers on the DC 0 NIC
+    //Update the DNS servers on the PDC NIC
     {
       "name": "UpdateDevBetaPDCNIC",
       "type": "Microsoft.Resources/deployments",
@@ -315,6 +303,97 @@
         }
       }
     },
+    //Update the DNS servers on the BDC NIC
+    {
+      "name": "UpdateDevBetaBDCNIC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resource/deployments/UpdateDevBetaPDCNIC"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "10.0.14.5",
+                  "subnet": {
+                    "id": "[variables('subnetRef')]"
+                  }
+                }
+              }
+            ]
+          },
+          "nicName": {
+            "value": "[concat(variables('DCnicName'), '1')]"
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.14.4",
+              "10.0.14.5"
+            ]
+          }
+
+        }
+      }
+    },
+    //Update the DNS servers on the Bastion NIC
+    {
+      "name": "UpdateDevBetaBastionNIC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resource/deployments/UpdateDevBetaPDCNIC"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "10.0.14.6",
+                  "subnet": {
+                    "id": "[variables('subnetRef')]"
+                  }
+                }
+              }
+            ]
+          },
+          "nicName": {
+            "value": "[concat(variables('BastionnicName'), '0')]"
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.14.4",
+              "10.0.14.5"
+            ]
+          }
+
+        }
+      }
+    },
+    //Create BDC VM
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -389,6 +468,7 @@
         }
       ]
     },
+    //Create Bastion VM
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
