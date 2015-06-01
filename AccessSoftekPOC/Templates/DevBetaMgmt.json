@@ -112,7 +112,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('DCnicName'), '0')]",
+      "name": "[concat(variables('DCnicName'), '-0')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "PDC Interface"
@@ -135,7 +135,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('DCnicName'), '1')]",
+      "name": "[concat(variables('DCnicName'), '-1')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "BDC Interface"
@@ -158,7 +158,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('BastionnicName'), '0')]",
+      "name": "[concat(variables('BastionnicName'), '-0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
@@ -192,7 +192,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '0')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '-0')]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
@@ -229,7 +229,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '0')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '-0')]"
             }
           ]
         }
@@ -303,7 +303,7 @@
             ]
           },
           "nicName": {
-            "value": "[concat(variables('DCnicName'), '0')]"
+            "value": "[concat(variables('DCnicName'), '-0')]"
           },
           "dnsServers": {
             "value": [
@@ -348,7 +348,7 @@
             ]
           },
           "nicName": {
-            "value": "[concat(variables('DCnicName'), '1')]"
+            "value": "[concat(variables('DCnicName'), '-1')]"
           },
           "dnsServers": {
             "value": [
@@ -393,7 +393,7 @@
             ]
           },
           "nicName": {
-            "value": "[concat(variables('BastionnicName'), '0')]"
+            "value": "[concat(variables('BastionnicName'), '-0')]"
           },
           "dnsServers": {
             "value": [
@@ -413,7 +413,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '-1')]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
@@ -450,7 +450,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '1')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '-1')]"
             }
           ]
         }
@@ -488,7 +488,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('BastionnicName'), '0')]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('BastionnicName'), '-0')]"
       ],
       "tags": {
         "displayName": "Bastion VM"
@@ -521,7 +521,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('BastionnicName')), '0')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('BastionnicName')), '-0')]"
             }
           ]
         }
