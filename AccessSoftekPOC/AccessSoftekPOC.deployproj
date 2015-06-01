@@ -45,8 +45,13 @@
     <None Include="Templates\DSC\astdevbetamgmtbdcdsc.ps1.zip" />
     <None Include="Templates\DSC\astdevbetamgmtpdcdsc.ps1.zip" />
     <None Include="Templates\DSC\astsqldsc.ps1.zip" />
+    <None Include="Templates\DSC\aststageprodappmfmdsc.ps1.zip" />
+    <None Include="Templates\DSC\aststageprodapporphdsc.ps1.zip" />
+    <None Include="Templates\DSC\aststageprodmgmtbastdsc.ps1.zip" />
     <None Include="Templates\DSC\aststageprodmgmtbdcdsc.ps1.zip" />
     <None Include="Templates\DSC\aststageprodmgmtpdcdsc.ps1.zip" />
+    <None Include="Templates\DSC\aststageprodsqldsc.ps1.zip" />
+    <None Include="Templates\DSC\aststageprodwebroledsc.ps1.zip" />
     <None Include="Templates\DSC\astwebroledsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\nic.json" />
