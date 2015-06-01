@@ -252,8 +252,20 @@
             "typeHandlerVersion": "1.9",
             "settings": {
               "ModulesUrl": "[variables('adPDCModulesURL')]",
-              "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]"
-            }
+              "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "devbeta.macuhosted",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+							"Items": {
+								"AdminPassword": "[parameters('adminPassword')]"
+							}
+						}
           }
         }
       ]
