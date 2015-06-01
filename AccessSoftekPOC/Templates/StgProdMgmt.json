@@ -34,22 +34,30 @@
     }
   },
   "variables": {
+    "adBDCConfigurationFunction": "astdevbetamgmtbdcdsc.ps1\\AD2",
+    "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtbdcdsc.ps1.zip')]",
+    "adPDCConfigurationFunction": "astdevbetamgmtdcdsc.ps1\\AD1",
+    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtpdcdsc.ps1.zip')]",
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     "availabilitySetName": "[concat(parameters('customerPrefix'),'spmdcas')]",
-    "BastionvmName": "[concat(parameters('customerPrefix'),'stgprodbas')]",
-    "BastionVMSize": "Standard_A1",
+    "BastionConfigurationFunction": "astdevbetamgmtbastdsc.ps1\\Bast",
     "BastionimageOffer": "WindowsServer",
     "BastionimagePublisher": "MicrosoftWindowsServer",
     "BastionimageSKU": "2012-R2-Datacenter",
+    "BastionModulesUrl": "[concat(variables('AssetLocation'),'/astdevbetamgmtbastdsc.ps1.zip')]",
     "BastionnicName": "StgProd-BAS-nic",
-    "DCvmName": "[concat(parameters('customerPrefix'),'stgprodad')]",
-    "DCVMSize": "Standard_A1",
+    "BastionvmName": "[concat(parameters('customerPrefix'),'stgprodbas')]",
+    "BastionVMSize": "Standard_A1",
     "DCimageOffer": "WindowsServer",
     "DCimagePublisher": "MicrosoftWindowsServer",
     "DCimageSKU": "2012-R2-Datacenter",
     "DCnicName": "StgProd-DC-nic",
+    "DCvmName": "[concat(parameters('customerPrefix'),'stgprodad')]",
+    "DCVMSize": "Standard_A1",
     "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'spmbastion')]",
-    "publicIPAddressName": "[concat(parameters('customerPrefix'),'spmpip1')]",
+    "nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "publicIPAddressName": "[concat(parameters('customerPrefix'),'spmpip1')]",
     "publicIPAddressType": "Dynamic",
     "storageAccountName": "[concat(parameters('customerPrefix'),'spmstor01')]",
     "storageAccountType": "Standard_LRS",
@@ -107,7 +115,7 @@
       "name": "[concat(variables('DCnicName'), '0')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DC Interface"
+        "displayName": "PDC Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -121,13 +129,7 @@
               }
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.15.4",
-            "10.0.15.5"
-          ]
-        }
+        ]
       }
     },
     {
@@ -136,7 +138,7 @@
       "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('location')]",
       "tags": {
-        "displayName": "DC Interface"
+        "displayName": "BDC Interface"
       },
       "properties": {
         "ipConfigurations": [
@@ -150,13 +152,7 @@
               }
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.15.4",
-            "10.0.15.5"
-          ]
-        }
+        ]
       }
     },
     {
@@ -185,16 +181,10 @@
               }
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.14.4",
-            "10.0.14.5"
-          ]
-        }
+        ]
       }
     },
-    //Create Virtual Machines
+    //Create PDC VM
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -206,7 +196,7 @@
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "DC VM"
+        "displayName": "PDC VM"
       },
       "properties": {
         "availabilitySet": {
@@ -245,6 +235,142 @@
         }
       }
     },
+    //Update the DNS servers on the PDC NIC
+    {
+      "name": "UpdateStgProdPDCNIC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "10.0.15.4",
+                  "subnet": {
+                    "id": "[variables('subnetRef')]"
+                  }
+                }
+              }
+            ]
+          },
+          "nicName": {
+            "value": "[concat(variables('DCnicName'), '0')]"
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+
+        }
+      }
+    },
+    //Update the DNS servers on the BDC NIC
+    {
+      "name": "UpdateStgProdBDCNIC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "10.0.15.5",
+                  "subnet": {
+                    "id": "[variables('subnetRef')]"
+                  }
+                }
+              }
+            ]
+          },
+          "nicName": {
+            "value": "[concat(variables('DCnicName'), '1')]"
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+
+        }
+      }
+    },
+    //Update the DNS servers on the Bastion NIC
+    {
+      "name": "UpdateStgProdBastionNIC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "10.0.15.6",
+                  "subnet": {
+                    "id": "[variables('subnetRef')]"
+                  }
+                }
+              }
+            ]
+          },
+          "nicName": {
+            "value": "[concat(variables('BastionnicName'), '0')]"
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+
+        }
+      }
+    },
+    //Create BDC VM
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -256,7 +382,7 @@
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
       "tags": {
-        "displayName": "DC VM"
+        "displayName": "BDC VM"
       },
       "properties": {
         "availabilitySet": {
@@ -295,6 +421,7 @@
         }
       }
     },
+    //Create Bastion VM
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
