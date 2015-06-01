@@ -39,10 +39,12 @@
   <ItemGroup>
     <None Include="Templates\astazuredeploy.json" />
     <None Include="Templates\DSC\astappmfmdsc.ps1.zip" />
+    <None Include="Templates\DSC\astapporphdsc.ps1.zip" />
     <None Include="Templates\DSC\ASTConfigData.psd1" />
     <None Include="Templates\DSC\astdevbetamgmtbastdsc.ps1.zip" />
     <None Include="Templates\DSC\astdevbetamgmtbdcdsc.ps1.zip" />
     <None Include="Templates\DSC\astdevbetamgmtpdcdsc.ps1.zip" />
+    <None Include="Templates\DSC\astsqldsc.ps1.zip" />
     <None Include="Templates\DSC\astwebroledsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\nic.json" />

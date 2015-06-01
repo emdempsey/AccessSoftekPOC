@@ -14,14 +14,25 @@ https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekP
 https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.param.dev.json
 
 ***Vars and Commands for deployment testing***
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
 $ResourceGroupName = 'ASTServices'
 
-$ResourceGroupLocation = "West US"
-
+$location = "West US"
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.json'
+$adminPassword = 'Office365'
+$adminUsername = 'nimda'
+$customerPrefix = 'sky'
+$customerVPNAddress = '1.1.1.1'
+$customerVPNFamily = '15.1'
+$customerVPNP2SSubnet = '192.168.0.0/24'
+$customerVPNPlatform = 'ISR'
+$customerVPNSubnet = '172.16.0.0/24'
+$customerVPNVendor = 'Cisco'
+$dnsNameForPublicIP = 'astservices'
+$vnetAddressSpacePrefix = '10.0'
 
-$TemplateParametersFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.param.dev.json'
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
+
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -dnsNameForPublicIP $dnsNameForPublicIP -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
 
 
 New-AzureResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParametersFile -Force -Verbose
