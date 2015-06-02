@@ -31,10 +31,7 @@
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
-    },
-      "TestDnsName": {
-          "type": "string"
-      }
+    }
   },
   "variables": {
     "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
