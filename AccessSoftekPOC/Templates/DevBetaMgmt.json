@@ -31,7 +31,10 @@
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
-    }
+    },
+      "TestDnsName": {
+          "type": "string"
+      }
   },
   "variables": {
     "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
@@ -126,17 +129,26 @@
               "privateIPAddress": "10.0.14.4",
               "subnet": {
                 "id": "[variables('subnetRef')]"
-              }
+              },
+                "publicIPAddress": {
+                    "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('TestName'))]"
+                }
             }
           }
         ]
-      }
+      },
+        "dependsOn": [
+            "[concat('Microsoft.Network/publicIPAddresses/', variables('TestName'))]"
+        ]
     },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
+      ],
       "tags": {
         "displayName": "BDC Interface"
       },
@@ -152,7 +164,13 @@
               }
             }
           }
-        ]        
+        ],
+        "dnsServers": {
+          "value": [
+            "10.0.14.4",
+            "10.0.14.5"
+          ]
+        }
       }
     },
     {
@@ -161,7 +179,8 @@
       "name": "[concat(variables('BastionnicName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
       ],
       "tags": {
         "displayName": "Bastion Interface"
@@ -181,7 +200,13 @@
               }
             }
           }
-        ]
+        ],
+        "dnsServers": {
+          "value": [
+            "10.0.14.4",
+            "10.0.14.5"
+          ]
+        }
       }
     },
     //Create PDC Virtual Machine
@@ -262,10 +287,10 @@
               }
             },
             "protectedSettings": {
-							"Items": {
-								"AdminPassword": "[parameters('adminPassword')]"
-							}
-						}
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
           }
         }
       ]
@@ -316,98 +341,7 @@
       }
     },
     //Update the DNS servers on the BDC NIC
-    {
-      "name": "UpdateDevBetaBDCNIC",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nicTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "ipConfigurations": {
-            "value": [
-              {
-                "name": "ipconfig1",
-                "properties": {
-                  "privateIPAllocationMethod": "Static",
-                  "privateIPAddress": "10.0.14.5",
-                  "subnet": {
-                    "id": "[variables('subnetRef')]"
-                  }
-                }
-              }
-            ]
-          },
-          "nicName": {
-            "value": "[concat(variables('DCnicName'), '1')]"
-          },
-          "dnsServers": {
-            "value": [
-              "10.0.14.4",
-              "10.0.14.5"
-            ]
-          }
-
-        }
-      }
-    },
     //Update the DNS servers on the Bastion NIC
-    {
-      "name": "UpdateDevBetaBastionNIC",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"        
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nicTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "ipConfigurations": {
-            "value": [
-              {
-                "name": "ipconfig1",
-                "properties": {
-                  "privateIPAllocationMethod": "Static",
-                  "privateIPAddress": "10.0.14.6",
-                  "publicIPAddress": {
-                    "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-                  },
-                  "subnet": {
-                    "id": "[variables('subnetRef')]"
-                  }
-                }
-              }
-            ]
-          },
-          "nicName": {
-            "value": "[concat(variables('BastionnicName'), '0')]"
-          },
-          "dnsServers": {
-            "value": [
-              "10.0.14.4",
-              "10.0.14.5"
-            ]
-          }
-
-        }
-      }
-    },
     //Create BDC VM
     {
       "apiVersion": "2015-05-01-preview",
@@ -487,10 +421,10 @@
               }
             },
             "protectedSettings": {
-							"Items": {
-								"AdminPassword": "[parameters('adminPassword')]"
-							}
-						}
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
           }
         }
       ]
@@ -570,10 +504,10 @@
               }
             },
             "protectedSettings": {
-							"Items": {
-								"AdminPassword": "[parameters('adminPassword')]"
-							}
-						}
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
           }
         }
       ]
