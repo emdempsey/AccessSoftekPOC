@@ -377,6 +377,34 @@
             }
           },
           {
+            "name": "DNS_UDP_Inbound_All",
+            "properties": {
+              "description": "This rule allows inbound DNS traffic on UDP from all address ranges",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 108
+            }
+          },
+          {
+            "name": "DNS_TCP_Inbound_All",
+            "properties": {
+              "description": "This rule allows inbound DNS traffic on TCP from all address ranges",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 109
+            }
+          },
+          {
             "name": "RDP_Outbound_DevWeb",
             "properties": {
               "description": "This rule allows inbound RDP traffic to the Dev Web Subnet",
@@ -557,6 +585,34 @@
               "direction": "Outbound",
               "priority": 203
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 205
+            }
           }
         ]
       }
@@ -655,6 +711,34 @@
               "direction": "Outbound",
               "priority": 202
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
           }
         ]
       }
@@ -710,6 +794,34 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 201
+            }
+          },
+          {
+            "name": "DNS_TCP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
             }
           }
         ]
@@ -809,6 +921,34 @@
               "direction": "Outbound",
               "priority": 203
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 205
+            }
           }
         ]
       }
@@ -907,6 +1047,34 @@
               "direction": "Outbound",
               "priority": 202
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
           }
         ]
       }
@@ -962,6 +1130,34 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 201
+            }
+          },
+          {
+            "name": "DNS_TCP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_DevBetaMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Dev-Beta Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
             }
           }
         ]
@@ -1088,6 +1284,34 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 107
+            }
+          },
+          {
+            "name": "DNS_UDP_Inbound_All",
+            "properties": {
+              "description": "This rule allows inbound DNS traffic on UDP from all address ranges",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 108
+            }
+          },
+          {
+            "name": "DNS_TCP_Inbound_All",
+            "properties": {
+              "description": "This rule allows inbound DNS traffic on TCP from all address ranges",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 109
             }
           },
           {
@@ -1271,6 +1495,34 @@
               "direction": "Outbound",
               "priority": 203
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 205
+            }
           }
         ]
       }
@@ -1369,6 +1621,34 @@
               "direction": "Outbound",
               "priority": 202
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
           }
         ]
       }
@@ -1424,6 +1704,34 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 201
+            }
+          },
+          {
+            "name": "DNS_TCP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
             }
           }
         ]
@@ -1523,6 +1831,34 @@
               "direction": "Outbound",
               "priority": 203
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 205
+            }
           }
         ]
       }
@@ -1621,6 +1957,34 @@
               "direction": "Outbound",
               "priority": 202
             }
+          },
+          {
+            "name": "DNS_TCP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 204
+            }
           }
         ]
       }
@@ -1676,6 +2040,34 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 201
+            }
+          },
+          {
+            "name": "DNS_TCP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on TCP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 202
+            }
+          },
+          {
+            "name": "DNS_UDP_Outbound_StgProdMgmt",
+            "properties": {
+              "description": "This rule allows outbound DNS traffic on UDP to the Stg-Prod Mgmt Subnet",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "53",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Outbound",
+              "priority": 203
             }
           }
         ]
