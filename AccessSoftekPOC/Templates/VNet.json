@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {    
+  "parameters": {
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
@@ -95,8 +95,8 @@
     "ProdDataSubnetName": "ProdData",
     "ProdWebNSGName": "[concat(variables('ProdWebSubnetName'),'nsg01')]",
     "ProdWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.11.0/24')]",
-    "ProdWebSubnetName": "ProdWeb",    
-    "PubNSGName": "[concat(variables('PubSubnetName'),'nsg01')]",   
+    "ProdWebSubnetName": "ProdWeb",
+    "PubNSGName": "[concat(variables('PubSubnetName'),'nsg01')]",
     "PubSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.1.0/24')]",
     "PubSubnetName": "Public",
     "StgAppNSGName": "[concat(variables('StgAppSubnetName'),'nsg01')]",
@@ -172,6 +172,11 @@
         "addressSpace": {
           "addressPrefixes": [
             "10.0.0.0/16"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": [
+            "8.8.8.8"
           ]
         },
         "subnets": [
