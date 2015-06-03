@@ -73,7 +73,8 @@
         "displayName": "Public Availability Set"
       },
       "properties": {
-        "platformFaultDomainCount": "2"
+        "platformUpdateDomainCount": 5, 
+        "platformFaultDomainCount": 3
       }
     },
     //Create Public IP Address for Public Access

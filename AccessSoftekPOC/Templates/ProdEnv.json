@@ -94,7 +94,8 @@
         "displayName": "Web Availability Set"
       },
       "properties": {
-        "platformFaultDomainCount": "3"
+        "platformUpdateDomainCount": 5, 
+        "platformFaultDomainCount": 3
       }
     },
     //Create MFM App Availability Sets
@@ -107,7 +108,8 @@
         "displayName": "MFM Availability Set"
       },
       "properties": {
-        "platformFaultDomainCount": "3"
+        "platformUpdateDomainCount": 5, 
+        "platformFaultDomainCount": 3
       }
     },
     //Create Orph App Availability Sets
@@ -120,7 +122,8 @@
         "displayName": "Orph Availability Set"
       },
       "properties": {
-        "platformFaultDomainCount": "3"
+        "platformUpdateDomainCount": 5, 
+        "platformFaultDomainCount": 3
       }
     },
     //Create Data Availability Set
@@ -133,7 +136,8 @@
         "displayName": "Data Availability Set"
       },
       "properties": {
-        "platformFaultDomainCount": "3"
+        "platformUpdateDomainCount": 5, 
+        "platformFaultDomainCount": 3
       }
     },
     //Create Storage account for Web VMs
