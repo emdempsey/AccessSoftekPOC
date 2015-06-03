@@ -47,7 +47,17 @@ Switch-AzureMode AzureResourceManager
 
 cls
 
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -dnsNameForPublicIP $dnsNameForPublicIP -vnetAddressSpacePrefix $vnetAddressSpacePrefix -BetaWebVMCount $BetaWebVMCount -BetaMFMVMCount $BetaMFMVMCount -BetaOrphVMCount $BetaOrphVMCount -StgWebVMCount $StgWebVMCount -StgMFMVMCount $StgMFMVMCount -StgOrphVMCount $StgOrphVMCount -ProdWebVMCount $ProdWebVMCount -ProdMFMVMCount $ProdMFMVMCount -ProdOrphVMCount $StgOrphVMCount -DevBetaDomainName $DevBetaDomainName -StgProdDomainName $StgProdDomainName -Force -Verbose
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -dnsNameForPublicIP $dnsNameForPublicIP -vnetAddressSpacePrefix $vnetAddressSpacePrefix -BetaWebVMCount $BetaWebVMCount -BetaMFMVMCount $BetaMFMVMCount -BetaOrphVMCount $BetaOrphVMCount -StgWebVMCount $StgWebVMCount -StgMFMVMCount $StgMFMVMCount -StgOrphVMCount $StgOrphVMCount -ProdWebVMCount $ProdWebVMCount -ProdMFMVMCount $ProdMFMVMCount -ProdOrphVMCount $ProdOrphVMCount -DevBetaDomainName $DevBetaDomainName -StgProdDomainName $StgProdDomainName -Force -Verbose
 
 
-#New-AzureResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParametersFile -Force -Verbose
+DSC Vars
+
+"AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+    "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
+    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
+    "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
+    "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
+    "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
+    "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
+    "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
+    "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]",
