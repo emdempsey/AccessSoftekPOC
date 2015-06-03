@@ -34,17 +34,17 @@
     }
   },
   "variables": {
-    "adBDCConfigurationFunction": "astdevbetamgmtbdcdsc.ps1\\AD2",
-    "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtbdcdsc.ps1.zip')]",
-    "adPDCConfigurationFunction": "astdevbetamgmtdcdsc.ps1\\AD1",
-    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astdevbetamgmtpdcdsc.ps1.zip')]",
+    "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
+    "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astbdcdsc.ps1.zip')]",
+    "adPDCConfigurationFunction": "aspdcdsc.ps1\\PDC",
+    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astpdcdsc.ps1.zip')]",
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     "availabilitySetName": "[concat(parameters('customerPrefix'),'spmdcas')]",
-    "BastionConfigurationFunction": "astdevbetamgmtbastdsc.ps1\\Bast",
+    "BastionConfigurationFunction": "astbastdsc.ps1\\Bast",
     "BastionimageOffer": "WindowsServer",
     "BastionimagePublisher": "MicrosoftWindowsServer",
     "BastionimageSKU": "2012-R2-Datacenter",
-    "BastionModulesUrl": "[concat(variables('AssetLocation'),'/astdevbetamgmtbastdsc.ps1.zip')]",
+    "BastionModulesUrl": "[concat(variables('AssetLocation'),'/astbastdsc.ps1.zip')]",
     "BastionnicName": "StgProd-BAS-nic",
     "BastionvmName": "[concat(parameters('customerPrefix'),'stgprodbas')]",
     "BastionVMSize": "Standard_A1",
@@ -55,6 +55,7 @@
     "DCvmName": "[concat(parameters('customerPrefix'),'stgprodad')]",
     "DCVMSize": "Standard_A1",
     "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'spmbastion')]",
+    "DomainName": "stageprod.macuhosted",
     "nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),'spmpip1')]",
@@ -108,7 +109,7 @@
         "platformFaultDomainCount": "2"
       }
     },
-    //Create Network Interfaces
+    //Create PDC Network Interface
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
@@ -132,11 +133,15 @@
         ]
       }
     },
+    //Create BDC Network Interface
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+      ],
       "tags": {
         "displayName": "BDC Interface"
       },
@@ -152,16 +157,24 @@
               }
             }
           }
-        ]
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
       }
     },
+    //Create Bastion Network interface
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('BastionnicName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
       ],     
       "tags": {
         "displayName": "Bastion Interface"
@@ -181,7 +194,13 @@
               }
             }
           }
-        ]
+        ],
+        "dnsSettings": {
+          "dnsServers": [
+            "10.0.15.4",
+            "10.0.15.5"
+          ]
+        }
       }
     },
     //Create PDC VM
@@ -233,7 +252,42 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('DCvmName'), '01/CreateADForest')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "PDC DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('adPDCModulesURL')]",
+              "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
     },
     //Update the DNS servers on the PDC NIC
     {
@@ -269,96 +323,6 @@
           },
           "nicName": {
             "value": "[concat(variables('DCnicName'), '0')]"
-          },
-          "dnsServers": {
-            "value": [
-              "10.0.15.4",
-              "10.0.15.5"
-            ]
-          }
-
-        }
-      }
-    },
-    //Update the DNS servers on the BDC NIC
-    {
-      "name": "UpdateStgProdBDCNIC",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nicTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "ipConfigurations": {
-            "value": [
-              {
-                "name": "ipconfig1",
-                "properties": {
-                  "privateIPAllocationMethod": "Static",
-                  "privateIPAddress": "10.0.15.5",
-                  "subnet": {
-                    "id": "[variables('subnetRef')]"
-                  }
-                }
-              }
-            ]
-          },
-          "nicName": {
-            "value": "[concat(variables('DCnicName'), '1')]"
-          },
-          "dnsServers": {
-            "value": [
-              "10.0.15.4",
-              "10.0.15.5"
-            ]
-          }
-
-        }
-      }
-    },
-    //Update the DNS servers on the Bastion NIC
-    {
-      "name": "UpdateStgProdBastionNIC",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nicTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "ipConfigurations": {
-            "value": [
-              {
-                "name": "ipconfig1",
-                "properties": {
-                  "privateIPAllocationMethod": "Static",
-                  "privateIPAddress": "10.0.15.6",
-                  "subnet": {
-                    "id": "[variables('subnetRef')]"
-                  }
-                }
-              }
-            ]
-          },
-          "nicName": {
-            "value": "[concat(variables('BastionnicName'), '0')]"
           },
           "dnsServers": {
             "value": [
@@ -419,7 +383,43 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('DCvmName'), '02/CreateBDC')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "BDC DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]",
+            "Microsoft.Resources/deployments/UpdateDevBetaPDCNIC"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('adBDCModulesURL')]",
+              "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
     },
     //Create Bastion VM
     {
@@ -466,7 +466,43 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('BastionvmName'), '01/ConfigureDevBetaBastion')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "Bastion DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]",
+            "Microsoft.Resources/deployments/UpdateDevBetaPDCNIC"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('BastionModulesURL')]",
+              "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
     }
   ]
 }
