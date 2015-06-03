@@ -55,6 +55,7 @@
     "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
     "DCVMSize": "Standard_A1",
     "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'dbmbastion')]",
+    "DomainName": "devbeta.macuhosted",
     "nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),'dbmpip1')]",
@@ -270,7 +271,7 @@
               "ModulesUrl": "[variables('adPDCModulesURL')]",
               "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "devbeta.macuhosted",
+                "DomainName": "[variables('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -402,7 +403,7 @@
               "ModulesUrl": "[variables('adBDCModulesURL')]",
               "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "devbeta.macuhosted",
+                "DomainName": "[variables('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -485,7 +486,7 @@
               "ModulesUrl": "[variables('BastionModulesURL')]",
               "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
               "Properties": {
-                "DomainName": "devbeta.macuhosted",
+                "DomainName": "[variables('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
