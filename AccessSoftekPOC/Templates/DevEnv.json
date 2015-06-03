@@ -245,7 +245,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('WebvmName'), '01')]",
+      "name": "[concat(variables('WebvmName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
@@ -259,7 +259,7 @@
           "vmSize": "[variables('WebVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('WebvmName'), '01')]",
+          "computername": "[concat(variables('WebvmName'), '0')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -273,7 +273,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'0-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -291,13 +291,13 @@
         {
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('WebVMName'), '01/CreateWeb')]",
+          "name": "[concat(variables('WebVMName'), '0/CreateWeb')]",
           "location": "[parameters('location')]",
           "tags": {
             "displayName": "Web DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'0')]"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
@@ -327,7 +327,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('MFMAppvmName'), '01')]",
+      "name": "[concat(variables('MFMAppvmName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
@@ -341,7 +341,7 @@
           "vmSize": "[variables('MFMAppVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('MFMAppvmName'), '01')]",
+          "computername": "[concat(variables('MFMAppvmName'), '0')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -355,7 +355,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('MFMAppvmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('MFMAppvmName'),'0-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -373,13 +373,13 @@
         {
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('MFMAppVMName'), '01/CreateMFMApp')]",
+          "name": "[concat(variables('MFMAppVMName'), '0/CreateMFMApp')]",
           "location": "[parameters('location')]",
           "tags": {
             "displayName": "MFM App DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'0')]"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
@@ -409,7 +409,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('OrphAppvmName'), '01')]",
+      "name": "[concat(variables('OrphAppvmName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
@@ -423,7 +423,7 @@
           "vmSize": "[variables('OrphAppVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('OrphAppvmName'), '01')]",
+          "computername": "[concat(variables('OrphAppvmName'), '0')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -437,7 +437,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('OrphAppvmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('OrphAppvmName'),'0-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -455,13 +455,13 @@
         {
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('OrphAppVMName'), '01/CreateOrphApp')]",
+          "name": "[concat(variables('OrphAppVMName'), '0/CreateOrphApp')]",
           "location": "[parameters('location')]",
           "tags": {
             "displayName": "Orph App DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'0')]"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
@@ -491,7 +491,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('DatavmName'), '01')]",
+      "name": "[concat(variables('DatavmName'), '0')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'))]",
@@ -505,7 +505,7 @@
           "vmSize": "[variables('DataVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('DatavmName'), '01')]",
+          "computername": "[concat(variables('DatavmName'), '0')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -519,7 +519,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'0-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -543,7 +543,7 @@
             "displayName": "Data DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
           ],
           "properties": {
             "publisher": "Microsoft.PowerShell",
