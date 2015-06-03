@@ -42,6 +42,9 @@
   "variables": {
     "AppSubnetName": "[concat(variables('Environment'), 'App')]",
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+    "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
+    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
     "DataimageSKU": "Standard",
@@ -51,9 +54,12 @@
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
+    "DomainName": "devbeta.macuhosted",
     "EnvAbbr": "d",
     "Environment": "dev",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
+    "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
+    "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
     "MFMAppimageOffer": "WindowsServer",
     "MFMAppimagePublisher": "MicrosoftWindowsServer",
     "MFMAppimageSKU": "2012-R2-Datacenter",
@@ -61,6 +67,8 @@
     "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
     "MFMAppVMSize": "Standard_A2",
     "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
+    "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
+    "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
     "OrphAppimageOffer": "WindowsServer",
     "OrphAppimagePublisher": "MicrosoftWindowsServer",
     "OrphAppimageSKU": "2012-R2-Datacenter",
@@ -79,6 +87,8 @@
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "WebAppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wastor01')]",
+    "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
+    "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]",
     "WebimageOffer": "WindowsServer",
     "WebimagePublisher": "MicrosoftWindowsServer",
     "WebimageSKU": "2012-R2-Datacenter",
@@ -276,7 +286,42 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('WebVMName'), '01/CreateWeb')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "Web DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'01')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('WebDSCModulesURL')]",
+              "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
     },
     //Create MFM App Virtual Machine
     {
@@ -323,7 +368,42 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('MFMAppVMName'), '01/CreateMFMApp')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "MFM App DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'01')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
+              "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
     },
     //Create Orph App Virtual Machine
     {
@@ -370,7 +450,42 @@
             }
           ]
         }
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('OrphAppVMName'), '01/CreateOrphApp')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "Orph App DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'01')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
+              "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
     },
     //Create Data Virtual Machine
     {
@@ -417,8 +532,43 @@
             }
           ]
         }
-      }
-    }//,
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-05-01-preview",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('DataVMName'), '01/CreateData')]",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "Data DSC"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'01')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.PowerShell",
+            "type": "DSC",
+            "typeHandlerVersion": "1.9",
+            "settings": {
+              "ModulesUrl": "[variables('DataDSCModulesURL')]",
+              "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
+              "Properties": {
+                "DomainName": "[variables('DomainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
+    } //,
     ////Create SQL PaaS Instance and DB for CMS
     //{
     //  "apiVersion": "2014-04-01-preview",
