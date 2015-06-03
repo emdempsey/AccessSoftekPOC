@@ -14,6 +14,24 @@
         "description": "Admin username for virtual machines"
       }
     },
+    "BetaMFMVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "BetaOrphVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "BetaWebVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
     "customerLocation": {
       "type": "string",
       "metadata": {
@@ -66,6 +84,42 @@
       "type": "string",
       "metadata": {
         "description": "lower case DNS name used for public access to the services"
+      }
+    },
+    "ProdMFMVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "ProdOrphVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "ProdWebVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "StgMFMVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "StgOrphVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
+      }
+    },
+    "StgWebVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
       }
     },
     "vnetAddressSpacePrefix": {
@@ -190,27 +244,30 @@
           "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
         }
       }
-    }//,
+    },
     //Create Beta Environment Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "BetaEnvTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('BetaEnvTemplateLink')]" },
-    //    "parameters": {
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "location": { "value": "[parameters('customerLocation')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": { "value": "[parameters('adminPassword')]" }
-    //    }
-    //  }
-    //} ,
+    {
+      "apiVersion": "2015-01-01",
+      "name": "BetaEnvTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('BetaEnvTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('customerLocation')]" },
+          "mfmVMCount": { "value": "[parameters('BetaMFMVMCount')]" },
+          "orphVMCount": { "value": "[parameters('BetaOrphVMCount')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "webVMCount": { "value": "[parameters('BetaWebVMCount')]" }
+        }
+      }
+    }//,
     //Create Stage Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
@@ -223,11 +280,14 @@
     //    "mode": "Incremental",
     //    "templateLink": { "uri": "[variables('StgEnvTemplateLink')]" },
     //    "parameters": {
+    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
+    //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
     //      "location": { "value": "[parameters('customerLocation')]" },
+    //      "mfmVMCount": { "value": "[parameters('StgMFMVMCount')]" },
+    //      "orphVMCount": { "value": "[parameters('StgOrphVMCount')]" },
     //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": {"value": "[parameters('adminPassword')]"}
+    //      "webVMCount": { "value": "[parameters('StgWebVMCount')]" }
     //    }
     //  }
     //},
@@ -243,11 +303,14 @@
     //    "mode": "Incremental",
     //    "templateLink": { "uri": "[variables('ProdEnvTemplateLink')]" },
     //    "parameters": {
+    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
+    //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
     //      "location": { "value": "[parameters('customerLocation')]" },
+    //      "mfmVMCount": { "value": "[parameters('ProdMFMVMCount')]" },
+    //      "orphVMCount": { "value": "[parameters('ProdOrphVMCount')]" },
     //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": {"value": "[parameters('adminPassword')]"}
+    //      "webVMCount": { "value": "[parameters('ProdWebVMCount')]" }
     //    }
     //  }
     //}
