@@ -2,6 +2,18 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
@@ -14,22 +26,28 @@
         "description": "Location where resources will be provisioned"
       }
     },
-    "adminUsername": {
-      "type": "string",
+    "mfmVMCount": {
+      "type": "int",
       "metadata": {
-        "description": "Admin username for virtual machines"
+        "description": "The number of MFM VMs to create"
       }
     },
-    "adminPassword": {
-      "type": "securestring",
+    "orphVMCount": {
+      "type": "int",
       "metadata": {
-        "description": "Admin password on provisioned machines"
+        "description": "The number of Orph VMs to create"
       }
     },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
         "description": "The name of the virtual Network to be created"
+      }
+    },
+    "webVMCount": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of Web VMs to create"
       }
     }
   },
