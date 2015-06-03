@@ -58,8 +58,11 @@
     "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
     "AppSubnetName": "[concat(variables('Environment'), 'App')]",
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
     "DataDiskSize": 1023,
+    "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
+    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
     "DataimageSKU": "Enterprise",
@@ -78,6 +81,8 @@
     "FSWvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'fsw')]",
     "FSWVMSize": "Standard_A1",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
+    "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
+    "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
     "MFMAppimageOffer": "WindowsServer",
     "MFMAppimagePublisher": "MicrosoftWindowsServer",
     "MFMAppimageSKU": "2012-R2-Datacenter",
@@ -85,6 +90,8 @@
     "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
     "MFMAppVMSize": "Standard_A2",
     "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
+    "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
+    "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
     "OrphAppimageOffer": "WindowsServer",
     "OrphAppimagePublisher": "MicrosoftWindowsServer",
     "OrphAppimageSKU": "2012-R2-Datacenter",
@@ -94,6 +101,8 @@
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "WebAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'webas')]",
+    "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
+    "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]",
     "WebimageOffer": "WindowsServer",
     "WebimagePublisher": "MicrosoftWindowsServer",
     "WebimageSKU": "2012-R2-Datacenter",
@@ -520,6 +529,44 @@
         }
       }
     },
+     //Web DSC
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('WebVMName'), copyIndex(),'/CreateWeb')]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "Web-DSC-Loop",
+        "count": "[parameters('webVMCount')]"
+      },
+      "tags": {
+        "displayName": "Web DSC"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),copyIndex())]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.PowerShell",
+        "type": "DSC",
+        "typeHandlerVersion": "1.9",
+        "settings": {
+          "ModulesUrl": "[variables('WebDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('DomainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -621,6 +668,44 @@
         }
       }
     },
+    //MFM DSC
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('MFMAppVMName'), copyIndex(),'/CreateMFM')]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "MFM-DSC-Loop",
+        "count": "[parameters('mfmVMCount')]"
+      },
+      "tags": {
+        "displayName": "MFM DSC"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),copyIndex())]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.PowerShell",
+        "type": "DSC",
+        "typeHandlerVersion": "1.9",
+        "settings": {
+          "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('DomainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -719,6 +804,44 @@
               "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('OrphAppnicName')), '0')]"
             }
           ]
+        }
+      }
+    },
+    //Orph DSC
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('OrphAppVMName'), copyIndex(),'/CreateOrph')]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "Orph-DSC-Loop",
+        "count": "[parameters('OrphVMCount')]"
+      },
+      "tags": {
+        "displayName": "Orph DSC"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),copyIndex())]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.PowerShell",
+        "type": "DSC",
+        "typeHandlerVersion": "1.9",
+        "settings": {
+          "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('DomainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
         }
       }
     },
@@ -975,6 +1098,40 @@
         }
       }
     },
+    //Data 0 DSC
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('DataVMName'),'0/CreateData')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Data DSC"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.PowerShell",
+        "type": "DSC",
+        "typeHandlerVersion": "1.9",
+        "settings": {
+          "ModulesUrl": "[variables('DataDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('DomainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    }
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -1027,145 +1184,145 @@
               "lun": 0
             },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-02')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 1
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 1
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-03.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-03')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 2
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-03.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-03')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 2
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-04.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-04')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 3
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-04.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-04')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 3
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-05.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-05')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 4
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-05.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-05')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 4
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-06.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-06')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 5
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-06.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-06')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 5
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-07.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-07')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 6
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-07.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-07')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 6
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-08.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-08')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 7
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-08.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-08')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 7
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-09.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-09')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 8
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-09.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-09')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 8
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-10.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-10')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 9
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-10.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-10')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 9
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-11.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-11')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 10
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-11.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-11')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 10
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-12.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-12')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 11
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-12.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-12')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 11
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-13.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-13')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 12
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-13.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-13')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 12
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-14.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-14')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 13
-						},
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-14.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-14')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 13
+            },
             {
-							"vhd": {
-								"uri":"[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-15.vhd')]"
-							},
-							"name":"[concat(variables('DatavmName'), '-02-data-disk-15')]",
-							"caching" : "None",
-							"createOption": "empty",
-							"diskSizeGB": "[variables('DataDiskSize')]",
-							"lun": 14
-						}
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-15.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-15')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 14
+            }
           ]
         },
         "networkProfile": {
@@ -1177,6 +1334,40 @@
         }
       }
     },
+    //Data DSC
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('DataVMName'),'1/CreateData')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "displayName": "Data DSC"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'1')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.PowerShell",
+        "type": "DSC",
+        "typeHandlerVersion": "1.9",
+        "settings": {
+          "ModulesUrl": "[variables('DataDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('DomainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    }
     //Create File Share Witness (FSW) VM
     {
       "apiVersion": "2015-05-01-preview",

@@ -560,7 +560,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('OrphAppVMName'), copyIndex(),'/CreateWeb')]",
+      "name": "[concat(variables('OrphAppVMName'), copyIndex(),'/CreateOrph')]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "Orph-DSC-Loop",
@@ -645,7 +645,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('DataVMName'),'0/CreateWeb')]",
+      "name": "[concat(variables('DataVMName'),'0/CreateData')]",
       "location": "[parameters('location')]",
       "tags": {
         "displayName": "Data DSC"
