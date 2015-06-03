@@ -156,8 +156,8 @@
             }
           }
         ],
-        "dnsServers": {
-          "value": [
+        "dnsSettings": {
+          "dnsServers": [
             "10.0.14.4",
             "10.0.14.5"
           ]
@@ -192,8 +192,8 @@
             }
           }
         ],
-        "dnsServers": {
-          "value": [
+        "dnsSettings": {
+          "dnsServers": [
             "10.0.14.4",
             "10.0.14.5"
           ]

@@ -22,7 +22,7 @@ $adminPassword = 'Office365'
 $adminUsername = 'nimda'
 $customerPrefix = 'sky'
 $customerVPNAddress = '1.1.1.1'
-$customerVPNFamily = 'IOS 15.1 (dynamic)
+$customerVPNFamily = 'IOS 15.1 (dynamic)'
 $customerVPNP2SSubnet = '192.168.1.0/24'
 $customerVPNPlatform = 'ISR'
 $customerVPNSubnet = '172.16.0.0/16'
@@ -31,6 +31,8 @@ $dnsNameForPublicIP = 'astservices'
 $vnetAddressSpacePrefix = '10.0'
 
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
+
+Switch-AzureMode AzureResourceManager
 
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -dnsNameForPublicIP $dnsNameForPublicIP -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
 
