@@ -20,6 +20,9 @@
       },
       "type": "string"
     },
+    "DomainName": {
+      "type": "string"
+    },
     "location": {
       "type": "string",
       "metadata": {

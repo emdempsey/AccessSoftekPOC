@@ -80,6 +80,12 @@
         "description": "The vendor of the VPN device"
       }
     },
+    "DevBetaDomainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory Domain Name for the Dev and Beta Environments"
+      }
+    },
     "dnsNameForPublicIP": {
       "type": "string",
       "metadata": {
@@ -114,6 +120,12 @@
       "type": "int",
       "metadata": {
         "description": "The number of Web VMs to create"
+      }
+    },
+    "StgProdDomainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory Domain Name for the Stage and Prod Environments"
       }
     },
     "StgWebVMCount": {
@@ -236,11 +248,12 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('DevEnvTemplateLink')]" },
         "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": {"value": "[parameters('DevBetaDomaiNName')]"},
           "location": { "value": "[parameters('customerLocation')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "adminUsername": { "value": "[parameters('adminusername')]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
           "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
         }
       }
@@ -260,6 +273,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
           "location": { "value": "[parameters('customerLocation')]" },
           "mfmVMCount": { "value": "[parameters('BetaMFMVMCount')]" },
           "orphVMCount": { "value": "[parameters('BetaOrphVMCount')]" },
@@ -267,8 +281,8 @@
           "webVMCount": { "value": "[parameters('BetaWebVMCount')]" }
         }
       }
-    }//,
-    //Create Stage Environment Stack
+    } //,
+    ////Create Stage Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
     //  "name": "StgEnvTemplate",
@@ -283,6 +297,7 @@
     //      "adminPassword": { "value": "[parameters('adminPassword')]" },
     //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+    //      "DomainName": {"value": "[parameters('StgProdDomaiNName')]"},
     //      "location": { "value": "[parameters('customerLocation')]" },
     //      "mfmVMCount": { "value": "[parameters('StgMFMVMCount')]" },
     //      "orphVMCount": { "value": "[parameters('StgOrphVMCount')]" },
@@ -291,7 +306,7 @@
     //    }
     //  }
     //},
-    //Create Prod Environment Stack
+    ////Create Prod Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
     //  "name": "ProdEnvTemplate",
@@ -306,6 +321,7 @@
     //      "adminPassword": { "value": "[parameters('adminPassword')]" },
     //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+    //      "DomainName": {"value": "[parameters('StgProdDomaiNName')]"},
     //      "location": { "value": "[parameters('customerLocation')]" },
     //      "mfmVMCount": { "value": "[parameters('ProdMFMVMCount')]" },
     //      "orphVMCount": { "value": "[parameters('ProdOrphVMCount')]" },

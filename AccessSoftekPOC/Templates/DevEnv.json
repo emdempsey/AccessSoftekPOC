@@ -20,6 +20,9 @@
       },
       "type": "string"
     },
+    "DomainName": {
+      "type": "string"
+    },
     "location": {
       "type": "string",
       "metadata": {
@@ -54,7 +57,6 @@
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
-    "DomainName": "devbeta.macuhosted",
     "EnvAbbr": "d",
     "Environment": "dev",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
@@ -307,7 +309,7 @@
               "ModulesUrl": "[variables('WebDSCModulesURL')]",
               "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "[variables('DomainName')]",
+                "DomainName": "[parameters('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -389,7 +391,7 @@
               "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
               "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "[variables('DomainName')]",
+                "DomainName": "[parameters('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -471,7 +473,7 @@
               "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
               "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "[variables('DomainName')]",
+                "DomainName": "[parameters('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -553,7 +555,7 @@
               "ModulesUrl": "[variables('DataDSCModulesURL')]",
               "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "[variables('DomainName')]",
+                "DomainName": "[parameters('DomainName')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
