@@ -112,7 +112,50 @@
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb"
   },
-  "resources": [    
+  "resources": [
+    //Create Network Security Groups
+    {
+      "apiVersion": "2015-01-01",
+      "name": "NetworkSecurityGroupTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('NSGTemplateLink')]" },
+        "parameters": {
+          "BetaAppNSGName": { "value": "[variables('BetaAppNSGName')]" },
+          "BetaAppSubnetAddressPrefix": { "value": "[variables('BetaAppSubnetAddressPrefix')]" },
+          "BetaDataNSGName": { "value": "[variables('BetaDataNSGName')]" },
+          "BetaDataSubnetAddressPrefix": { "value": "[variables('BetaDataSubnetAddressPrefix')]" },
+          "BetaWebNSGName": { "value": "[variables('BetaWebNSGName')]" },
+          "BetaWebSubnetAddressPrefix": { "value": "[variables('BetaWebSubnetAddressPrefix')]" },
+          "DevAppNSGName": { "value": "[variables('DevAppNSGName')]" },
+          "DevAppSubnetAddressPrefix": { "value": "[variables('DevAppSubnetAddressPrefix')]" },
+          "DevBetaMgmtNSGName": { "value": "[variables('DevBetaMgmtNSGName')]" },
+          "DevBetaMgmtSubnetAddressPrefix": { "value": "[variables('DevBetaMgmtSubnetAddressPrefix')]" },
+          "DevDataNSGName": { "value": "[variables('DevDataNSGName')]" },
+          "DevDataSubnetAddressPrefix": { "value": "[variables('DevDataSubnetAddressPrefix')]" },
+          "DevWebNSGName": { "value": "[variables('DevWebNSGName')]" },
+          "DevWebSubnetAddressPrefix": { "value": "[variables('DevWebSubnetAddressPrefix')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "ProdAppNSGName": { "value": "[variables('ProdAppNSGName')]" },
+          "ProdAppSubnetAddressPrefix": { "value": "[variables('ProdAppSubnetAddressPrefix')]" },
+          "ProdDataNSGName": { "value": "[variables('ProdDataNSGName')]" },
+          "ProdDataSubnetAddressPrefix": { "value": "[variables('ProdDataSubnetAddressPrefix')]" },
+          "ProdWebNSGName": { "value": "[variables('ProdWebNSGName')]" },
+          "ProdWebSubnetAddressPrefix": { "value": "[variables('ProdWebSubnetAddressPrefix')]" },
+          "PubNSGName": { "value": "[variables('PubNSGName')]" },
+          "PubSubnetAddressPrefix": { "value": "[variables('PubSubnetAddressPrefix')]" },
+          "StgAppNSGName": { "value": "[variables('StgAppNSGName')]" },
+          "StgAppSubnetAddressPrefix": { "value": "[variables('StgAppSubnetAddressPrefix')]" },
+          "StgDataNSGName": { "value": "[variables('StgDataNSGName')]" },
+          "StgDataSubnetAddressPrefix": { "value": "[variables('StgDataSubnetAddressPrefix')]" },
+          "StgProdMgmtNSGName": { "value": "[variables('StgProdMgmtNSGName')]" },
+          "StgProdMgmtSubnetAddressPrefix": { "value": "[variables('StgProdMgmtSubnetAddressPrefix')]" },
+          "StgWebNSGName": { "value": "[variables('StgWebNSGName')]" },
+          "StgWebSubnetAddressPrefix": { "value": "[variables('StgWebSubnetAddressPrefix')]" }
+        }
+      }
+    },
     //Create Virtual Network
     {
       "apiVersion": "2015-05-01-preview",
@@ -122,6 +165,9 @@
       "tags": {
         "displayName": "VirtualNetwork"
       },
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'NetworkSecurityGroupTemplate')]"
+      ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -137,91 +183,136 @@
           {
             "name": "[variables('PubSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('PubSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('PubSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('PubNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevWebSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('DevWebSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('DevWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevAppSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('DevAppSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('DevAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevDataSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('DevDataSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('DevDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('BetaWebSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('BetaWebSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('BetaWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BetaWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('BetaAppSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('BetaAppSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('BetaAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BetaAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('BetaDataSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('BetaDataSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('BetaDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BetaDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgWebSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('StgWebSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('StgWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgAppSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('StgAppSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('StgAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgDataSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('StgDataSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('StgDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('ProdWebSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('ProdWebSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('ProdWebSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ProdWebNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('ProdAppSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('ProdAppSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('ProdAppSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ProdAppNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('ProdDataSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('ProdDataSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('ProdDataSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('ProdDataNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('DevBetaMgmtSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('DevBetaMgmtSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('DevBetaMgmtSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('DevBetaMgmtNSGName'))]"
+              }
             }
           },
           {
             "name": "[variables('StgProdMgmtSubnetName')]",
             "properties": {
-              "addressPrefix": "[variables('StgProdMgmtSubnetAddressPrefix')]"
+              "addressPrefix": "[variables('StgProdMgmtSubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('StgProdMgmtNSGName'))]"
+              }
             }
           }
         ]

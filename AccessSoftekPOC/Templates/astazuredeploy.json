@@ -149,8 +149,9 @@
     "PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/Public.json",
     "StgEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json",
     "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
+    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
     "VNetTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNet.json",
-    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
+    "VNetUpdateTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNetUpdate.json"
   },
   "resources": [
     //Create Virtual Network
@@ -253,7 +254,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "DomainName": {"value": "[parameters('DevBetaDomaiNName')]"},
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
           "customerLocation": { "value": "[parameters('customerLocation')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
@@ -283,7 +284,7 @@
           "webVMCount": { "value": "[parameters('BetaWebVMCount')]" }
         }
       }
-    } //,
+    },
     ////Create Stage Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
@@ -332,5 +333,37 @@
     //    }
     //  }
     //}
+    //Update Virtual Network - apply network security groups
+    {
+      "apiVersion": "2015-01-01",
+      "name": "VNetUpdateTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]",
+        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]",
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]",
+        "[concat('Microsoft.Resources/deployments/', 'DevEnvTemplate')]",
+        "[concat('Microsoft.Resources/deployments/', 'BetaEnvTemplate')]"//,
+        //"[concat('Microsoft.Resources/deployments/', 'PublicTemplate')]",
+        //"[concat('Microsoft.Resources/deployments/', 'StgEnvTemplate')]",
+        //"[concat('Microsoft.Resources/deployments/', 'ProdEnvTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('VNetUpdateTemplateLink')]", "contentVersion": "1.0.0.0" },
+        "parameters": {
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
+          "customerVPNFamily": { "value": "[parameters('customerVPNFamily')]" },
+          "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
+          "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
+          "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
+          "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
+        }
+      }
+    }
   ]
 }
