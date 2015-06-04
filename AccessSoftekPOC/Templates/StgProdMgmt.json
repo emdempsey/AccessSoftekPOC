@@ -14,6 +14,12 @@
         "description": "Admin username for virtual machines"
       }
     },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
@@ -22,12 +28,6 @@
     },
     "DomainName": {
       "type": "string"
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "Location where resources will be provisioned"
-      }
     },
     "virtualNetworkName": {
       "type": "string",
@@ -74,7 +74,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('storageAccountName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Mgmt Storage Account"
       },
@@ -87,7 +87,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Bastion Public IP Address"
       },
@@ -103,7 +103,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('availabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "DC Availability Set"
       },
@@ -117,7 +117,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DCnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "PDC Interface"
       },
@@ -141,7 +141,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DCnicName'), '1')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
       ],
@@ -174,7 +174,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('BastionnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
         "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
@@ -211,7 +211,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('DCvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '0')]",
@@ -261,7 +261,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('DCvmName'), '01/CreateADForest')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "PDC DSC"
           },
@@ -308,7 +308,7 @@
         },
         "parameters": {
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[parameters('customerLocation')]"
           },
           "ipConfigurations": {
             "value": [
@@ -342,7 +342,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('DCvmName'), '02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
@@ -392,7 +392,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('DCvmName'), '02/CreateBDC')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "BDC DSC"
           },
@@ -429,7 +429,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('BastionvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('BastionnicName'), '0')]"
@@ -475,7 +475,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('BastionvmName'), '01/ConfigureBastion')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "Bastion DSC"
           },
