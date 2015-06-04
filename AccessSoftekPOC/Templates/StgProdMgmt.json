@@ -39,7 +39,7 @@
   "variables": {
     "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
     "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astbdcdsc.ps1.zip')]",
-    "adPDCConfigurationFunction": "aspdcdsc.ps1\\PDC",
+    "adPDCConfigurationFunction": "astpdcdsc.ps1\\PDC",
     "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astpdcdsc.ps1.zip')]",
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     "availabilitySetName": "[concat(parameters('customerPrefix'),'spmdcas')]",
