@@ -76,8 +76,9 @@ $customerPrefix = 'sky'
 $DomainName = 'devbeta.macuhosted'
 $location = 'West US'
 $virtualNetworkName = 'skyvnet01'
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'DevBetaMgmtTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'DevBetaMgmtTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -Force -Verbose
 
 
 ****Run only the Stg-ProdMgmt Environment Template****
@@ -89,8 +90,9 @@ $customerPrefix = 'sky'
 $DomainName = 'stgprod.macuhosted'
 $location = 'West US'
 $virtualNetworkName = 'skyvnet01'
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgProdMgmtTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgProdMgmtTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -Force -Verbose
 
 
 ****Run only the Dev Environment Template****
@@ -103,8 +105,9 @@ $DomainName = 'devbeta.macuhosted'
 $location = 'West US'
 $virtualNetworkName = 'skyvnet01'
 $vnetAddressSpacePrefix = '10.0'
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'DevEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -vnetAddressSpacePrefix $vnetAddressSpacePrefix
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'DevEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
 
 ****Run only the Beta Environment Template****
 $ResourceGroupName = 'ASTServices'
@@ -119,8 +122,9 @@ $vnetAddressSpacePrefix = '10.0'
 $webVMcount = 2
 $mfmVMcount = 2
 $orphVMcount = 2
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'BetaEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'BetaEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount -Force -Verbose
 
 ****Run only the Stage Environment Template****
 $ResourceGroupName = 'ASTServices'
@@ -135,8 +139,9 @@ $vnetAddressSpacePrefix = '10.0'
 $webVMcount = 2
 $mfmVMcount = 2
 $orphVMcount = 2
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount -Force -Verbose
 
 ****Run only the Prod Environment Template****
 $ResourceGroupName = 'ASTServices'
@@ -151,5 +156,6 @@ $vnetAddressSpacePrefix = '10.0'
 $webVMcount = 3
 $mfmVMcount = 3
 $orphVMcount = 3
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'ProdEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'ProdEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount -Force -Verbose
