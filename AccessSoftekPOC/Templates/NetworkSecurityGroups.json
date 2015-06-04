@@ -20,6 +20,9 @@
     "BetaWebSubnetAddressPrefix": {
       "type": "string"
     },
+    "customerLocation": {
+      "type": "string"
+    },
     "DevAppNSGName": {
       "type": "string"
     },
@@ -42,9 +45,6 @@
       "type": "string"
     },
     "DevWebSubnetAddressPrefix": {
-      "type": "string"
-    },
-    "location": {
       "type": "string"
     },
     "ProdAppNSGName": {
@@ -104,7 +104,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('PubNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Public Subnet NSG"
       },
@@ -328,7 +328,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('DevBetaMgmtNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Dev-Beta Mgmt Subnet NSG"
       },
@@ -650,7 +650,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('DevWebNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Dev Web Subnet NSG"
       },
@@ -832,7 +832,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('DevAppNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Dev App Subnet NSG"
       },
@@ -1014,7 +1014,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('DevDataNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Dev Data Subnet NSG"
       },
@@ -1154,7 +1154,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('BetaWebNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Beta Web Subnet NSG"
       },
@@ -1336,7 +1336,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('BetaAppNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Beta App Subnet NSG"
       },
@@ -1518,7 +1518,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('BetaDataNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Beta Data Subnet NSG"
       },
@@ -1658,7 +1658,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('StgProdMgmtNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Stg-Prod Mgmt Subnet NSG"
       },
@@ -1980,7 +1980,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('StgWebNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Stg Web Subnet NSG"
       },
@@ -2162,7 +2162,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('StgAppNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Stg App Subnet NSG"
       },
@@ -2344,7 +2344,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('StgDataNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Stg Data Subnet NSG"
       },
@@ -2484,7 +2484,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('ProdWebNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Prod Web Subnet NSG"
       },
@@ -2666,7 +2666,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('ProdAppNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Prod App Subnet NSG"
       },
@@ -2848,7 +2848,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('ProdDataNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Prod Data Subnet NSG"
       },

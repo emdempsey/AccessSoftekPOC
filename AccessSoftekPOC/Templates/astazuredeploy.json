@@ -162,6 +162,7 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('VNetTemplateLink')]", "contentVersion": "1.0.0.0" },
         "parameters": {
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
           "customerVPNFamily": { "value": "[parameters('customerVPNFamily')]" },
@@ -169,7 +170,6 @@
           "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
           "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
           "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
-          "location": { "value": "[parameters('customerLocation')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
         }
