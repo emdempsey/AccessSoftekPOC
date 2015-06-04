@@ -13,9 +13,8 @@ https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekP
 
 https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.param.dev.json
 
-***Vars and Commands for deployment testing***
+***Vars and Commands for full deployment testing***
 $ResourceGroupName = 'ASTServices'
-
 $location = "West US"
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.json'
 $adminPassword = 'Office365'
