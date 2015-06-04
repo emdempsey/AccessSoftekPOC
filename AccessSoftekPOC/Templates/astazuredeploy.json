@@ -208,11 +208,12 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('DevBetaMgmtTemplateLink')]" },
         "parameters": {
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "location": { "value": "[parameters('customerLocation')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" }
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "location": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
     },
@@ -228,11 +229,12 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
         "parameters": {
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "location": { "value": "[parameters('customerLocation')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
-          "adminPassword": { "value": "[parameters('adminPassword')]" }
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StgProdDomaiNName')]" },
+          "location": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
     },
