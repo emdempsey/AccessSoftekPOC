@@ -475,6 +475,34 @@
             }
           },
           {
+            "name": "RDP_Inbound_DevBetaMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 110
+            }
+          },
+          {
+            "name": "LDAP_Inbound_DevBetaMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Dev-Beta Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 111
+            }
+          },
+          {
             "name": "Deny_Inbound_All",
             "properties": {
               "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
@@ -1774,6 +1802,34 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 109
+            }
+          },
+          {
+            "name": "RDP_Inbound_StgProdMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound RDP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "3389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 110
+            }
+          },
+          {
+            "name": "LDAP_Inbound_StgProdMgmtSubnet",
+            "properties": {
+              "description": "This rule allows inbound LDAP traffic from the Stg-Prod Mgmt Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "389",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 111
             }
           },
           {
