@@ -139,6 +139,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "HTTP_Outbound_DevWeb",
             "properties": {
               "description": "This rule allows outbound HTTP traffic to the Dev Web Subnet",
@@ -248,6 +262,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 208
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -405,6 +461,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "RDP_Outbound_DevWeb",
             "properties": {
               "description": "This rule allows inbound RDP traffic to the Dev Web Subnet",
@@ -487,6 +557,48 @@
               "direction": "Outbound",
               "priority": 206
             }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevBetaMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
+            }
           }
         ]
       }
@@ -542,6 +654,20 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 102
+            }
+          },
+          {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
             }
           },
           {
@@ -612,6 +738,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 205
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevWebSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -685,6 +853,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('DevAppSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "SQL_Outbound_DevData",
             "properties": {
               "description": "This rule allows outbound SQL traffic to the Dev Data Subnet",
@@ -739,6 +921,48 @@
               "direction": "Outbound",
               "priority": 204
             }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevAppSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevAppSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevAppSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
+            }
           }
         ]
       }
@@ -783,6 +1007,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('DevDataSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "LDAP_Outbound_DevBetaMgmt",
             "properties": {
               "description": "This rule allows outbound LDAP traffic to the Dev-Beta Mgmt Subnet",
@@ -822,6 +1060,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 203
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevDataSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevDataSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('DevDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -878,6 +1158,20 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 102
+            }
+          },
+          {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
             }
           },
           {
@@ -948,6 +1242,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 205
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaWebSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -1021,6 +1357,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "SQL_Outbound_BetaData",
             "properties": {
               "description": "This rule allows outbound SQL traffic to the Beta Data Subnet",
@@ -1075,6 +1425,48 @@
               "direction": "Outbound",
               "priority": 204
             }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaAppSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
+            }
           }
         ]
       }
@@ -1119,6 +1511,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "LDAP_Outbound_DevBetaMgmt",
             "properties": {
               "description": "This rule allows outbound LDAP traffic to the Dev-Beta Mgmt Subnet",
@@ -1158,6 +1564,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 203
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('BetaDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -1315,6 +1763,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "RDP_Outbound_StgWeb",
             "properties": {
               "description": "This rule allows inbound RDP traffic to the Stg Web Subnet",
@@ -1397,6 +1859,48 @@
               "direction": "Outbound",
               "priority": 206
             }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgProdMgmtSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
+            }
           }
         ]
       }
@@ -1452,6 +1956,20 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 102
+            }
+          },
+          {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
             }
           },
           {
@@ -1522,6 +2040,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 205
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgWebSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -1595,6 +2155,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "SQL_Outbound_StgData",
             "properties": {
               "description": "This rule allows outbound SQL traffic to the Stg Data Subnet",
@@ -1649,6 +2223,48 @@
               "direction": "Outbound",
               "priority": 204
             }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgAppSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
+            }
           }
         ]
       }
@@ -1693,6 +2309,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "LDAP_Outbound_StgProdMgmt",
             "properties": {
               "description": "This rule allows outbound LDAP traffic to the Stg-Prod Mgmt Subnet",
@@ -1732,6 +2362,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 203
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('StgDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -1788,6 +2460,20 @@
               "access": "Allow",
               "direction": "Inbound",
               "priority": 102
+            }
+          },
+          {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
             }
           },
           {
@@ -1858,6 +2544,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 205
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdWebSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
@@ -1931,6 +2659,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "SQL_Outbound_ProdData",
             "properties": {
               "description": "This rule allows outbound SQL traffic to the Prod Data Subnet",
@@ -1985,6 +2727,48 @@
               "direction": "Outbound",
               "priority": 204
             }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdAppSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
+            }
           }
         ]
       }
@@ -2029,6 +2813,20 @@
             }
           },
           {
+            "name": "Deny_Inbound_All",
+            "properties": {
+              "description": "This rule denies all inbound traffic not otherwise allowed from all sources",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 199
+            }
+          },
+          {
             "name": "LDAP_Outbound_StgProdMgmt",
             "properties": {
               "description": "This rule allows outbound LDAP traffic to the Stg-Prod Mgmt Subnet",
@@ -2068,6 +2866,48 @@
               "access": "Allow",
               "direction": "Outbound",
               "priority": 203
+            }
+          },
+          {
+            "name": "HTTP_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTP traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "80",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 297
+            }
+          },
+          {
+            "name": "HTTPS_Outbound_Internet",
+            "properties": {
+              "description": "This rule allows all Outbound HTTPS traffic to the Internet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "443",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 298
+            }
+          },
+          {
+            "name": "Deny_Outbound_All",
+            "properties": {
+              "description": "This rule denies all Outbound traffic not otherwise allowed to all destinations",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "[parameters('ProdDataSubnetAddressPrefix')]",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "direction": "Inbound",
+              "priority": 299
             }
           }
         ]
