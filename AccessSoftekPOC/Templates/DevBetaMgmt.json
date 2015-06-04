@@ -269,7 +269,7 @@
           "properties": {
             "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.9",
+            "typeHandlerVersion": "1.10",
             "settings": {
               "ModulesUrl": "[variables('adPDCModulesURL')]",
               "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
@@ -401,7 +401,7 @@
           "properties": {
             "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.9",
+            "typeHandlerVersion": "1.10",
             "settings": {
               "ModulesUrl": "[variables('adBDCModulesURL')]",
               "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
@@ -484,7 +484,7 @@
           "properties": {
             "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.9",
+            "typeHandlerVersion": "1.10",
             "settings": {
               "ModulesUrl": "[variables('BastionModulesURL')]",
               "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
