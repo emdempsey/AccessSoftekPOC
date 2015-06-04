@@ -389,7 +389,7 @@
       "properties": {
         "publisher": "Microsoft.PowerShell",
         "type": "DSC",
-        "typeHandlerVersion": "1.9",
+        "typeHandlerVersion": "1.10",
         "settings": {
           "ModulesUrl": "[variables('WebDSCModulesURL')]",
           "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
@@ -482,7 +482,7 @@
       "properties": {
         "publisher": "Microsoft.PowerShell",
         "type": "DSC",
-        "typeHandlerVersion": "1.9",
+        "typeHandlerVersion": "1.10",
         "settings": {
           "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
           "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -575,7 +575,7 @@
       "properties": {
         "publisher": "Microsoft.PowerShell",
         "type": "DSC",
-        "typeHandlerVersion": "1.9",
+        "typeHandlerVersion": "1.10",
         "settings": {
           "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
           "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
@@ -656,7 +656,7 @@
       "properties": {
         "publisher": "Microsoft.PowerShell",
         "type": "DSC",
-        "typeHandlerVersion": "1.9",
+        "typeHandlerVersion": "1.10",
         "settings": {
           "ModulesUrl": "[variables('DataDSCModulesURL')]",
           "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
