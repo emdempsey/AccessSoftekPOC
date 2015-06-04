@@ -191,7 +191,7 @@
     //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
     //      "dnsNameForPublicIP": { "value": "[parameters('dnsNameForPublicIP')]" },
-    //      "location": { "value": "[parameters('customerLocation')]" },
+    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
     //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
     //    }
     //  }
@@ -212,7 +212,7 @@
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-          "location": { "value": "[parameters('customerLocation')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
@@ -233,7 +233,7 @@
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": { "value": "[parameters('StgProdDomaiNName')]" },
-          "location": { "value": "[parameters('customerLocation')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
@@ -254,7 +254,7 @@
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": {"value": "[parameters('DevBetaDomaiNName')]"},
-          "location": { "value": "[parameters('customerLocation')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
         }
@@ -276,7 +276,7 @@
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-          "location": { "value": "[parameters('customerLocation')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
           "mfmVMCount": { "value": "[parameters('BetaMFMVMCount')]" },
           "orphVMCount": { "value": "[parameters('BetaOrphVMCount')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
@@ -300,7 +300,7 @@
     //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
     //      "DomainName": {"value": "[parameters('StgProdDomaiNName')]"},
-    //      "location": { "value": "[parameters('customerLocation')]" },
+    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
     //      "mfmVMCount": { "value": "[parameters('StgMFMVMCount')]" },
     //      "orphVMCount": { "value": "[parameters('StgOrphVMCount')]" },
     //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
@@ -324,7 +324,7 @@
     //      "adminUsername": { "value": "[parameters('adminusername')]" },
     //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
     //      "DomainName": {"value": "[parameters('StgProdDomaiNName')]"},
-    //      "location": { "value": "[parameters('customerLocation')]" },
+    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
     //      "mfmVMCount": { "value": "[parameters('ProdMFMVMCount')]" },
     //      "orphVMCount": { "value": "[parameters('ProdOrphVMCount')]" },
     //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },

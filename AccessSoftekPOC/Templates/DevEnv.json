@@ -14,6 +14,12 @@
         "description": "Admin username for virtual machines"
       }
     },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
@@ -22,12 +28,6 @@
     },
     "DomainName": {
       "type": "string"
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "Location where resources will be provisioned"
-      }
     },
     "virtualNetworkName": {
       "type": "string",
@@ -106,7 +106,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('WebAppStorageAccountName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Web-App Storage Account"
       },
@@ -119,7 +119,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('DataStorageAccountName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Storage Account"
       },
@@ -132,7 +132,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('WebnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Web Interface"
       },
@@ -161,7 +161,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('MFMAppnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "MFM App Interface"
       },
@@ -190,7 +190,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('OrphAppnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Orph App Interface"
       },
@@ -219,7 +219,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DatanicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Interface"
       },
@@ -248,7 +248,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('WebvmName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '0')]"
@@ -294,7 +294,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('WebVMName'), '0/CreateWeb')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "Web DSC"
           },
@@ -330,7 +330,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('MFMAppvmName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '0')]"
@@ -376,7 +376,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('MFMAppVMName'), '0/CreateMFMApp')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "MFM App DSC"
           },
@@ -412,7 +412,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('OrphAppvmName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '0')]"
@@ -458,7 +458,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('OrphAppVMName'), '0/CreateOrphApp')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "Orph App DSC"
           },
@@ -494,7 +494,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('DatavmName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DatanicName'), '0')]"
@@ -540,7 +540,7 @@
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('DataVMName'), '0/CreateData')]",
-          "location": "[parameters('location')]",
+          "location": "[parameters('customerLocation')]",
           "tags": {
             "displayName": "Data DSC"
           },
@@ -574,7 +574,7 @@
     ////Create SQL PaaS Instance and DB for CMS
     //{
     //  "apiVersion": "2014-04-01-preview",
-    //  "location": "[parameters('Location')]",
+    //  "location": "[parameters('customerLocation')]",
     //  "name": "[variables('SQLDBServerName')]",
     //  "type": "Microsoft.Sql/servers",
     //  "tags": {

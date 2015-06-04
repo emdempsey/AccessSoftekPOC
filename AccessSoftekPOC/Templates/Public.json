@@ -14,6 +14,12 @@
         "description": "Admin username for virtual machines"
       }
     },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "customerLocation where resources will be provisioned"
+      }
+    },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
@@ -25,12 +31,6 @@
         "description": "lower case DNS name used for public access to the services"
       },
       "type": "string"
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "Location where resources will be provisioned"
-      }
     },
     "virtualNetworkName": {
       "type": "string",
@@ -68,7 +68,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('PubAvailabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Public Availability Set"
       },
@@ -82,12 +82,12 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Public IP Address"
       },
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "publicIPAlcustomerLocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
           "domainNameLabel": "[parameters('dnsNameForPublicIP')]"
         }
@@ -98,7 +98,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('PubStorageAccountName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Public Storage Account"
       },
@@ -111,7 +111,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('PubnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
       ],
@@ -123,7 +123,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('PubSubnetRef')]"
               },
@@ -147,7 +147,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('PubnicName'), '1')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
       ],
@@ -159,7 +159,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('PubSubnetRef')]"
               },
@@ -184,7 +184,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('PubvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '0')]",
@@ -234,7 +234,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('PubvmName'), '02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '1')]",
@@ -285,7 +285,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[variables('loadBalancerName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Public Load Balancer"
       },

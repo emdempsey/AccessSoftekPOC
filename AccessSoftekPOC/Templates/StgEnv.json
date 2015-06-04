@@ -14,6 +14,12 @@
         "description": "Admin username for virtual machines"
       }
     },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "customerLocation where resources will be provisioned"
+      }
+    },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
@@ -22,12 +28,6 @@
     },
     "DomainName": {
       "type": "string"
-    },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "Location where resources will be provisioned"
-      }
     },
     "mfmVMCount": {
       "type": "int",
@@ -119,7 +119,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('WebAvailabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Web Availability Set"
       },
@@ -133,7 +133,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('MFMAppAvailabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "MFM App Availability Set"
       },
@@ -147,7 +147,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('OrphAppAvailabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "OrphApp Availability Set"
       },
@@ -161,7 +161,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('DataAvailabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Availability Set"
       },
@@ -175,7 +175,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('WebStorageAccountName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Web Storage Account"
       },
@@ -188,7 +188,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('AppStorageAccountName')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "App Storage Account"
       },
@@ -201,7 +201,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('DataStorageAccountName'),'01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Storage Account"
       },
@@ -213,7 +213,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(variables('DataStorageAccountName'),'02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Storage Account"
       },
@@ -226,7 +226,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('WebnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Web Interface"
       },
@@ -235,7 +235,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('WebSubnetRef')]"
               }
@@ -254,7 +254,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('WebnicName'), '1')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Web Interface"
       },
@@ -263,7 +263,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('WebSubnetRef')]"
               }
@@ -283,7 +283,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('MFMAppnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "MFM App Interface"
       },
@@ -292,7 +292,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
@@ -311,7 +311,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('MFMAppnicName'), '1')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "MFM App Interface"
       },
@@ -320,7 +320,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
@@ -340,7 +340,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('OrphAppnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Orph App Interface"
       },
@@ -349,7 +349,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
@@ -368,7 +368,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('OrphAppnicName'), '1')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Orph App Interface"
       },
@@ -377,7 +377,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
@@ -397,7 +397,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DatanicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Interface"
       },
@@ -406,7 +406,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('DataSubnetRef')]"
               }
@@ -425,7 +425,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DatanicName'), '1')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data Interface"
       },
@@ -434,7 +434,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('DataSubnetRef')]"
               }
@@ -454,7 +454,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('FSWnicName'), '0')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "FSW Interface"
       },
@@ -463,7 +463,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAlcustomerLocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('DataSubnetRef')]"
               }
@@ -483,7 +483,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('WebvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '0')]",
@@ -534,7 +534,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('WebVMName'), copyIndex(),'/CreateWeb')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "copy": {
         "name": "Web-DSC-Loop",
         "count": "[parameters('webVMCount')]"
@@ -571,7 +571,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('WebvmName'), '02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('WebStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '1')]",
@@ -622,7 +622,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('MFMAppvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '0')]",
@@ -673,7 +673,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('MFMAppVMName'), copyIndex(),'/CreateMFM')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "copy": {
         "name": "MFM-DSC-Loop",
         "count": "[parameters('mfmVMCount')]"
@@ -710,7 +710,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('MFMAppvmName'), '02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '1')]",
@@ -761,7 +761,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('OrphAppvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '0')]",
@@ -812,7 +812,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('OrphAppVMName'), copyIndex(),'/CreateOrph')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "copy": {
         "name": "Orph-DSC-Loop",
         "count": "[parameters('OrphVMCount')]"
@@ -849,7 +849,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('OrphAppvmName'), '02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('AppStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '1')]",
@@ -900,7 +900,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('DatavmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'),'01')]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DatanicName'), '0')]",
@@ -1103,7 +1103,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('DataVMName'),'0/CreateData')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data DSC"
       },
@@ -1136,7 +1136,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('DatavmName'), '02')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'),'02')]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('DatanicName'), '1')]",
@@ -1339,7 +1339,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('DataVMName'),'1/CreateData')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "tags": {
         "displayName": "Data DSC"
       },
@@ -1373,7 +1373,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('FSWvmName'), '01')]",
-      "location": "[parameters('location')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'),'01')]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('FSWnicName'), '0')]",
