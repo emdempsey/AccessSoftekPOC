@@ -138,20 +138,20 @@
               "priority": 101
             }
           },
-          {
-            "name": "Allow_Inbound_LoadBalancer",
-            "properties": {
-              "description": "This rule allows inbound traffic from the Azure load balancers",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "sourceAddressPrefix": "AZURE_LOADBALANCER",
-              "destinationPortRange": "*",
-              "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
-              "access": "Allow",
-              "direction": "Inbound",
-              "priority": 198
-            }
-          },
+          //{
+          //  "name": "Allow_Inbound_LoadBalancer",
+          //  "properties": {
+          //    "description": "This rule allows inbound traffic from the Azure load balancers",
+          //    "protocol": "Tcp",
+          //    "sourcePortRange": "*",
+          //    "sourceAddressPrefix": "AZURE_LOADBALANCER",
+          //    "destinationPortRange": "*",
+          //    "destinationAddressPrefix": "[parameters('PubSubnetAddressPrefix')]",
+          //    "access": "Allow",
+          //    "direction": "Inbound",
+          //    "priority": 198
+          //  }
+          //},
           {
             "name": "Deny_Inbound_All",
             "properties": {
