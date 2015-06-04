@@ -470,7 +470,7 @@
         {
           "apiVersion": "2015-05-01-preview",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('BastionvmName'), '01/ConfigureDevBetaBastion')]",
+          "name": "[concat(variables('BastionvmName'), '01/ConfigureBastion')]",
           "location": "[parameters('location')]",
           "tags": {
             "displayName": "Bastion DSC"

@@ -217,25 +217,25 @@
       }
     },
     //Create Stg-Prod Mgmt Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "StgProdMgmtTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
-    //    "parameters": {
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "location": { "value": "[parameters('customerLocation')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "adminPassword": { "value": "[parameters('adminPassword')]" }
-    //    }
-    //  }
-    //},
+    {
+      "apiVersion": "2015-01-01",
+      "name": "StgProdMgmtTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
+        "parameters": {
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "location": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
+        }
+      }
+    },
     //Create Dev Environment Stack
     {
       "apiVersion": "2015-01-01",
