@@ -1,0 +1,216 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Admin password on provisioned machines"
+            }
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Admin username for virtual machines"
+            }
+        },
+        "customerLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "Location where resources will be provisioned"
+            }
+        },
+        "customerPrefix": {
+            "metadata": {
+                "description": "The 3 character prefix of the customer name"
+            },
+            "type": "string"
+        },
+        "DomainName": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the virtual Network to be created"
+            }
+        }
+    },
+    "variables": {
+        "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
+        "AppSubnetName": "[concat(variables('Environment'), 'App')]",
+        "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
+        //"AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+        "AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+        "DataimageOffer": "SQL2014-WS2012R2",
+        "DataimagePublisher": "MicrosoftSQLServer",
+        "DataimageSKU": "Standard",
+        "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
+        "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor01')]",
+        "DataSubnetName": "[concat(variables('Environment'),'Data')]",
+        "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
+        "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
+        "DataVMSize": "Standard_A4",
+        "EnvAbbr": "b",
+        "Environment": "beta",
+        "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
+        "MFMAppimageOffer": "WindowsServer",
+        "MFMAppimagePublisher": "MicrosoftWindowsServer",
+        "MFMAppimageSKU": "2012-R2-Datacenter",
+        "MFMAppnicName": "[concat(variables('Environment'),'-MFMApp-nic')]",
+        "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
+        "MFMAppVMSize": "Standard_A2",
+        "OctEnv": "Skyline-Test",
+        "OctRoleWeb": "ofm-web",
+        "OctRoleApp": "ofm-ds",
+        "OctRoleData": "ofm-ds-db",
+        "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
+        "OrphAppimageOffer": "WindowsServer",
+        "OrphAppimagePublisher": "MicrosoftWindowsServer",
+        "OrphAppimageSKU": "2012-R2-Datacenter",
+        "OrphAppnicName": "[concat(variables('Environment'),'-OrpApp-nic')]",
+        "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orpapp')]",
+        "OrphAppVMSize": "Standard_A2",
+        "storageAccountType": "Standard_LRS",
+        "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+        "WebAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'webas')]",
+        "WebimageOffer": "WindowsServer",
+        "WebimagePublisher": "MicrosoftWindowsServer",
+        "WebimageSKU": "2012-R2-Datacenter",
+        "WebnicName": "[concat(variables('Environment'),'-Web-nic')]",
+        "WebStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wstor01')]",
+        "WebSubnetName": "[concat(variables('Environment'),'Web')]",
+        "WebSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('WebSubnetName'))]",
+        "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
+        "WebVMSize": "Standard_A2",
+        "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
+        "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
+        "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
+        "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
+        "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
+        "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
+        "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
+        "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]"
+    },
+    "resources": [
+        //Create Storage account for Data VMs
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('DataStorageAccountName')]",
+            "location": "[parameters('customerLocation')]",
+            "tags": {
+                "displayName": "Data Storage Account"
+            },
+            "properties": {
+                "accountType": "[variables('storageAccountType')]"
+            }
+        },
+        //Create Data Network Interface
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('DatanicName'), '0')]",
+            "location": "[parameters('customerLocation')]",
+            "tags": {
+                "displayName": "Data Interface"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAlcustomerLocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('DataSubnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        //Create Data Virtual Machines
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat(variables('DatavmName'), '0')]",
+            "location": "[parameters('customerLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('DatanicName'), '0')]"
+            ],
+            "tags": {
+                "displayName": "Data VM"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('DataVMSize')]"
+                },
+                "osProfile": {
+                    "computername": "[concat(variables('DatavmName'), '0')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('DataimagePublisher')]",
+                        "offer": "[variables('DataimageOffer')]",
+                        "sku": "[variables('DataimageSKU')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'0-osdisk.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DatanicName')), '0')]"
+                        }
+                    ]
+                }
+            }
+        },
+            //Data DSC
+            {
+                "apiVersion": "2015-05-01-preview",
+                "type": "Microsoft.Compute/virtualMachines/extensions",
+                "name": "[concat(variables('DataVMName'),'0/CreateData')]",
+                "location": "[parameters('customerLocation')]",
+                "tags": {
+                    "displayName": "Data DSC"
+                },
+                "dependsOn": [
+                    "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
+                ],
+                "properties": {
+                    "publisher": "Microsoft.PowerShell",
+                    "type": "DSC",
+                    "typeHandlerVersion": "1.7",
+                    "settings": {
+                        "ModulesUrl": "[variables('DataDSCModulesURL')]",
+                        "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
+                        "Properties": {
+                            "DomainName": "[parameters('DomainName')]",
+                            "octEnv": "[variables('OctEnv')]",
+                            "octRole":  "[variables('OctRoleData')]",
+                            "AdminCreds": {
+                                "UserName": "[parameters('adminUserName')]",
+                                "Password": "PrivateSettingsRef:AdminPassword"
+                            }
+                        }
+                    },
+                    "protectedSettings": {
+                        "Items": {
+                            "AdminPassword": "[parameters('adminPassword')]"
+                        }
+                    }
+                }
+            }
+        ]
+        }

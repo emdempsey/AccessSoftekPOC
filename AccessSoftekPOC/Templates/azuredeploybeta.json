@@ -1,0 +1,210 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Admin password on provisioned machines"
+            },
+            "defaultValue": "Office365"
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Admin username for virtual machines"
+            },
+            "defaultValue": "nimda"
+        },
+        "BetaMFMVMCount": {
+            "type": "int",
+            "metadata": {
+                "description": "The number of Web VMs to create"
+            },
+            "defaultValue": 2
+        },
+        "BetaOrphVMCount": {
+            "type": "int",
+            "metadata": {
+                "description": "The number of Web VMs to create"
+            },
+            "defaultValue": 2
+        },
+        "BetaWebVMCount": {
+            "type": "int",
+            "metadata": {
+                "description": "The number of Web VMs to create"
+            },
+            "defaultValue": 2
+        },
+        "customerLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "Location where resources will be provisioned"
+            },
+            "defaultValue": "West US"
+        },
+        "customerPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "The 3 character prefix of the customer name"
+            },
+            "defaultValue": "ast"
+        },
+        "customerVPNAddress": {
+            "type": "string",
+            "metadata": {
+                "description": "The IP address of the VPN device on the customer network"
+            },
+            "defaultValue": "1.1.1.1"
+        },
+        "customerVPNFamily": {
+            "type": "string",
+            "metadata": {
+                "description": "The OS family of the VPN Device"
+            },
+            "defaultValue": "IOS 15.1 (dynamic)"
+        },
+        "customerVPNP2SSubnet": {
+            "type": "string",
+            "metadata": {
+                "description": "A single IP address prefix inside the list of prefixes that will be used when assigning IP addresses to incoming Point-to-Site client connection requests"
+            },
+            "defaultValue": "192.168.1.0/24"
+        },
+        "customerVPNPlatform": {
+            "type": "string",
+            "metadata": {
+                "description": "The platform of the VPN device"
+            },
+            "defaultValue": "ISR"
+        },
+        "customerVPNSubnet": {
+            "type": "string",
+            "metadata": {
+                "description": "One of the subnets onthe customer's local network"
+            },
+            "defaultValue": "172.16.0.0/16"
+        },
+        "customerVPNVendor": {
+            "type": "string",
+            "metadata": {
+                "description": "The vendor of the VPN device"
+            },
+            "defaultValue": "Cisco"
+        },
+        "DevBetaDomainName": {
+            "type": "string",
+            "metadata": {
+                "description": "Active Directory Domain Name for the Dev and Beta Environments"
+            },
+            "defaultValue": "devbeta.macuhosted"
+        },
+        "StageProdDomainName": {
+            "type": "string",
+            "metadata": {
+                "description": "Active Directory Domain Name for the Dev and Beta Environments"
+            },
+            "defaultValue": "stageprod.macuhosted"
+        },
+        "dnsNameForPublicIP": {
+            "type": "string",
+            "metadata": {
+                "description": "lower case DNS name used for public access to the services"
+            },
+            "defaultValue": "astservices"
+        },
+        "vnetAddressSpacePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "The address space used by the Virtual network"
+            },
+            "defaultValue": "10.0"
+        }
+    },
+    "variables": {
+        //"BetaEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/BetaEnv.json",
+        //"DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json",
+        //"DevEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json",
+        //"ProdEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json",
+        //"PublicTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/Public.json",
+        //"StgEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json",
+        //"StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
+        //"virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
+        //"VNetTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNet.json",
+        //"VNetUpdateTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNetUpdate.json"
+        //"BetaEnvTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/BetaEnv.json",
+        "DevBetaMgmtTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DevBetaMgmt.json",
+        "DevEnvTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DevEnv.json",
+        "ProdEnvWebTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/ProdEnvWeb.json",
+        "ProdEnvAppTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/ProdEnvApp.json",
+        "ProdEnvDataTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/ProdEnvData.json",
+        "PublicTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/Public.json",
+        "StgEnvWebTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/StgEnvWeb.json",
+        "StgEnvAppTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/StgEnvApp.json",
+        "StgEnvDataTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/StgEnvData.json",
+        "StgProdMgmtTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/StgProdMgmt.json",
+        "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
+        "VNetTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/VNet.json",
+        "VNetUpdateTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/VNetUpdate.json",
+        "BetaEnvWebTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/BetaEnvWeb.json",
+        "BetaEnvAppTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/BetaEnvApp.json",
+        "BetaEnvDataTemplateLink": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/BetaEnvData.json"
+    },
+  "resources": [
+    //Create Beta Environment Stack
+    {
+        "apiVersion": "2015-01-01",
+        "name": "BetaEnvWebTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": { "uri": "[variables('BetaEnvWebTemplateLink')]" },
+            "parameters": {
+                "adminPassword": { "value": "[parameters('adminPassword')]" },
+                "adminUsername": { "value": "[parameters('adminusername')]" },
+                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+                "customerLocation": { "value": "[parameters('customerLocation')]" },
+                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+            }
+        }
+    },
+    //Create Beta Environment Stack
+    {
+        "apiVersion": "2015-01-01",
+        "name": "BetaEnvAppTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": { "uri": "[variables('BetaEnvAppTemplateLink')]" },
+            "parameters": {
+                "adminPassword": { "value": "[parameters('adminPassword')]" },
+                "adminUsername": { "value": "[parameters('adminusername')]" },
+                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+                "customerLocation": { "value": "[parameters('customerLocation')]" },
+                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+            }
+        }
+    },
+    //Create Beta Environment Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "BetaEnvDataTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('BetaEnvDataTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+        }
+      }
+    }
+  ]
+}

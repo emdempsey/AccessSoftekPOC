@@ -39,6 +39,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\astazuredeploy.json" />
+    <None Include="Templates\azuredeploy-parameters.json" />
+    <None Include="Templates\azuredeploy.json" />
+    <None Include="Templates\azuredeploybeta.json" />
+    <None Include="Templates\BetaEnvApp.json" />
+    <None Include="Templates\BetaEnvData.json" />
+    <None Include="Templates\BetaEnvWeb.json" />
+    <None Include="Templates\BetaEnvWebDSCPush.json" />
     <None Include="Templates\DSC\astbastdsc.ps1.zip" />
     <None Include="Templates\DSC\astbdcdsc.ps1.zip" />
     <None Include="Templates\DSC\astmfmdsc.ps1.zip" />
@@ -49,10 +56,16 @@
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\nic.json" />
     <None Include="Templates\ProdEnv.json" />
+    <None Include="Templates\ProdEnvApp.json" />
+    <None Include="Templates\ProdEnvData.json" />
+    <None Include="Templates\ProdEnvWeb.json" />
     <None Include="Templates\Public.json" />
     <None Include="Templates\StgEnv.json" />
     <None Include="Templates\BetaEnv.json" />
     <None Include="Templates\DevEnv.json" />
+    <None Include="Templates\StgEnvApp.json" />
+    <None Include="Templates\StgEnvData.json" />
+    <None Include="Templates\StgEnvWeb.json" />
     <None Include="Templates\StgProdMgmt.json" />
     <None Include="Templates\DevBetaMgmt.json" />
     <None Include="Tools\AzCopy.exe" />
