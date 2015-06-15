@@ -1,509 +1,454 @@
 ﻿{
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Admin password on provisioned machines"
-      }
-    },
-    "adminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "Admin username for virtual machines"
-      }
-    },
-    "customerLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "Location where resources will be provisioned"
-      }
-    },
-    "customerPrefix": {
-      "metadata": {
-        "description": "The 3 character prefix of the customer name"
-      },
-      "type": "string"
-    },
-    "DomainName": {
-      "type": "string"
-    },
-    "virtualNetworkName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the virtual Network to be created"
-      }
-    }
-  },
-  "variables": {
-    "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
-    "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astbdcdsc.ps1.zip')]",
-    "adPDCConfigurationFunction": "astpdcdsc.ps1\\PDC",
-    "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astpdcdsc.ps1.zip')]",
-    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
-    "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmdcas')]",
-    "BastionConfigurationFunction": "astbastdsc.ps1\\Bast",
-    "BastionimageOffer": "WindowsServer",
-    "BastionimagePublisher": "MicrosoftWindowsServer",
-    "BastionimageSKU": "2012-R2-Datacenter",
-    "BastionModulesUrl": "[concat(variables('AssetLocation'),'/astbastdsc.ps1.zip')]",
-    "BastionnicName": "DevBeta-BAS-nic",
-    "BastionvmName": "[concat(parameters('customerPrefix'),'devbetabas')]",
-    "BastionVMSize": "Standard_A1",
-    "DCimageOffer": "WindowsServer",
-    "DCimagePublisher": "MicrosoftWindowsServer",
-    "DCimageSKU": "2012-R2-Datacenter",
-    "DCnicName": "DevBeta-DC-nic",
-    "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
-    "DCVMSize": "Standard_A1",
-    "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'dbmbastion')]",
-    "nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "publicIPAddressName": "[concat(parameters('customerPrefix'),'dbmpip1')]",
-    "publicIPAddressType": "Dynamic",
-    "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
-    "storageAccountType": "Standard_LRS",
-    "subnetName": "DevBetaMgmt",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
-  },
-  "resources": [
-    //Create Storage account for Mgmt VMs
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "Mgmt Storage Account"
-      },
-      "properties": {
-        "accountType": "[variables('storageAccountType')]"
-      }
-    },
-    //Create Public IP Address for Bastion host
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPAddressName')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "Bastion Public IP Address"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel": "[variables('dnsNameForPublicIP')]"
-        }
-      }
-    },
-    //Create Availability Set for the Domain Controllers
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[variables('availabilitySetName')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "DC Availability Set"
-      },
-      "properties": {
-        "platformUpdateDomainCount": 5, 
-        "platformFaultDomainCount": 3
-      }
-    },
-    //Create Network Interfaces
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('DCnicName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "PDC Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.0.14.4",
-              "subnet": {
-                "id": "[variables('subnetRef')]"
-              }
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Admin password on provisioned machines"
             }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('DCnicName'), '1')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
-      "tags": {
-        "displayName": "BDC Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.0.14.5",
-              "subnet": {
-                "id": "[variables('subnetRef')]"
-              }
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Admin username for virtual machines"
             }
-          }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.14.4",
-            "10.0.14.5"
-          ]
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('BastionnicName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
-      "tags": {
-        "displayName": "Bastion Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.0.14.6",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-              },
-              "subnet": {
-                "id": "[variables('subnetRef')]"
-              }
+        },
+        "customerLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "Location where resources will be provisioned"
             }
-          }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.14.4",
-            "10.0.14.5"
-          ]
-        }
-      }
-    },
-    //Create PDC Virtual Machine
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('DCvmName'), '01')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '0')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
-      ],
-      "tags": {
-        "displayName": "PDC VM"
-      },
-      "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
         },
-        "hardwareProfile": {
-          "vmSize": "[variables('DCVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('DCvmName'), '01')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('DCimagePublisher')]",
-            "offer": "[variables('DCimageOffer')]",
-            "sku": "[variables('DCimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'01-osdisk.vhd')]"
+        "customerPrefix": {
+            "metadata": {
+                "description": "The 3 character prefix of the customer name"
             },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
+            "type": "string"
         },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '0')]"
+        "DomainName": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the virtual Network to be created"
             }
-          ]
         }
-      },
-      "resources": [
+    },
+    "variables": {
+        "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
+        "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astbdcdsc.ps1.zip')]",
+        "adPDCConfigurationFunction": "astpdcdsc.ps1\\PDC",
+        "adPDCModulesURL": "[concat(variables('AssetLocation'),'/astpdcdsc.ps1.zip')]",
+        //"AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+        "AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+        "availabilitySetName": "[concat(parameters('customerPrefix'),'dbmdcas')]",
+        "BastionConfigurationFunction": "astbastdsc.ps1\\Bast",
+        "BastionimageOffer": "WindowsServer",
+        "BastionimagePublisher": "MicrosoftWindowsServer",
+        "BastionimageSKU": "2012-R2-Datacenter",
+        "BastionModulesUrl": "[concat(variables('AssetLocation'),'/astbastdsc.ps1.zip')]",
+        "BastionnicName": "DevBeta-BAS-nic",
+        "BastionvmName": "[concat(parameters('customerPrefix'),'devbetabas')]",
+        "BastionVMSize": "Standard_A1",
+        "DCimageOffer": "WindowsServer",
+        "DCimagePublisher": "MicrosoftWindowsServer",
+        "DCimageSKU": "2012-R2-Datacenter",
+        "DCnicName": "DevBeta-DC-nic",
+        "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
+        "DCVMSize": "Standard_A1",
+        "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'dbmbastion')]",
+        //"nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
+        "nicTemplateUri": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/nic.json",
+        "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+        "publicIPAddressName": "[concat(parameters('customerPrefix'),'dbmpip1')]",
+        "publicIPAddressType": "Dynamic",
+        "storageAccountName": "[concat(parameters('customerPrefix'),'dbmstor01')]",
+        "storageAccountType": "Standard_LRS",
+        "subnetName": "DevBetaMgmt",
+        "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+        "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
+    },
+    "resources": [
+        //Create Storage account for Mgmt VMs
         {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('DCvmName'), '01/CreateADForest')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "PDC DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('adPDCModulesURL')]",
-              "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
-                }
-              }
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageAccountName')]",
+            "location": "[parameters('customerLocation')]",
+            "tags": {
+                "displayName": "Mgmt Storage Account"
             },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
+            "properties": {
+                "accountType": "[variables('storageAccountType')]"
             }
-          }
-        }
-      ]
-    },
-    //Update the DNS servers on the PDC NIC
-    {
-      "name": "UpdateDevBetaPDCNIC",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nicTemplateUri')]",
-          "contentVersion": "1.0.0.0"
         },
-        "parameters": {
-          "location": {
-            "value": "[parameters('customerLocation')]"
-          },
-          "ipConfigurations": {
-            "value": [
-              {
-                "name": "ipconfig1",
-                "properties": {
-                  "privateIPAllocationMethod": "Static",
-                  "privateIPAddress": "10.0.14.4",
-                  "subnet": {
-                    "id": "[variables('subnetRef')]"
-                  }
+        //Create Public IP Address for Bastion host
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIPAddressName')]",
+            "location": "[parameters('customerLocation')]",
+            "tags": {
+                "displayName": "Bastion Public IP Address"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[variables('dnsNameForPublicIP')]"
                 }
-              }
+            }
+        },
+        //Create Availability Set for the Domain Controllers
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[variables('availabilitySetName')]",
+            "location": "[parameters('customerLocation')]",
+            "tags": {
+                "displayName": "DC Availability Set"
+            },
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            }
+        },
+        //Create PDC Nic
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('DCnicName'), '0')]",
+            "location": "[parameters('customerLocation')]",
+            "tags": {
+                "displayName": "PDC Interface"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "10.0.14.4",
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        //Create BDC Nic
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('DCnicName'), '1')]",
+            "location": "[parameters('customerLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+            ],
+            "tags": {
+                "displayName": "BDC Interface"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "10.0.14.5",
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        //Create Bastion Nic
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('BastionnicName'), '0')]",
+            "location": "[parameters('customerLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+            ],
+            "tags": {
+                "displayName": "Bastion Interface"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "10.0.14.6",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        //Create PDC Virtual Machine
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat(variables('DCvmName'), '01')]",
+            "location": "[parameters('customerLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '0')]",
+                "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+            ],
+            "tags": {
+                "displayName": "PDC VM"
+            },
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "[variables('DCVMSize')]"
+                },
+                "osProfile": {
+                    "computername": "[concat(variables('DCvmName'), '01')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('DCimagePublisher')]",
+                        "offer": "[variables('DCimageOffer')]",
+                        "sku": "[variables('DCimageSKU')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'01-osdisk.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '0')]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2015-05-01-preview",
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "name": "[concat(variables('DCvmName'), '01/CreateADForest')]",
+                    "location": "[parameters('customerLocation')]",
+                    "tags": {
+                        "displayName": "PDC DSC"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.PowerShell",
+                        "type": "DSC",
+                        "typeHandlerVersion": "1.7",
+                        "settings": {
+                            "ModulesUrl": "[variables('adPDCModulesURL')]",
+                            "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
+                            "Properties": {
+                                "DomainName": "[parameters('DomainName')]",
+                                "AdminCreds": {
+                                    "UserName": "[parameters('adminUserName')]",
+                                    "Password": "PrivateSettingsRef:AdminPassword"
+                                }
+                            }
+                        },
+                        "protectedSettings": {
+                            "Items": {
+                                "AdminPassword": "[parameters('adminPassword')]"
+                            }
+                        }
+                    }
+                }
             ]
-          },
-          "nicName": {
-            "value": "[concat(variables('DCnicName'), '0')]"
-          },
-          "dnsServers": {
-            "value": [
-              "10.0.14.4",
-              "10.0.14.5"
+        },
+        //Create BDC VM
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat(variables('DCvmName'), '02')]",
+            "location": "[parameters('customerLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
+                "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
+            ],
+            "tags": {
+                "displayName": "BDC VM"
+            },
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "[variables('DCVMSize')]"
+                },
+                "osProfile": {
+                    "computername": "[concat(variables('DCvmName'), '02')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('DCimagePublisher')]",
+                        "offer": "[variables('DCimageOffer')]",
+                        "sku": "[variables('DCimageSKU')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'02-osdisk.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '1')]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2015-05-01-preview",
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "name": "[concat(variables('DCvmName'), '02/CreateBDC')]",
+                    "location": "[parameters('customerLocation')]",
+                    "tags": {
+                        "displayName": "BDC DSC"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.PowerShell",
+                        "type": "DSC",
+                        "typeHandlerVersion": "1.7",
+                        "settings": {
+                            "ModulesUrl": "[variables('adBDCModulesURL')]",
+                            "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
+                            "Properties": {
+                                "DomainName": "[parameters('DomainName')]",
+                                "AdminCreds": {
+                                    "UserName": "[parameters('adminUserName')]",
+                                    "Password": "PrivateSettingsRef:AdminPassword"
+                                }
+                            }
+                        },
+                        "protectedSettings": {
+                            "Items": {
+                                "AdminPassword": "[parameters('adminPassword')]"
+                            }
+                        }
+                    }
+                }
             ]
-          }
-
-        }
-      }
-    },
-    //Create BDC VM
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('DCvmName'), '02')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('DCnicName'), '1')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
-      ],
-      "tags": {
-        "displayName": "BDC VM"
-      },
-      "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
         },
-        "hardwareProfile": {
-          "vmSize": "[variables('DCVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('DCvmName'), '02')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('DCimagePublisher')]",
-            "offer": "[variables('DCimageOffer')]",
-            "sku": "[variables('DCimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('DCvmName'),'02-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DCnicName')), '1')]"
-            }
-          ]
-        }
-      },
-      "resources": [
+        //Create Bastion VM
         {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('DCvmName'), '02/CreateBDC')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "BDC DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]",
-            "Microsoft.Resources/deployments/UpdateDevBetaPDCNIC"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('adBDCModulesURL')]",
-              "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat(variables('BastionvmName'), '01')]",
+            "location": "[parameters('customerLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('BastionnicName'), '0')]"
+            ],
+            "tags": {
+                "displayName": "Bastion VM"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('BastionVMSize')]"
+                },
+                "osProfile": {
+                    "computername": "[concat(variables('BastionvmName'), '01')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('BastionimagePublisher')]",
+                        "offer": "[variables('BastionimageOffer')]",
+                        "sku": "[variables('BastionimageSKU')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('BastionvmName'),'01-osdisk.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('BastionnicName')), '0')]"
+                        }
+                    ]
                 }
-              }
             },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
-            }
-          }
-        }
-      ]
-    },
-    //Create Bastion VM
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('BastionvmName'), '01')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('BastionnicName'), '0')]"
-      ],
-      "tags": {
-        "displayName": "Bastion VM"
-      },
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[variables('BastionVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('BastionvmName'), '01')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('BastionimagePublisher')]",
-            "offer": "[variables('BastionimageOffer')]",
-            "sku": "[variables('BastionimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('BastionvmName'),'01-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('BastionnicName')), '0')]"
-            }
-          ]
-        }
-      },
-      "resources": [
-        {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('BastionvmName'), '01/ConfigureBastion')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "Bastion DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]",
-            "Microsoft.Resources/deployments/UpdateDevBetaPDCNIC"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('BastionModulesURL')]",
-              "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
+            "resources": [
+                {
+                    "apiVersion": "2015-05-01-preview",
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "name": "[concat(variables('BastionvmName'), '01/ConfigureBastion')]",
+                    "location": "[parameters('customerLocation')]",
+                    "tags": {
+                        "displayName": "Bastion DSC"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.PowerShell",
+                        "type": "DSC",
+                        "typeHandlerVersion": "1.7",
+                        "settings": {
+                            "ModulesUrl": "[variables('BastionModulesURL')]",
+                            "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
+                            "Properties": {
+                                "DomainName": "[parameters('DomainName')]",
+                                "AdminCreds": {
+                                    "UserName": "[parameters('adminUserName')]",
+                                    "Password": "PrivateSettingsRef:AdminPassword"
+                                }
+                            }
+                        },
+                        "protectedSettings": {
+                            "Items": {
+                                "AdminPassword": "[parameters('adminPassword')]"
+                            }
+                        }
+                    }
                 }
-              }
-            },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
-            }
-          }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
