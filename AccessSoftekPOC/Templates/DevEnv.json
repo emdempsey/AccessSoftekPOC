@@ -45,8 +45,8 @@
     "variables": {
         "AppSubnetName": "[concat(variables('Environment'), 'App')]",
         "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
-        //"AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
-        "AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+        "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+        //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
         "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
         "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
         "DataimageOffer": "SQL2014-WS2012R2",
