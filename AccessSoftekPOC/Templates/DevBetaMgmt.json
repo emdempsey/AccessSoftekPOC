@@ -259,9 +259,9 @@
                         "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
                     ],
                     "properties": {
-                        "publisher": "Microsoft.PowerShell",
+                        "publisher": "Microsoft.PowerShell.Test",
                         "type": "DSC",
-                        "typeHandlerVersion": "1.7",
+                        "typeHandlerVersion": "1.10",
                         "settings": {
                             "ModulesUrl": "[variables('adPDCModulesURL')]",
                             "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
@@ -345,9 +345,9 @@
                         "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]"
                     ],
                     "properties": {
-                        "publisher": "Microsoft.PowerShell",
+                        "publisher": "Microsoft.PowerShell.Test",
                         "type": "DSC",
-                        "typeHandlerVersion": "1.7",
+                        "typeHandlerVersion": "1.10",
                         "settings": {
                             "ModulesUrl": "[variables('adBDCModulesURL')]",
                             "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
@@ -427,9 +427,9 @@
                         "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]"
                     ],
                     "properties": {
-                        "publisher": "Microsoft.PowerShell",
+                        "publisher": "Microsoft.PowerShell.Test",
                         "type": "DSC",
-                        "typeHandlerVersion": "1.7",
+                        "typeHandlerVersion": "1.10",
                         "settings": {
                             "ModulesUrl": "[variables('BastionModulesURL')]",
                             "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
