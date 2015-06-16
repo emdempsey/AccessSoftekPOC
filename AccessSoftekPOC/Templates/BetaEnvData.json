@@ -29,12 +29,18 @@
         "DomainName": {
             "type": "string"
         },
-        "virtualNetworkName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the virtual Network to be created"
-            }
+      "virtualNetworkName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the virtual Network to be created"
         }
+      },
+    "timestamp": {
+      "type": "string",
+      "metadata": {
+        "description": "Timestamp used in DSC to force the re-run of the configuration"
+      }
+    }
     },
     "variables": {
         "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
