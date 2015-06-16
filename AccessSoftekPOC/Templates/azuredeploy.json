@@ -279,28 +279,28 @@
         }
       }
     },
-    //Create Dev Environment Stack
-    {
-      "apiVersion": "2015-01-01",
-      "name": "DevEnvTemplate",
-      "type": "Microsoft.Resources/deployments",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('DevEnvTemplateLink')]" },
-        "parameters": {
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "adminUsername": { "value": "[parameters('adminusername')]" },
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-          "customerLocation": { "value": "[parameters('customerLocation')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
-        }
-      }
-    },
+    ////Create Dev Environment Stack
+    //{
+    //  "apiVersion": "2015-01-01",
+    //  "name": "DevEnvTemplate",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "dependsOn": [
+    //    "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": { "uri": "[variables('DevEnvTemplateLink')]" },
+    //    "parameters": {
+    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
+    //      "adminUsername": { "value": "[parameters('adminusername')]" },
+    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+    //      "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
+    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+    //      "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
+    //    }
+    //  }
+    //},
     //Create Beta Environment Stack
     {
         "apiVersion": "2015-01-01",
