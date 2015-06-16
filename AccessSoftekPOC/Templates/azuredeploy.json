@@ -162,6 +162,12 @@
         "description": "The address space used by the Virtual network"
       },
       "defaultValue": "10.0"
+    },
+    "timestamp": {
+      "type": "string",
+      "metadata": {
+        "description": "Timestamp used in DSC to force the re-run of the configuration"
+      }
     }
   },
   "variables": {
@@ -256,7 +262,8 @@
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
           "customerLocation": { "value": "[parameters('customerLocation')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "timestamp": { "value": "[parameters('timestamp')]" }
         }
       }
     },
@@ -277,7 +284,8 @@
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": { "value": "[parameters('StageProdDomainName')]" },
           "customerLocation": { "value": "[parameters('customerLocation')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "timestamp": { "value": "[parameters('timestamp')]" }
         }
       }
     },
@@ -320,7 +328,8 @@
                 "customerPrefix": { "value": "[parameters('customerPrefix')]" },
                 "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
                 "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+              "timestamp": { "value": "[parameters('timestamp')]" }
             }
         }
     },
@@ -341,7 +350,8 @@
                 "customerPrefix": { "value": "[parameters('customerPrefix')]" },
                 "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
                 "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+              "timestamp": { "value": "[parameters('timestamp')]" }
             }
         }
     },
@@ -362,7 +372,8 @@
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
           "customerLocation": { "value": "[parameters('customerLocation')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "timestamp": { "value": "[parameters('timestamp')]" }
         }
       }
     }//,

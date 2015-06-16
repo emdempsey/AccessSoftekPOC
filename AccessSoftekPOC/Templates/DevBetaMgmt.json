@@ -1,41 +1,47 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "adminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Admin password on provisioned machines"
-            }
-        },
-        "adminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Admin username for virtual machines"
-            }
-        },
-        "customerLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Location where resources will be provisioned"
-            }
-        },
-        "customerPrefix": {
-            "metadata": {
-                "description": "The 3 character prefix of the customer name"
-            },
-            "type": "string"
-        },
-        "DomainName": {
-            "type": "string"
-        },
-        "virtualNetworkName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the virtual Network to be created"
-            }
-        }
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
     },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string"
+    },
+    "DomainName": {
+      "type": "string"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual Network to be created"
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "metadata": {
+        "description": "Timestamp used in DSC to force the re-run of the configuration"
+      }
+    }
+  },
     "variables": {
         "adBDCConfigurationFunction": "astbdcdsc.ps1\\BDC",
         "adBDCModulesURL": "[concat(variables('AssetLocation'),'/astbdcdsc.ps1.zip')]",
@@ -434,7 +440,8 @@
                             "ModulesUrl": "[variables('BastionModulesURL')]",
                             "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
                             "Properties": {
-                                "DomainName": "[parameters('DomainName')]",
+                              "DomainName": "[parameters('DomainName')]",
+                              "timestamp": "[parameters('timestamp')]",
                                 "AdminCreds": {
                                     "UserName": "[parameters('adminUserName')]",
                                     "Password": "PrivateSettingsRef:AdminPassword"
