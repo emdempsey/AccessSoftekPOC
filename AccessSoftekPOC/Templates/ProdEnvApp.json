@@ -58,8 +58,8 @@
         "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
         "AppSubnetName": "[concat(variables('Environment'), 'App')]",
         "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
-        //"AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
-        "AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+        "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+        //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
         "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
         "DataDiskSize": 1023,
         "DataDSCConfigurationFunction": "astsqlproddsc.ps1\\sql",
@@ -360,9 +360,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -447,9 +447,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'02')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -534,9 +534,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'03')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -621,9 +621,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
@@ -708,9 +708,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'02')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
@@ -795,9 +795,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'03')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",

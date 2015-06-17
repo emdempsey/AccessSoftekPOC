@@ -58,8 +58,8 @@
         "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
         "AppSubnetName": "[concat(variables('Environment'), 'App')]",
         "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
-        //"AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
-        "AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+        "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+        //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
         "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
         "DataDiskSize": 1023,
         "DataDSCConfigurationFunction": "astsqlproddsc.ps1\\sql",
@@ -445,9 +445,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('DataDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
@@ -685,9 +685,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'02')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('DataDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
@@ -772,9 +772,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell",
+                "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.7",
+                "typeHandlerVersion": "1.10.4",
                 "settings": {
                     "ModulesUrl": "[variables('FSWDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('FSWDSCConfigurationFunction')]",
