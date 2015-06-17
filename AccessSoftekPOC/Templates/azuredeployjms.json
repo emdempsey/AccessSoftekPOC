@@ -203,27 +203,27 @@
   },
   "resources": [
     //Create Virtual Network
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "VNetTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('VNetTemplateLink')]", "contentVersion": "1.0.0.0" },
-    //    "parameters": {
-    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
-    //      "customerVPNFamily": { "value": "[parameters('customerVPNFamily')]" },
-    //      "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
-    //      "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
-    //      "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
-    //      "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
-    //    }
-    //  }
-    //},
+    {
+      "apiVersion": "2015-01-01",
+      "name": "VNetTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('VNetTemplateLink')]", "contentVersion": "1.0.0.0" },
+        "parameters": {
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "customerVPNAddress": { "value": "[parameters('customerVPNAddress')]" },
+          "customerVPNFamily": { "value": "[parameters('customerVPNFamily')]" },
+          "customerVPNP2SSubnet": { "value": "[parameters('customerVPNP2SSubnet')]" },
+          "customerVPNPlatform": { "value": "[parameters('customerVPNPlatform')]" },
+          "customerVPNSubnet": { "value": "[parameters('customerVPNSubnet')]" },
+          "customerVPNVendor": { "value": "[parameters('customerVPNVendor')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "vnetAddressSpacePrefix": { "value": "[parameters('vnetAddressSpacePrefix')]" }
+        }
+      }
+    },
     //Create Public resources
     //{
     //  "apiVersion": "2015-01-01",
@@ -267,28 +267,28 @@
     //    }
     //  }
     //},
-    ////Create Stg-Prod Mgmt Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "StgProdMgmtTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
-    //    "parameters": {
-    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "timestamp": { "value": "[parameters('timestamp')]" }
-    //    }
-    //  }
-    //},
+    //Create Stg-Prod Mgmt Stack
+    {
+      "apiVersion": "2015-01-01",
+      "name": "StgProdMgmtTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgProdMgmtTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "timestamp": { "value": "[parameters('timestamp')]" }
+        }
+      }
+    },
     ////Create Dev Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
