@@ -165,9 +165,10 @@
     },
     "timestamp": {
       "type": "string",
-      "metadata": {
-        "description": "Timestamp used in DSC to force the re-run of the configuration"
-      }
+        "metadata": {
+            "description": "Timestamp used in DSC to force the re-run of the configuration"
+        },
+        "defaultValue": "Tricky"
     }
   },
   "variables": {
