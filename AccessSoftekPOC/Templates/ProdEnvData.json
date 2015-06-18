@@ -1,92 +1,87 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "adminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Admin password on provisioned machines"
-            }
-        },
-        "adminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Admin username for virtual machines"
-            }
-        },
-        "customerLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "customerLocation where resources will be provisioned"
-            }
-        },
-        "customerPrefix": {
-            "metadata": {
-                "description": "The 3 character prefix of the customer name"
-            },
-            "type": "string"
-        },
-        "DomainName": {
-            "type": "string"
-        },
-        //"mfmVMCount": {
-        //    "type": "int",
-        //    "metadata": {
-        //        "description": "The number of MFM VMs to create"
-        //    }
-        //},
-        //"orphVMCount": {
-        //    "type": "int",
-        //    "metadata": {
-        //        "description": "The number of Orph VMs to create"
-        //    }
-        //},
-        "virtualNetworkName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the virtual Network to be created"
-            }
-        },
-        //"webVMCount": {
-        //    "type": "int",
-        //    "metadata": {
-        //        "description": "The number of Web VMs to create"
-        //    }
-        //}
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
     },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "customerLocation where resources will be provisioned"
+      }
+    },
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string"
+    },
+    "DomainName": {
+      "type": "string"
+    },
+    "sqlServerServiceAccountPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The SQL Server Service account password"
+      }
+    },
+    "sqlServerServiceAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The SQL Server Service account name"
+      },
+      "defaultValue": "sqlservice"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual Network to be created"
+      }
+    }
+  },
     "variables": {
-        "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
-        //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
-        "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
-        "DataDiskSize": 1023,
-        "DataDSCConfigurationFunction": "astsqlproddsc.ps1\\sql",
-        "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqlproddsc.ps1.zip')]",
-        "DataimageOffer": "SQL2014-WS2012R2",
-        "DataimagePublisher": "MicrosoftSQLServer",
-        "DataimageSKU": "Enterprise",
-        "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
-        "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor')]",
-        "DataSubnetName": "[concat(variables('Environment'),'Data')]",
-        "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
-        "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
-        "DataVMSize": "Standard_A4",
-        "EnvAbbr": "p",
-        "Environment": "prod",
-        "FSWDSCConfigurationFunction": "astfwdsc.ps1\\fw",
-        "FSWDSCModulesURL": "[concat(variables('AssetLocation'),'/astfwdsc.ps1.zip')]",
-        "FSWimageOffer": "WindowsServer",
-        "FSWimagePublisher": "MicrosoftWindowsServer",
-        "FSWimageSKU": "2012-R2-Datacenter",
-        "FSWnicName": "[concat(variables('Environment'),'-FSW-nic')]",
-        "FSWSharePath":  "FSW",
-        "FSWvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'fsw')]",
-        "FSWVMSize": "Standard_A1",
-        "OctEnv": "Skyline-Stage",
-        "OctRoleWeb": "ofm-web",
-        "OctRoleApp": "ofm-ds",
-        "OctRoleData": "ofm-ds-db",
-        "storageAccountType": "Standard_LRS",
-        "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
+      "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+      //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+      "DataAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'dataas')]",
+      "DataDiskSize": 1023,
+      "DataDSCConfigurationFunction": "astsqlproddsc.ps1\\sql",
+      "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqlproddsc.ps1.zip')]",
+      "DataimageOffer": "SQL2014-WS2012R2",
+      "DataimagePublisher": "MicrosoftSQLServer",
+      "DataimageSKU": "Enterprise",
+      "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
+      "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor')]",
+      "DataSubnetName": "[concat(variables('Environment'),'Data')]",
+      "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
+      "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
+      "DataVMSize": "Standard_A4",
+      "EnvAbbr": "p",
+      "Environment": "prod",
+      "FSWDSCConfigurationFunction": "astfwdsc.ps1\\fw",
+      "FSWDSCModulesURL": "[concat(variables('AssetLocation'),'/astfwdsc.ps1.zip')]",
+      "FSWimageOffer": "WindowsServer",
+      "FSWimagePublisher": "MicrosoftWindowsServer",
+      "FSWimageSKU": "2012-R2-Datacenter",
+      "FSWnicName": "[concat(variables('Environment'),'-FSW-nic')]",
+      "FSWSharePath":  "FSW",
+      "FSWvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'fsw')]",
+      "FSWVMSize": "Standard_A1",
+      "OctEnv": "Skyline-Stage",
+      "OctRoleWeb": "ofm-web",
+      "OctRoleApp": "ofm-ds",
+      "OctRoleData": "ofm-ds-db",
+      "storageAccountType": "Standard_LRS",
+      "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
     },
     "resources": [
         //Create Data Availability Set
