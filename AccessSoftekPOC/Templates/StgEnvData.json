@@ -512,6 +512,8 @@
           "properties": {
             "domainName": "[parameters('domainName')]",
             "sharePath": "[variables('FSWSharePath')]",
+            "octEnv": "[variables('OctEnv')]",
+            "octRole":  "[variables('OctRoleData')]",
             "adminCreds": {
               "userName": "[parameters('adminUserName')]",
               "password": "PrivateSettingsRef:adminPassword"
@@ -548,6 +550,8 @@
           "properties": {
             "domainName": "[parameters('domainName')]",
             "sqlAlwaysOnEndpointName": "[variables('sqlAOEPName')]",
+            "octEnv": "[variables('OctEnv')]",
+            "octRole":  "[variables('OctRoleData')]",
             "adminCreds": {
               "userName": "[parameters('adminUserName')]",
               "password": "PrivateSettingsRef:adminPassword"
@@ -601,6 +605,8 @@
             "secondaryReplica": "[concat(variables('DataVMName'),'02')]",
             "databaseNames": "[variables('databaseNames')]",
             "dnsServerName": "[variables('adPDCVMName')]",
+            "octEnv": "[variables('OctEnv')]",
+            "octRole":  "[variables('OctRoleData')]",
             "adminCreds": {
               "userName": "[parameters('adminUserName')]",
               "password": "PrivateSettingsRef:adminPassword"
