@@ -500,7 +500,7 @@
         "displayName": "FSW DSC"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'),'01')]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell.Test",
