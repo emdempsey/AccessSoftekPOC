@@ -46,7 +46,6 @@
     <None Include="Templates\DSC\astbastproddsc.ps1.zip" />
     <None Include="Templates\DSC\astbdcdsc.ps1.zip" />
     <None Include="Templates\DSC\astbdcproddsc.ps1.zip" />
-    <None Include="Templates\DSC\astfwdsc.ps1.zip" />
     <None Include="Templates\DSC\astmfmdsc.ps1.zip" />
     <None Include="Templates\DSC\astmfmproddsc.ps1.zip" />
     <None Include="Templates\DSC\astorphbeta1dsc.ps1.zip" />
@@ -59,7 +58,6 @@
     <None Include="Templates\DSC\astwebbeta1dsc.ps1.zip" />
     <None Include="Templates\DSC\astwebbeta2dsc.ps1.zip" />
     <None Include="Templates\DSC\astwebdsc.ps1.zip" />
-    <None Include="Templates\DSC\astwebdscpush.ps1.zip" />
     <None Include="Templates\DSC\astwebproddsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\nic.json" />
