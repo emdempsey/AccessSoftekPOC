@@ -103,7 +103,7 @@
     "sqlBEAddressPoolID": "[concat(variables('sqllbID'),'/backendAddressPools/',variables('lbBE'))]",
     "sqllbFEConfigID": "[concat(variables('sqllbID'),'/frontendIPConfigurations/',variables('lbFE'))]",
     "sqllbID": "[resourceId('Microsoft.Network/loadBalancers',variables('sqlLBName'))]",
-    "sqlLBIPAddress": "10.0.10.6",
+    "sqlLBIPAddress": "10.0.10.16",
     "sqlLBName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'SQLLB')]",
     "sqllbProbeID": "[concat(variables('sqllbID'),'/probes/',variables('sqlAOProbe'))]",
     "storageAccountType": "Standard_LRS",
