@@ -35,13 +35,10 @@
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
     <Content Include="Templates\VNetUpdate.json" />
     <Content Include="Templates\VNet.json" />
-    <None Include="Templates\astazuredeploy.param.dev.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\astazuredeploy.json" />
     <None Include="Templates\azuredeploy-parameters.json" />
     <None Include="Templates\azuredeploy.json" />
-    <None Include="Templates\azuredeploybeta.json" />
     <None Include="Templates\BetaEnvApp.json" />
     <None Include="Templates\BetaEnvData.json" />
     <None Include="Templates\BetaEnvWeb.json" />
