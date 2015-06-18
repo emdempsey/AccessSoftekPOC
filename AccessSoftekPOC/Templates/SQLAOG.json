@@ -52,8 +52,8 @@
         "DataimageOffer": "SQL2014-WS2012R2",
         "DataimagePublisher": "MicrosoftSQLServer",
         "DataimageSKU": "Standard",
-        "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
-        "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor01')]",
+        "DatanicName": "[concat(variables('Environment'),'-Data2-nic')]",
+        "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor02')]",
         "DataSubnetName": "[concat(variables('Environment'),'Data')]",
         "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
         "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
@@ -111,18 +111,6 @@
     },
     "resources": [
     //Create Storage account for Web and App VMs
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('WebAppStorageAccountName')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "Web-App Storage Account"
-      },
-      "properties": {
-        "accountType": "[variables('storageAccountType')]"
-      }
-    },
     //Create Storage account for Data VMs
     {
       "apiVersion": "2015-05-01-preview",
@@ -137,74 +125,8 @@
       }
     },
     //Create Web Network Interface
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('WebnicName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "Web Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-            {
-                "name": "ipconfig1",
-                "properties": {
-                    "privateIPAllocationMethod": "Dynamic",
-                    "subnet": {
-                        "id": "[variables('WebSubnetRef')]"
-                    }
-                }
-            }
-        ]
-      }
-    },
     //Create MFM App Network Interface
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('MFMAppnicName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "MFM App Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('AppSubnetRef')]"
-              }
-            }
-          }
-        ]
-      }
-    },
     //Create Orph App Network Interface
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('OrphAppnicName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "tags": {
-        "displayName": "Orph App Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('AppSubnetRef')]"
-              }
-            }
-          }
-        ]
-      }
-    },
     //Create Data Network Interface
     {
       "apiVersion": "2015-05-01-preview",
@@ -229,262 +151,13 @@
       }
     },
     //Create Web Virtual Machine
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('WebvmName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '0')]"
-      ],
-      "tags": {
-        "displayName": "Web VM"
-      },
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[variables('WebVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('WebvmName'), '0')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('WebimagePublisher')]",
-            "offer": "[variables('WebimageOffer')]",
-            "sku": "[variables('WebimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'0-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('WebnicName')), '0')]"
-            }
-          ]
-        }
-      },
-      "resources": [
-        {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('WebVMName'), '0/CreateWeb')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "Web DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'0')]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('WebDSCModulesURL')]",
-              "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleWeb')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
-                }
-              }
-            },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
-            }
-          }
-        }
-      ]
-    },
     //Create MFM App Virtual Machine
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('MFMAppvmName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('MFMAppnicName'), '0')]"
-      ],
-      "tags": {
-        "displayName": "MFM App VM"
-      },
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[variables('MFMAppVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('MFMAppvmName'), '0')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('MFMAppimagePublisher')]",
-            "offer": "[variables('MFMAppimageOffer')]",
-            "sku": "[variables('MFMAppimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('MFMAppvmName'),'0-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('MFMAppnicName')), '0')]"
-            }
-          ]
-        }
-      },
-      "resources": [
-        {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('MFMAppVMName'), '0/CreateMFMApp')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "MFM App DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'0')]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
-              "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleApp')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
-                }
-              }
-            },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
-            }
-          }
-        }
-      ]
-    },
     ////Create Orph App Virtual Machine
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('OrphAppvmName'), '0')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('WebAppStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('OrphAppnicName'), '0')]"
-      ],
-      "tags": {
-        "displayName": "Orph App VM"
-      },
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[variables('OrphAppVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('OrphAppvmName'), '0')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('OrphAppimagePublisher')]",
-            "offer": "[variables('OrphAppimageOffer')]",
-            "sku": "[variables('OrphAppimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('WebAppStorageAccountName'),'.blob.core.windows.net/vhds/',variables('OrphAppvmName'),'0-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('OrphAppnicName')), '0')]"
-            }
-          ]
-        }
-      },
-      "resources": [
-        {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('OrphAppVMName'), '0/CreateOrphApp')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "Orph App DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'0')]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
-              "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleApp')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
-                }
-              }
-            },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
-            }
-          }
-        }
-      ]
-    },
     //Create Data Virtual Machine
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('DatavmName'), '0')]",
+      "name": "[concat(variables('DatavmName'), '2')]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'))]",
@@ -527,41 +200,7 @@
         }
       },
       "resources": [
-        {
-          "apiVersion": "2015-05-01-preview",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('DataVMName'), '0/CreateData')]",
-          "location": "[parameters('customerLocation')]",
-          "tags": {
-            "displayName": "Data DSC"
-          },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
-            "type": "DSC",
-            "typeHandlerVersion": "1.10",
-            "settings": {
-              "ModulesUrl": "[variables('DataDSCModulesURL')]",
-              "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
-              "Properties": {
-                "DomainName": "[parameters('DomainName')]",
-                "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleData')]",
-                "AdminCreds": {
-                  "UserName": "[parameters('adminUserName')]",
-                  "Password": "PrivateSettingsRef:AdminPassword"
-                }
-              }
-            },
-            "protectedSettings": {
-              "Items": {
-                "AdminPassword": "[parameters('adminPassword')]"
-              }
-            }
-          }
-        }
+        
       ]
     } //,
     ////Create SQL PaaS Instance and DB for CMS

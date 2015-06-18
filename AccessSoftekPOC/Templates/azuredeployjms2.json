@@ -49,7 +49,7 @@
       "metadata": {
         "description": "The 3 character prefix of the customer name"
       },
-      "defaultValue": "ast"
+      "defaultValue": "jsb"
     },
     "customerVPNAddress": {
       "type": "string",
@@ -112,7 +112,7 @@
       "metadata": {
         "description": "lower case DNS name used for public access to the services"
       },
-      "defaultValue": "astservices"
+      "defaultValue": "jsbservices"
     },
     //"ProdMFMVMCount": {
     //    "type": "int",
