@@ -247,27 +247,27 @@
     //  }
     //},
     //Create Dev-Beta Mgmt Stack
-    //{
-    //  "apiVersion": "2015-01-01",
-    //  "name": "DevBetaMgmtTemplate",
-    //  "type": "Microsoft.Resources/deployments",
-    //  "dependsOn": [
-    //    "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
-    //  ],
-    //  "properties": {
-    //    "mode": "Incremental",
-    //    "templateLink": { "uri": "[variables('DevBetaMgmtTemplateLink')]" },
-    //    "parameters": {
-    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
-    //      "adminUsername": { "value": "[parameters('adminusername')]" },
-    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-    //      "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
-    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-    //      "timestamp": { "value": "[parameters('timestamp')]" }
-    //    }
-    //  }
-    //},
+    {
+      "apiVersion": "2015-01-01",
+      "name": "DevBetaMgmtTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('DevBetaMgmtTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "timestamp": { "value": "[parameters('timestamp')]" }
+        }
+      }
+    },
     //Create Stg-Prod Mgmt Stack
     //{
     //  "apiVersion": "2015-01-01",
@@ -294,7 +294,10 @@
     {
       "apiVersion": "2015-01-01",
       "name": "DevEnvTemplate",
-      "type": "Microsoft.Resources/deployments",
+        "type": "Microsoft.Resources/deployments",
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+        ],
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('DevEnvTemplateLink')]" },
