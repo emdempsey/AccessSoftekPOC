@@ -2,46 +2,40 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "adminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Admin password on provisioned machines"
-            }
-        },
-        "adminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Admin username for virtual machines"
-            }
-        },
-        "customerLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Location where resources will be provisioned"
-            }
-        },
-        "customerPrefix": {
-            "metadata": {
-                "description": "The 3 character prefix of the customer name"
-            },
-            "type": "string"
-        },
-        "DomainName": {
-            "type": "string"
-        },
-      "virtualNetworkName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of the virtual Network to be created"
-        }
+      "adminPassword": {
+          "type": "securestring",
+          "metadata": {
+              "description": "Admin password on provisioned machines"
+          }
       },
-    "timestamp": {
+      "adminUsername": {
+          "type": "string",
+          "metadata": {
+              "description": "Admin username for virtual machines"
+          }
+      },
+      "customerLocation": {
+          "type": "string",
+          "metadata": {
+              "description": "Location where resources will be provisioned"
+          }
+      },
+      "customerPrefix": {
+          "metadata": {
+              "description": "The 3 character prefix of the customer name"
+          },
+          "type": "string"
+      },
+      "DomainName": {
+          "type": "string"
+      },
+    "virtualNetworkName": {
       "type": "string",
       "metadata": {
-        "description": "Timestamp used in DSC to force the re-run of the configuration"
+        "description": "The name of the virtual Network to be created"
       }
     }
-    },
+  },
   "variables": {
     "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
     "AppSubnetName": "[concat(variables('Environment'), 'App')]",

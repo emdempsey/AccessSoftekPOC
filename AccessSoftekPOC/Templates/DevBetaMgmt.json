@@ -34,12 +34,6 @@
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
-    },
-    "timestamp": {
-      "type": "string",
-      "metadata": {
-        "description": "Timestamp used in DSC to force the re-run of the configuration"
-      }
     }
   },
     "variables": {
@@ -441,7 +435,6 @@
                             "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
                             "Properties": {
                               "DomainName": "[parameters('DomainName')]",
-                              "timestamp": "[parameters('timestamp')]",
                                 "AdminCreds": {
                                     "UserName": "[parameters('adminUserName')]",
                                     "Password": "PrivateSettingsRef:AdminPassword"
