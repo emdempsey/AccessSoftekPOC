@@ -500,7 +500,6 @@
         "displayName": "FSW DSC"
       },
       "dependsOn": [
-        "Microsoft.Resources/deployments/UpdateSQLWNic",
         "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'))]"
       ],
       "properties": {
