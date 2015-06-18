@@ -285,7 +285,7 @@
             "properties": {
                 "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10.4",
+                "typeHandlerVersion": "1.10",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -372,7 +372,7 @@
             "properties": {
                 "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10.4",
+                "typeHandlerVersion": "1.10",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -459,7 +459,7 @@
             "properties": {
                 "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10.4",
+                "typeHandlerVersion": "1.10",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
@@ -546,7 +546,7 @@
             "properties": {
                 "publisher": "Microsoft.PowerShell.Test",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10.4",
+                "typeHandlerVersion": "1.10",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
