@@ -42,7 +42,6 @@
     <None Include="Templates\BetaEnvApp.json" />
     <None Include="Templates\BetaEnvData.json" />
     <None Include="Templates\BetaEnvWeb.json" />
-    <None Include="Templates\BetaEnvWebDSCPush.json" />
     <None Include="Templates\DSC\astbastdsc.ps1.zip" />
     <None Include="Templates\DSC\astbastproddsc.ps1.zip" />
     <None Include="Templates\DSC\astbdcdsc.ps1.zip" />

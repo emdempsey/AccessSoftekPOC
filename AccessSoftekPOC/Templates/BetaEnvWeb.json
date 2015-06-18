@@ -37,48 +37,14 @@
     }
   },
   "variables": {
-    "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
-    "AppSubnetName": "[concat(variables('Environment'), 'App')]",
-    "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
-    "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
-    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
-    "DataimageOffer": "SQL2014-WS2012R2",
-    "DataimagePublisher": "MicrosoftSQLServer",
-    "DataimageSKU": "Standard",
-    "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
-    "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor01')]",
-    "DataSubnetName": "[concat(variables('Environment'),'Data')]",
-    "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
-    "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
-    "DataVMSize": "Standard_A4",
     "EnvAbbr": "b",
     "Environment": "beta",
-    "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
-    "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
-    "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
-    "MFMAppimageOffer": "WindowsServer",
-    "MFMAppimagePublisher": "MicrosoftWindowsServer",
-    "MFMAppimageSKU": "2012-R2-Datacenter",
-    "MFMAppnicName": "[concat(variables('Environment'),'-MFMApp-nic')]",
-    "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
-    "MFMAppVMSize": "Standard_A2",
     "OctEnv": "Skyline-Test",
     "OctRoleApp": "ofm-ds",
     "OctRoleData": "ofm-ds-db",
     "OctRoleWeb": "ofm-web",
-    "Orph1AppDSCConfigurationFunction": "astorphbeta1dsc.ps1\\orph",
-    "Orph1AppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphbeta1dsc.ps1.zip')]",
-    "Orph2AppDSCConfigurationFunction": "astorphbeta2dsc.ps1\\orph",
-    "Orph2appDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphbeta2dsc.ps1.zip')]",
-    "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
-    "OrphAppimageOffer": "WindowsServer",
-    "OrphAppimagePublisher": "MicrosoftWindowsServer",
-    "OrphAppimageSKU": "2012-R2-Datacenter",
-    "OrphAppnicName": "[concat(variables('Environment'),'-OrpApp-nic')]",
-    "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orpapp')]",
-    "OrphAppVMSize": "Standard_A2",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "Web1DSCConfigurationFunction": "astwebbeta1dsc.ps1\\web",
@@ -96,253 +62,253 @@
     "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
     "WebVMSize": "Standard_A2"
   },
-    "resources": [
-        //Create Web Availability Set
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/availabilitySets",
-            "name": "[variables('WebAvailabilitySetName')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Web Availability Set"
-            },
-            "properties": {
-                "platformUpdateDomainCount": 5,
-                "platformFaultDomainCount": 3
-            }
+  "resources": [
+    //Create Web Availability Set
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Compute/availabilitySets",
+        "name": "[variables('WebAvailabilitySetName')]",
+        "location": "[parameters('customerLocation')]",
+        "tags": {
+            "displayName": "Web Availability Set"
         },
-        //Create Storage account for Web VMs
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[variables('WebStorageAccountName')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Web Storage Account"
-            },
-            "properties": {
-                "accountType": "[variables('storageAccountType')]"
-            }
+        "properties": {
+            "platformUpdateDomainCount": 5,
+            "platformFaultDomainCount": 3
+        }
+    },
+    //Create Storage account for Web VMs
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Storage/storageAccounts",
+        "name": "[variables('WebStorageAccountName')]",
+        "location": "[parameters('customerLocation')]",
+        "tags": {
+            "displayName": "Web Storage Account"
         },
-        //Create Web Network Interfaces
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('WebnicName'), '0')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Web Interface 0"
-            },
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "privateIPAlcustomerLocationMethod": "Dynamic",
-                            "subnet": {
-                                "id": "[variables('WebSubnetRef')]"
-                            }
+        "properties": {
+            "accountType": "[variables('storageAccountType')]"
+        }
+    },
+    //Create Web Network Interfaces
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[concat(variables('WebnicName'), '0')]",
+        "location": "[parameters('customerLocation')]",
+        "tags": {
+            "displayName": "Web Interface 0"
+        },
+        "properties": {
+            "ipConfigurations": [
+                {
+                    "name": "ipconfig1",
+                    "properties": {
+                        "privateIPAlcustomerLocationMethod": "Dynamic",
+                        "subnet": {
+                            "id": "[variables('WebSubnetRef')]"
                         }
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[concat(variables('WebnicName'), '1')]",
+        "location": "[parameters('customerLocation')]",
+        "tags": {
+            "displayName": "Web Interface 1"
+        },
+        "properties": {
+            "ipConfigurations": [
+                {
+                    "name": "ipconfig1",
+                    "properties": {
+                        "privateIPAlcustomerLocationMethod": "Dynamic",
+                        "subnet": {
+                            "id": "[variables('WebSubnetRef')]"
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    //Create Web Virtual Machines
+    // Web 1
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Compute/virtualMachines",
+        "name": "[concat(variables('WebvmName'), '01')]",
+        "location": "[parameters('customerLocation')]",
+        "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', variables('WebStorageAccountName'))]",
+            "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '0')]",
+            "[concat('Microsoft.Compute/availabilitySets/', variables('WebAvailabilitySetName'))]"
+        ],
+        "tags": {
+            "displayName": "Web 1 VM"
+        },
+        "properties": {
+            "availabilitySet": {
+                "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('WebAvailabilitySetName'))]"
+            },
+            "hardwareProfile": {
+                "vmSize": "[variables('WebVMSize')]"
+            },
+            "osProfile": {
+                "computername": "[concat(variables('WebvmName'), '01')]",
+                "adminUsername": "[parameters('adminUsername')]",
+                "adminPassword": "[parameters('adminPassword')]"
+            },
+            "storageProfile": {
+                "imageReference": {
+                    "publisher": "[variables('WebimagePublisher')]",
+                    "offer": "[variables('WebimageOffer')]",
+                    "sku": "[variables('WebimageSKU')]",
+                    "version": "latest"
+                },
+                "osDisk": {
+                    "name": "osdisk",
+                    "vhd": {
+                        "uri": "[concat('http://',variables('WebStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'01-osdisk.vhd')]"
+                    },
+                    "caching": "ReadWrite",
+                    "createOption": "FromImage"
+                }
+            },
+            "networkProfile": {
+                "networkInterfaces": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('WebnicName')),'0')]"
                     }
                 ]
             }
+        }
+    },
+    //Web 1 DSC
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "[concat(variables('WebVMName'),'01/CreateWeb')]",
+        "location": "[parameters('customerLocation')]",
+        "tags": {
+            "displayName": "Web 1 DSC"
         },
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('WebnicName'), '1')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Web Interface 1"
-            },
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "privateIPAlcustomerLocationMethod": "Dynamic",
-                            "subnet": {
-                                "id": "[variables('WebSubnetRef')]"
-                            }
-                        }
-                    }
-                ]
-            }
-        },
-        //Create Web Virtual Machines
-        // Web 1
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[concat(variables('WebvmName'), '01')]",
-            "location": "[parameters('customerLocation')]",
-            "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('WebStorageAccountName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '0')]",
-                "[concat('Microsoft.Compute/availabilitySets/', variables('WebAvailabilitySetName'))]"
-            ],
-            "tags": {
-                "displayName": "Web 1 VM"
-            },
-            "properties": {
-                "availabilitySet": {
-                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('WebAvailabilitySetName'))]"
-                },
-                "hardwareProfile": {
-                    "vmSize": "[variables('WebVMSize')]"
-                },
-                "osProfile": {
-                    "computername": "[concat(variables('WebvmName'), '01')]",
-                    "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "[variables('WebimagePublisher')]",
-                        "offer": "[variables('WebimageOffer')]",
-                        "sku": "[variables('WebimageSKU')]",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "name": "osdisk",
-                        "vhd": {
-                            "uri": "[concat('http://',variables('WebStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'01-osdisk.vhd')]"
-                        },
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage"
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('WebnicName')),'0')]"
-                        }
-                    ]
-                }
-            }
-        },
-        //Web 1 DSC
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('WebVMName'),'01/CreateWeb')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Web 1 DSC"
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'01')]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
-                "type": "DSC",
-                "typeHandlerVersion": "1.10",
-                "settings": {
-                    "ModulesUrl": "[variables('Web1DSCModulesURL')]",
-                    "ConfigurationFunction": "[variables('Web1DSCConfigurationFunction')]",
-                    "Properties": {
-                        "DomainName": "[parameters('DomainName')]",
-                        "octEnv": "[variables('OctEnv')]",
-                        "octRole": "[variables('OctRoleWeb')]",
-                        "AdminCreds": {
-                            "UserName": "[parameters('adminUserName')]",
-                            "Password": "PrivateSettingsRef:AdminPassword"
-                        }
-                    }
-                },
-                "protectedSettings": {
-                    "Items": {
-                        "AdminPassword": "[parameters('adminPassword')]"
+        "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'01')]"
+        ],
+        "properties": {
+            "publisher": "Microsoft.PowerShell.Test",
+            "type": "DSC",
+            "typeHandlerVersion": "1.10",
+            "settings": {
+                "ModulesUrl": "[variables('Web1DSCModulesURL')]",
+                "ConfigurationFunction": "[variables('Web1DSCConfigurationFunction')]",
+                "Properties": {
+                    "DomainName": "[parameters('DomainName')]",
+                    "octEnv": "[variables('OctEnv')]",
+                    "octRole": "[variables('OctRoleWeb')]",
+                    "AdminCreds": {
+                        "UserName": "[parameters('adminUserName')]",
+                        "Password": "PrivateSettingsRef:AdminPassword"
                     }
                 }
-            }
-        },
-        //Web 2
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[concat(variables('WebvmName'), '02')]",
-            "location": "[parameters('customerLocation')]",
-            "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('WebStorageAccountName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '1')]",
-                "[concat('Microsoft.Compute/availabilitySets/', variables('WebAvailabilitySetName'))]"
-            ],
-            "tags": {
-                "displayName": "Web 2 VM"
             },
-            "properties": {
-                "availabilitySet": {
-                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('WebAvailabilitySetName'))]"
-                },
-                "hardwareProfile": {
-                    "vmSize": "[variables('WebVMSize')]"
-                },
-                "osProfile": {
-                    "computername": "[concat(variables('WebvmName'), '02')]",
-                    "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "[variables('WebimagePublisher')]",
-                        "offer": "[variables('WebimageOffer')]",
-                        "sku": "[variables('WebimageSKU')]",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "name": "osdisk",
-                        "vhd": {
-                            "uri": "[concat('http://',variables('WebStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'02-osdisk.vhd')]"
-                        },
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage"
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('WebnicName')),'1')]"
-                        }
-                    ]
-                }
-            }
-        },
-        //Web 2 DSC
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('WebVMName'),'02/CreateWeb')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Web 2 DSC"
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'02')]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
-                "type": "DSC",
-                "typeHandlerVersion": "1.10",
-                "settings": {
-                    "ModulesUrl": "[variables('Web2DSCModulesURL')]",
-                    "ConfigurationFunction": "[variables('Web2DSCConfigurationFunction')]",
-                    "Properties": {
-                        "DomainName": "[parameters('DomainName')]",
-                        "octEnv": "[variables('OctEnv')]",
-                        "octRole": "[variables('OctRoleWeb')]",
-                        "AdminCreds": {
-                            "UserName": "[parameters('adminUserName')]",
-                            "Password": "PrivateSettingsRef:AdminPassword"
-                        }
-                    }
-                },
-                "protectedSettings": {
-                    "Items": {
-                        "AdminPassword": "[parameters('adminPassword')]"
-                    }
+            "protectedSettings": {
+                "Items": {
+                    "AdminPassword": "[parameters('adminPassword')]"
                 }
             }
         }
-    ]
+    },
+    //Web 2
+    {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Compute/virtualMachines",
+        "name": "[concat(variables('WebvmName'), '02')]",
+        "location": "[parameters('customerLocation')]",
+        "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', variables('WebStorageAccountName'))]",
+            "[concat('Microsoft.Network/networkInterfaces/', variables('WebnicName'), '1')]",
+            "[concat('Microsoft.Compute/availabilitySets/', variables('WebAvailabilitySetName'))]"
+        ],
+        "tags": {
+            "displayName": "Web 2 VM"
+        },
+        "properties": {
+            "availabilitySet": {
+                "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('WebAvailabilitySetName'))]"
+            },
+            "hardwareProfile": {
+                "vmSize": "[variables('WebVMSize')]"
+            },
+            "osProfile": {
+                "computername": "[concat(variables('WebvmName'), '02')]",
+                "adminUsername": "[parameters('adminUsername')]",
+                "adminPassword": "[parameters('adminPassword')]"
+            },
+            "storageProfile": {
+                "imageReference": {
+                    "publisher": "[variables('WebimagePublisher')]",
+                    "offer": "[variables('WebimageOffer')]",
+                    "sku": "[variables('WebimageSKU')]",
+                    "version": "latest"
+                },
+                "osDisk": {
+                    "name": "osdisk",
+                    "vhd": {
+                        "uri": "[concat('http://',variables('WebStorageAccountName'),'.blob.core.windows.net/vhds/',variables('WebvmName'),'02-osdisk.vhd')]"
+                    },
+                    "caching": "ReadWrite",
+                    "createOption": "FromImage"
+                }
+            },
+            "networkProfile": {
+                "networkInterfaces": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('WebnicName')),'1')]"
+                    }
+                ]
+            }
+        }
+    },
+  //Web 2 DSC
+  {
+    "apiVersion": "2015-05-01-preview",
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('WebVMName'),'02/CreateWeb')]",
+    "location": "[parameters('customerLocation')]",
+    "tags": {
+        "displayName": "Web 2 DSC"
+    },
+    "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'02')]"
+    ],
+    "properties": {
+        "publisher": "Microsoft.PowerShell.Test",
+        "type": "DSC",
+        "typeHandlerVersion": "1.10",
+        "settings": {
+            "ModulesUrl": "[variables('Web2DSCModulesURL')]",
+            "ConfigurationFunction": "[variables('Web2DSCConfigurationFunction')]",
+            "Properties": {
+                "DomainName": "[parameters('DomainName')]",
+                "octEnv": "[variables('OctEnv')]",
+                "octRole": "[variables('OctRoleWeb')]",
+                "AdminCreds": {
+                    "UserName": "[parameters('adminUserName')]",
+                    "Password": "PrivateSettingsRef:AdminPassword"
+                }
+            }
+        },
+        "protectedSettings": {
+            "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+            }
+        }
+      }
     }
+  ]
+}
