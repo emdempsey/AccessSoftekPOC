@@ -516,7 +516,6 @@
               "userName": "[parameters('adminUserName')]",
               "password": "PrivateSettingsRef:adminPassword"
             }
-
           }
         },
         "protectedSettings": {
