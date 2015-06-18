@@ -162,38 +162,41 @@
         "description": "The address space used by the Virtual network"
       },
       "defaultValue": "10.0"
-    }
+    },
+    "sqlServerServiceAccountUserName":{
+			"type":"string",
+			"metadata": {
+				"description": "The SQL Server Service account name"
+			},
+			"defaultValue":"sqlservice"
+		},
+		"sqlServerServiceAccountPassword":{
+			"type": "securestring",
+      "metadata": {
+        "description": "The SQL Server Service account password"
+      },
+      "defaultValue": "Office365"
+		}
   },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
-    //"BetaEnvTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnv.json')]",
-    //"DevBetaMgmtTemplateLink": "[concat(variables('AssetLocation'),'/DevBetaMgmt.json')]",
-    //"DevEnvTemplateLink": "[concat(variables('AssetLocation'),'/DevEnv.json')]",
-    //"ProdEnvTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnv.json')]",
-    //"PublicTemplateLink": "[concat(variables('AssetLocation'),'/Public.json')]",
-    //"StgEnvTemplateLink": "[concat(variables('AssetLocation'),'/StgEnv.json')]",
-    //"StgProdMgmtTemplateLink": "[concat(variables('AssetLocation'),'/StgProdMgmt.json')]",
-    //"virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
-    //"VNetTemplateLink": "[concat(variables('AssetLocation'),'/VNet.json')]",
-    //"VNetUpdateTemplateLink": "[concat(variables('AssetLocation'),'/VNetUpdate.json')]"
-    //"BetaEnvTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnv.json')]",
+    "BetaEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvApp.json')]",
+    "BetaEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvData.json')]",
+    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",    
     "DevBetaMgmtTemplateLink": "[concat(variables('AssetLocation'),'/DevBetaMgmt.json')]",
     "DevEnvTemplateLink": "[concat(variables('AssetLocation'),'/DevEnv.json')]",
-    "ProdEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvWeb.json')]",
     "ProdEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvApp.json')]",
     "ProdEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvData.json')]",
+    "ProdEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvWeb.json')]",
     "PublicTemplateLink": "[concat(variables('AssetLocation'),'/Public.json')]",
-    "StgEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvWeb.json')]",
     "StgEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvApp.json')]",
     "StgEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvData.json')]",
+    "StgEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvWeb.json')]",
     "StgProdMgmtTemplateLink": "[concat(variables('AssetLocation'),'/StgProdMgmt.json')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
     "VNetTemplateLink": "[concat(variables('AssetLocation'),'/VNet.json')]",
-    "VNetUpdateTemplateLink": "[concat(variables('AssetLocation'),'/VNetUpdate.json')]",
-    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",
-    "BetaEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvApp.json')]",
-    "BetaEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvData.json')]"
+    "VNetUpdateTemplateLink": "[concat(variables('AssetLocation'),'/VNetUpdate.json')]"
   },
   "resources": [
     //Create Virtual Network
@@ -425,6 +428,8 @@
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": {"value": "[parameters('StageProdDomainName')]"},
           "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
+          "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
@@ -488,6 +493,8 @@
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
           "DomainName": {"value": "[parameters('StageProdDomainName')]"},
           "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
+          "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
