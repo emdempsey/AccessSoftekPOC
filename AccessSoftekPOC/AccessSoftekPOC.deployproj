@@ -57,7 +57,6 @@
     <None Include="Templates\DSC\astprodsqlaogprepdsc.ps1.zip" />
     <None Include="Templates\DSC\astprodsqlclusterdsc.ps1.zip" />
     <None Include="Templates\DSC\astsqldsc.ps1.zip" />
-    <None Include="Templates\DSC\astsqlproddsc.ps1.zip" />
     <None Include="Templates\DSC\aststagefwdsc.ps1.zip" />
     <None Include="Templates\DSC\aststagesqlaogprepdsc.ps1.zip" />
     <None Include="Templates\DSC\aststagesqlclusterdsc.ps1.zip" />
