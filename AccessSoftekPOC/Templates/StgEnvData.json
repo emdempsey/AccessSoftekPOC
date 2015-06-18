@@ -85,7 +85,7 @@
     "FSWimageSKU": "2012-R2-Datacenter",
     "FSWnicName": "[concat(variables('Environment'),'-FSW-nic')]",
     "FSWSharePath": "FSW",
-    "FSWvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'fsw')]",
+    "FSWvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'fsw01')]",
     "FSWVMSize": "Standard_A1",
     "lbBE": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'LBBE')]",
     "lbFE": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'LBFE')]",
@@ -443,7 +443,7 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('FSWvmName'), '01')]",
+      "name": "[concat(variables('FSWvmName'))]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'),'01')]",
@@ -500,7 +500,7 @@
         "displayName": "FSW DSC"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'),'01')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell.Test",
