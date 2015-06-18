@@ -1,114 +1,115 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "adminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Admin password on provisioned machines"
-            }
-        },
-        "adminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Admin username for virtual machines"
-            }
-        },
-        "customerLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Location where resources will be provisioned"
-            }
-        },
-        "customerPrefix": {
-            "metadata": {
-                "description": "The 3 character prefix of the customer name"
-            },
-            "type": "string"
-        },
-        "DomainName": {
-            "type": "string"
-        },
-        "virtualNetworkName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the virtual Network to be created"
-            }
-        },
-        "vnetAddressSpacePrefix": {
-            "metadata": {
-                "description": "The address space used by the Virtual network"
-            },
-            "type": "string"
-        }
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      }
     },
-    "variables": {
-        "AppSubnetName": "[concat(variables('Environment'), 'App')]",
-        "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
-        "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
-        //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
-        "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
-        "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
-        "DataimageOffer": "SQL2014-WS2012R2",
-        "DataimagePublisher": "MicrosoftSQLServer",
-        "DataimageSKU": "Standard",
-        "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
-        "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor01')]",
-        "DataSubnetName": "[concat(variables('Environment'),'Data')]",
-        "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
-        "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
-        "DataVMSize": "Standard_A4",
-        "EnvAbbr": "d",
-        "Environment": "dev",
-        "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
-        "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
-        "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
-        "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
-        "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
-        "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
-        "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
-        "MFMAppimageOffer": "WindowsServer",
-        "MFMAppimagePublisher": "MicrosoftWindowsServer",
-        "MFMAppimageSKU": "2012-R2-Datacenter",
-        "MFMAppnicName": "[concat(variables('Environment'),'-MFMApp-nic')]",
-        "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
-        "MFMAppVMSize": "Standard_A2",
-        "OctEnv": "Skyline-Dev",
-        "OctRoleWeb": "ofm-web",
-        "OctRoleApp": "ofm-ds",
-        "OctRoleData": "ofm-ds-db",
-        "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
-        "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
-        "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
-        "OrphAppimageOffer": "WindowsServer",
-        "OrphAppimagePublisher": "MicrosoftWindowsServer",
-        "OrphAppimageSKU": "2012-R2-Datacenter",
-        "OrphAppnicName": "[concat(variables('Environment'),'-OrpApp-nic')]",
-        "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orpapp')]",
-        "OrphAppVMSize": "Standard_A2",
-        "SQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
-        "SQLDBDatabaseName": "[concat(parameters('customerPrefix'),variables('Environment'),'cmsdb01')]",
-        "SQLDBEdition": "Standard",
-        "SQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.255')]",
-        "SQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0')]",
-        "SQLDBMaxSizeBytes": "268435456000",
-        "SQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
-        "SQLDBServerName": "[concat(parameters('customerPrefix'),variables('Environment'),'dbsrv01')]",
-        "SQLDBVersion": "12.0",
-        "storageAccountType": "Standard_LRS",
-        "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
-        "WebAppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wastor01')]",
-        "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
-        "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]",
-        "WebimageOffer": "WindowsServer",
-        "WebimagePublisher": "MicrosoftWindowsServer",
-        "WebimageSKU": "2012-R2-Datacenter",
-        "WebnicName": "[concat(variables('Environment'),'-Web-nic')]",
-        "WebSubnetName": "[concat(variables('Environment'),'Web')]",
-        "WebSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('WebSubnetName'))]",
-        "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
-        "WebVMSize": "Standard_A2"
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
     },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string"
+    },
+    "DomainName": {
+      "type": "string"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual Network to be created"
+      }
+    },
+    "vnetAddressSpacePrefix": {
+      "metadata": {
+        "description": "The address space used by the Virtual network"
+      },
+      "type": "string"
+    }
+  },
+  "variables": {
+    "AppSubnetName": "[concat(variables('Environment'), 'App')]",
+    "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
+    //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+    "DataDiskSize": 1023,
+    "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
+    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
+    "DataimageOffer": "SQL2014-WS2012R2",
+    "DataimagePublisher": "MicrosoftSQLServer",
+    "DataimageSKU": "Standard",
+    "DatanicName": "[concat(variables('Environment'),'-Data-nic')]",
+    "DataStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'dstor01')]",
+    "DataSubnetName": "[concat(variables('Environment'),'Data')]",
+    "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
+    "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
+    "DataVMSize": "Standard_A4",
+    "EnvAbbr": "d",
+    "Environment": "dev",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
+    "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
+    "MFMAppDSCConfigurationFunction": "astmfmdsc.ps1\\mfm",
+    "MFMAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astmfmdsc.ps1.zip')]",
+    "MFMAppimageOffer": "WindowsServer",
+    "MFMAppimagePublisher": "MicrosoftWindowsServer",
+    "MFMAppimageSKU": "2012-R2-Datacenter",
+    "MFMAppnicName": "[concat(variables('Environment'),'-MFMApp-nic')]",
+    "MFMAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'mfmapp')]",
+    "MFMAppVMSize": "Standard_A2",
+    "OctEnv": "Skyline-Dev",
+    "OctRoleApp": "ofm-ds",
+    "OctRoleData": "ofm-ds-db",
+    "OctRoleWeb": "ofm-web",
+    "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
+    "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
+    "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
+    "OrphAppimageOffer": "WindowsServer",
+    "OrphAppimagePublisher": "MicrosoftWindowsServer",
+    "OrphAppimageSKU": "2012-R2-Datacenter",
+    "OrphAppnicName": "[concat(variables('Environment'),'-OrpApp-nic')]",
+    "OrphAppvmName": "[concat(parameters('customerPrefix'), variables('Environment'),'orpapp')]",
+    "OrphAppVMSize": "Standard_A2",
+    "SQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "SQLDBDatabaseName": "[concat(parameters('customerPrefix'),variables('Environment'),'cmsdb01')]",
+    "SQLDBEdition": "Standard",
+    "SQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.255')]",
+    "SQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0')]",
+    "SQLDBMaxSizeBytes": "268435456000",
+    "SQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+    "SQLDBServerName": "[concat(parameters('customerPrefix'),variables('Environment'),'dbsrv01')]",
+    "SQLDBVersion": "12.0",
+    "storageAccountType": "Standard_LRS",
+    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "WebAppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'wastor01')]",
+    "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
+    "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]",
+    "WebimageOffer": "WindowsServer",
+    "WebimagePublisher": "MicrosoftWindowsServer",
+    "WebimageSKU": "2012-R2-Datacenter",
+    "WebnicName": "[concat(variables('Environment'),'-Web-nic')]",
+    "WebSubnetName": "[concat(variables('Environment'),'Web')]",
+    "WebSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('WebSubnetName'))]",
+    "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
+    "WebVMSize": "Standard_A2"
+  },
     "resources": [
     //Create Storage account for Web and App VMs
     {
@@ -516,7 +517,29 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [
+            {
+                "vhd": {
+                    "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
+                },
+                "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
+                "caching": "None",
+                "createOption": "empty",
+                "diskSizeGB": "[variables('DataDiskSize')]",
+                "lun": 0
+            },
+            {
+                "vhd": {
+                    "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+                },
+                "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
+                "caching": "None",
+                "createOption": "empty",
+                "diskSizeGB": "[variables('DataDiskSize')]",
+                "lun": 1
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [

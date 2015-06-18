@@ -1,46 +1,47 @@
 ﻿{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "adminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Admin password on provisioned machines"
-            }
-        },
-        "adminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Admin username for virtual machines"
-            }
-        },
-        "customerLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Location where resources will be provisioned"
-            }
-        },
-        "customerPrefix": {
-            "metadata": {
-                "description": "The 3 character prefix of the customer name"
-            },
-            "type": "string"
-        },
-        "DomainName": {
-            "type": "string"
-        },
-      "virtualNetworkName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of the virtual Network to be created"
-        }
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
       }
     },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      }
+    },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      }
+    },
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string"
+    },
+    "DomainName": {
+      "type": "string"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual Network to be created"
+      }
+    }
+  },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+    "DataDiskSize": 1023,
     "DataDSCConfigurationFunction": "astsqldsc.ps1\\sql",
-    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",    
+    "DataDSCModulesURL": "[concat(variables('AssetLocation'),'/astsqldsc.ps1.zip')]",
     "DataimageOffer": "SQL2014-WS2012R2",
     "DataimagePublisher": "MicrosoftSQLServer",
     "DataimageSKU": "Standard",
@@ -51,7 +52,7 @@
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
     "EnvAbbr": "b",
-    "Environment": "beta",    
+    "Environment": "beta",
     "OctEnv": "Skyline-Test",
     "OctRoleApp": "ofm-ds",
     "OctRoleData": "ofm-ds-db",
@@ -125,14 +126,36 @@
                         "sku": "[variables('DataimageSKU')]",
                         "version": "latest"
                     },
-                    "osDisk": {
-                        "name": "osdisk",
+                  "osDisk": {
+                    "name": "osdisk",
+                    "vhd": {
+                      "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'0-osdisk.vhd')]"
+                    },
+                    "caching": "ReadWrite",
+                    "createOption": "FromImage"
+                  },
+                  "dataDisks": [
+                    {
                         "vhd": {
-                            "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'0-osdisk.vhd')]"
+                            "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
                         },
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage"
+                        "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
+                        "caching": "None",
+                        "createOption": "empty",
+                        "diskSizeGB": "[variables('DataDiskSize')]",
+                        "lun": 0
+                    },
+                    {
+                        "vhd": {
+                            "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+                        },
+                        "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
+                        "caching": "None",
+                        "createOption": "empty",
+                        "diskSizeGB": "[variables('DataDiskSize')]",
+                        "lun": 1
                     }
+                  ]
                 },
                 "networkProfile": {
                     "networkInterfaces": [
@@ -180,4 +203,4 @@
                 }
             }
         ]
-        }
+}
