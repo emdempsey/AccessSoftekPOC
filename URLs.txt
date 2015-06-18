@@ -124,20 +124,23 @@ New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'BetaEnvTemplate
 
 ****Run only the Stage Environment Template****
 $ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnvData.json'
 $adminPassword = 'Office365'
 $adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$DomainName = 'stgprod.macuhosted'
+$customerPrefix = 'ast'
+$DomainName = 'stageprod.macuhosted'
 $location = 'West US'
-$virtualNetworkName = 'skyvnet01'
+$virtualNetworkName = 'astvnet01'
+$sqlpassword = 'Office365'
+$sqlAccount = 'sqlservices'
 $vnetAddressSpacePrefix = '10.0'
 $webVMcount = 2
 $mfmVMcount = 2
 $orphVMcount = 2
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
+$sqlpassword = ConvertTo-SecureString -AsPlainText -Force -String $sqlpassword 
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount -Force -Verbose
+New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgEnvDataTemplate' -Location $location -TemplateFile $TemplateFile -Force -Verbose
 
 ****Run only the Prod Environment Template****
 $ResourceGroupName = 'ASTServices'
