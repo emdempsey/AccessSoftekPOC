@@ -37,6 +37,7 @@
     <Content Include="Templates\VNet.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Templates\BetaEnv.json" />
     <None Include="Templates\azuredeploy-parameters.json" />
     <None Include="Templates\azuredeploy.json" />
     <None Include="Templates\BetaEnvApp.json" />
@@ -72,7 +73,7 @@
     <None Include="Templates\ProdEnvWeb.json" />
     <None Include="Templates\Public.json" />
     <None Include="Templates\StgEnv.json" />
-    <None Include="Templates\BetaEnvold.json" />
+    <None Include="Templates\zzBetaEnv-old.json" />
     <None Include="Templates\DevEnv.json" />
     <None Include="Templates\StgEnvApp.json" />
     <None Include="Templates\StgEnvData.json" />
