@@ -83,7 +83,7 @@
     "StgEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvApp.json')]",
     "StgEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvData.json')]",
     "StgEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvWeb.json')]",
-    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
+    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
   },
   "resources": [    
     //Create Stage Web Environment Stack
