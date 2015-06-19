@@ -37,6 +37,8 @@
     <Content Include="Templates\VNet.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Templates\ProdEnv.json" />
+    <None Include="Templates\StgEnv.json" />
     <None Include="Templates\BetaEnv.json" />
     <None Include="Templates\azuredeploy-parameters.json" />
     <None Include="Templates\azuredeploy.json" />

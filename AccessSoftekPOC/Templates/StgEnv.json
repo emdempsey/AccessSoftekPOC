@@ -16,27 +16,6 @@
       },
       "defaultValue": "nimda"
     },
-    "BetaMFMVMCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of Web VMs to create"
-      },
-      "defaultValue": 2
-    },
-    "BetaOrphVMCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of Web VMs to create"
-      },
-      "defaultValue": 2
-    },
-    "BetaWebVMCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of Web VMs to create"
-      },
-      "defaultValue": 2
-    },
     "customerLocation": {
       "type": "string",
       "metadata": {
@@ -50,13 +29,38 @@
         "description": "The 3 character prefix of the customer name"
       },
       "defaultValue": "ast"
-    },
-    "DevBetaDomainName": {
+    },    
+    "StageProdDomainName": {
       "type": "string",
       "metadata": {
         "description": "Active Directory Domain Name for the Dev and Beta Environments"
       },
-      "defaultValue": "devbeta.macuhosted"
+      "defaultValue": "stageprod.macuhosted"
+    },
+    //"StgMFMVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},
+    //"StgOrphVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},
+    //"StgWebVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},
+    "vnetAddressSpacePrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The address space used by the Virtual network"
+      },
+      "defaultValue": "10.0"
     },
     "sqlServerServiceAccountUserName":{
 			"type":"string",
@@ -76,75 +80,76 @@
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
-    "BetaEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvApp.json')]",
-    "BetaEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvData.json')]",
-    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",    
-    "DevBetaMgmtTemplateLink": "[concat(variables('AssetLocation'),'/DevBetaMgmt.json')]",
-    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
+    "StgEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvApp.json')]",
+    "StgEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvData.json')]",
+    "StgEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvWeb.json')]",
+    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]",
   },
-  "resources": [
-    //Create Beta Web Environment Stack
+  "resources": [    
+    //Create Stage Web Environment Stack
     {
         "apiVersion": "2015-01-01",
-        "name": "BetaEnvWebTemplate",
+        "name": "StgEnvWebTemplate",
         "type": "Microsoft.Resources/deployments",
         "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
         ],
         "properties": {
             "mode": "Incremental",
-            "templateLink": { "uri": "[variables('BetaEnvWebTemplateLink')]" },
+            "templateLink": { "uri": "[variables('StgEnvWebTemplateLink')]" },
             "parameters": {
                 "adminPassword": { "value": "[parameters('adminPassword')]" },
                 "adminUsername": { "value": "[parameters('adminusername')]" },
                 "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
                 "customerLocation": { "value": "[parameters('customerLocation')]" },
-              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
             }
         }
     },
-    //Create Beta App Environment Stack
+    //Create Stage App Environment Stack
     {
         "apiVersion": "2015-01-01",
-        "name": "BetaEnvAppTemplate",
+        "name": "StgEnvAppTemplate",
         "type": "Microsoft.Resources/deployments",
         "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
         ],
         "properties": {
             "mode": "Incremental",
-            "templateLink": { "uri": "[variables('BetaEnvAppTemplateLink')]" },
+            "templateLink": { "uri": "[variables('StgEnvAppTemplateLink')]" },
             "parameters": {
                 "adminPassword": { "value": "[parameters('adminPassword')]" },
                 "adminUsername": { "value": "[parameters('adminusername')]" },
                 "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
                 "customerLocation": { "value": "[parameters('customerLocation')]" },
-              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
             }
         }
     },
-    //Create Beta Data Environment Stack
+    //Create Stage Data Environment Stack
     {
       "apiVersion": "2015-01-01",
-      "name": "BetaEnvDataTemplate",
+      "name": "StgEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
       "properties": {
         "mode": "Incremental",
-        "templateLink": { "uri": "[variables('BetaEnvDataTemplateLink')]" },
+        "templateLink": { "uri": "[variables('StgEnvDataTemplateLink')]" },
         "parameters": {
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "DomainName": {"value": "[parameters('StageProdDomainName')]"},
           "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
+          "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
-    }
+    }    
   ]
 }

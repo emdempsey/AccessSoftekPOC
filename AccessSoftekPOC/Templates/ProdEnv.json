@@ -1,0 +1,154 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password on provisioned machines"
+      },
+      "defaultValue": "Office365"
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for virtual machines"
+      },
+      "defaultValue": "nimda"
+    },
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location where resources will be provisioned"
+      },
+      "defaultValue": "West US"
+    },
+    "customerPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "defaultValue": "ast"
+    },
+    "StageProdDomainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory Domain Name for the Dev and Beta Environments"
+      },
+      "defaultValue": "stageprod.macuhosted"
+    }
+    //"ProdMFMVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},
+    //"ProdOrphVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},
+    //"ProdWebVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},
+    //"StgMFMVMCount": {
+    //    "type": "int",
+    //    "metadata": {
+    //        "description": "The number of Web VMs to create"
+    //    }
+    //},    
+    "sqlServerServiceAccountUserName":{
+			"type":"string",
+			"metadata": {
+				"description": "The SQL Server Service account name"
+			},
+			"defaultValue":"sqlservice"
+		},
+		"sqlServerServiceAccountPassword":{
+			"type": "securestring",
+      "metadata": {
+        "description": "The SQL Server Service account password"
+      },
+      "defaultValue": "Office365"
+		}
+  },
+  "variables": {
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
+    //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+    "ProdEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvApp.json')]",
+    "ProdEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvData.json')]",
+    "ProdEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvWeb.json')]",
+    "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
+  },
+  "resources": [    
+    //Create Prod Web Environment Stack
+    {
+        "apiVersion": "2015-01-01",
+        "name": "ProdEnvWebTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": { "uri": "[variables('ProdEnvWebTemplateLink')]" },
+            "parameters": {
+                "adminPassword": { "value": "[parameters('adminPassword')]" },
+                "adminUsername": { "value": "[parameters('adminusername')]" },
+                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+                "customerLocation": { "value": "[parameters('customerLocation')]" },
+                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+            }
+        }
+    },
+    //Create Prod App Environment Stack
+    {
+        "apiVersion": "2015-01-01",
+        "name": "ProdEnvAppTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": { "uri": "[variables('ProdEnvAppTemplateLink')]" },
+            "parameters": {
+                "adminPassword": { "value": "[parameters('adminPassword')]" },
+                "adminUsername": { "value": "[parameters('adminusername')]" },
+                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+                "customerLocation": { "value": "[parameters('customerLocation')]" },
+                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+            }
+        }
+    }//,
+    ////Create Prod Data Environment Stack
+    //{
+    //  "apiVersion": "2015-01-01",
+    //  "name": "ProdEnvDataTemplate",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "dependsOn": [
+    //    "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": { "uri": "[variables('ProdEnvDataTemplateLink')]" },
+    //    "parameters": {
+    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
+    //      "adminUsername": { "value": "[parameters('adminusername')]" },
+    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+    //      "DomainName": {"value": "[parameters('StageProdDomainName')]"},
+    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
+    //      "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
+    //      "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
+    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+    //    }
+    //  }
+    //}    
+  ]
+}

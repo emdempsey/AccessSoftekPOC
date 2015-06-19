@@ -8,10 +8,21 @@ https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekP
 
 https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json
 
+***Template Files***
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/azuredeploy.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/BetaEnv.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
+
 ***Vars and Commands for full deployment testing***
+
 $ResourceGroupName = 'ASTServices'
 $location = "West US"
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/azuredeploy.json'
+
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -Force -Verbose
+
+***Extra Vars if you want to change the defaults
 $adminPassword = 'Office365'
 $adminUsername = 'nimda'
 $customerPrefix = 'sky'
@@ -41,120 +52,6 @@ Switch-AzureMode AzureResourceManager
 
 cls
 
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -Force -Verbose
-
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -dnsNameForPublicIP $dnsNameForPublicIP -vnetAddressSpacePrefix $vnetAddressSpacePrefix -BetaWebVMCount $BetaWebVMCount -BetaMFMVMCount $BetaMFMVMCount -BetaOrphVMCount $BetaOrphVMCount -StgWebVMCount $StgWebVMCount -StgMFMVMCount $StgMFMVMCount -StgOrphVMCount $StgOrphVMCount -ProdWebVMCount $ProdWebVMCount -ProdMFMVMCount $ProdMFMVMCount -ProdOrphVMCount $ProdOrphVMCount -DevBetaDomainName $DevBetaDomainName -StgProdDomainName $StgProdDomainName -Force -Verbose
 
-****Run only the VNet Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/VNet.json'
-$customerPrefix = 'sky'
-$customerVPNAddress = '1.1.1.1'
-$customerVPNFamily = 'IOS 15.1 (dynamic)'
-$customerVPNP2SSubnet = '192.168.1.0/24'
-$customerVPNPlatform = 'ISR'
-$customerVPNSubnet = '172.16.0.0/16'
-$customerVPNVendor = 'Cisco'
-$dnsNameForPublicIP = 'astservices'
-$vnetAddressSpacePrefix = '10.0'
-$location = "West US"
-$virtualNetworkName = "skyvnet01"
 
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'VNetTemplate' -Location $location -TemplateFile $TemplateFile -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -vnetAddressSpacePrefix $vnetAddressSpacePrefix -virtualNetworkName $virtualNetworkName -Force -Verbose
-
-
-****Run only the Dev-BetaMgmt Environment Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json'
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$DomainName = 'devbeta.macuhosted'
-$location = 'West US'
-$virtualNetworkName = 'skyvnet01'
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'DevBetaMgmtTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -Force -Verbose
-
-
-****Run only the Stg-ProdMgmt Environment Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json'
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$DomainName = 'stgprod.macuhosted'
-$location = 'West US'
-$virtualNetworkName = 'skyvnet01'
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgProdMgmtTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -Force -Verbose
-
-
-****Run only the Dev Environment Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json'
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$DomainName = 'devbeta.macuhosted'
-$location = 'West US'
-$virtualNetworkName = 'skyvnet01'
-$vnetAddressSpacePrefix = '10.0'
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'DevEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
-
-****Run only the Beta Environment Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/BetaEnv.json'
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$DomainName = 'devbeta.macuhosted'
-$location = 'West US'
-$virtualNetworkName = 'skyvnet01'
-$vnetAddressSpacePrefix = '10.0'
-$webVMcount = 2
-$mfmVMcount = 2
-$orphVMcount = 2
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'BetaEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount -Force -Verbose
-
-****Run only the Stage Environment Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnvData.json'
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'ast'
-$DomainName = 'stageprod.macuhosted'
-$location = 'West US'
-$virtualNetworkName = 'astvnet01'
-$sqlpassword = 'Office365'
-$sqlAccount = 'sqlservices'
-$vnetAddressSpacePrefix = '10.0'
-$webVMcount = 2
-$mfmVMcount = 2
-$orphVMcount = 2
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-$sqlpassword = ConvertTo-SecureString -AsPlainText -Force -String $sqlpassword 
-
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'StgEnvDataTemplate' -Location $location -TemplateFile $TemplateFile -Force -Verbose
-
-****Run only the Prod Environment Template****
-$ResourceGroupName = 'ASTServices'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$DomainName = 'stgprod.macuhosted'
-$location = 'West US'
-$virtualNetworkName = 'skyvnet01'
-$vnetAddressSpacePrefix = '10.0'
-$webVMcount = 3
-$mfmVMcount = 3
-$orphVMcount = 3
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-
-New-AzureResourceGroup -Name $ResourceGroupName -DeploymentName 'ProdEnvTemplate' -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -DomainName $DomainName -virtualNetworkName $virtualNetworkName -webVMcount $webVMcount -orphVMcount $orphVMcount -mfmVMcount $mfmVMcount -Force -Verbose
