@@ -6,40 +6,47 @@
       "type": "securestring",
       "metadata": {
         "description": "Admin password on provisioned machines"
-      }
+      },
+      "defaultValue": "Office365"
     },
     "adminUsername": {
       "type": "string",
       "metadata": {
         "description": "Admin username for virtual machines"
-      }
+      },
+      "defaultValue": "nimda"
     },
     "customerLocation": {
       "type": "string",
       "metadata": {
         "description": "Location where resources will be provisioned"
-      }
+      },
+      "defaultValue": "West US"
     },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
       },
-      "type": "string"
+      "type": "string",
+      "defaultValue": "ast"
     },
     "DomainName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "devbeta.macuhosted"
     },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
         "description": "The name of the virtual Network to be created"
-      }
+      },
+      "defaultValue": "astvnet01"
     },
     "vnetAddressSpacePrefix": {
       "metadata": {
         "description": "The address space used by the Virtual network"
       },
-      "type": "string"
+      "type": "string",
+      "defaultValue": "10.0"
     }
   },
   "variables": {

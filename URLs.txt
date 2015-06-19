@@ -44,7 +44,7 @@ $ProdWebVMCount = 3
 $ProdMFMVMCount = 3
 $ProdOrphVMCount = 3
 $DevBetaDomainName = 'devbeta.macuhosted'
-$StgProdDomainName = 'stgprod.macuhosted'
+$StgProdDomainName = 'stageprod.macuhosted'
 
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
