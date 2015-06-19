@@ -503,9 +503,9 @@
         "[concat('Microsoft.Compute/virtualMachines/', variables('FSWvmName'))]"
       ],
       "properties": {
-        "publisher": "Microsoft.Powershell.Test",
+        "publisher": "Microsoft.Powershell",
         "type": "DSC",
-        "typeHandlerVersion": "1.10",
+        "typeHandlerVersion": "2.0",
         "settings": {
           "modulesUrl": "[variables('fswDSCModulesURL')]",
           "configurationFunction": "[variables('fswDSCConfigurationFunction')]",
@@ -541,9 +541,9 @@
         "[concat('Microsoft.Compute/virtualMachines/',variables('FSWvmName'),'/extensions/CreateFileShareWitness')]"
       ],
       "properties": {
-        "publisher": "Microsoft.Powershell.Test",
+        "publisher": "Microsoft.Powershell",
         "type": "DSC",
-        "typeHandlerVersion": "1.10",
+        "typeHandlerVersion": "2.0",
         "settings": {
           "modulesUrl": "[variables('sqlAOPrepareModulesURL')]",
           "configurationFunction": "[variables('sqlAOPrepareConfigurationFunction')]",
@@ -584,9 +584,9 @@
         "[concat('Microsoft.Compute/virtualMachines/',variables('DataVMName'),'01/extensions/sqlAOPrepare')]"
       ],
       "properties": {
-        "publisher": "Microsoft.Powershell.Test",
+        "publisher": "Microsoft.Powershell",
         "type": "DSC",
-        "typeHandlerVersion": "1.10",
+        "typeHandlerVersion": "2.0",
         "settings": {
           "modulesUrl": "[variables('createClusterModulesURL')]",
           "configurationFunction": "[variables('createClusterConfigurationFunction')]",

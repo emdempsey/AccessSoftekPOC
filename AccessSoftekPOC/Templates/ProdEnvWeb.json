@@ -238,9 +238,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('WebDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
@@ -325,9 +325,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'02')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('WebDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
@@ -412,9 +412,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'03')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('WebDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",

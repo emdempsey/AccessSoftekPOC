@@ -283,9 +283,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -370,9 +370,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'02')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -457,9 +457,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'01')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
@@ -544,9 +544,9 @@
                 "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'02')]"
             ],
             "properties": {
-                "publisher": "Microsoft.PowerShell.Test",
+                "publisher": "Microsoft.PowerShell",
                 "type": "DSC",
-                "typeHandlerVersion": "1.10",
+                "typeHandlerVersion": "2.0",
                 "settings": {
                     "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
                     "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",

@@ -288,9 +288,9 @@
             "[concat('Microsoft.Compute/virtualMachines/', variables('WebVMName'),'0')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('WebDSCModulesURL')]",
               "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
@@ -372,9 +372,9 @@
             "[concat('Microsoft.Compute/virtualMachines/', variables('MFMAppVMName'),'0')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
               "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
@@ -456,9 +456,9 @@
             "[concat('Microsoft.Compute/virtualMachines/', variables('OrphAppVMName'),'0')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
               "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
@@ -562,9 +562,9 @@
             "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('DataDSCModulesURL')]",
               "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",

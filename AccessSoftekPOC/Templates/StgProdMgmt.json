@@ -143,9 +143,6 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DCnicName'), '1')]",
       "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
-      ],
       "tags": {
         "displayName": "BDC Interface"
       },
@@ -171,8 +168,7 @@
       "name": "[concat(variables('BastionnicName'), '0')]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
       ],     
       "tags": {
         "displayName": "Bastion Interface"
@@ -255,12 +251,13 @@
             "displayName": "PDC DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]",
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('adPDCModulesURL')]",
               "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
@@ -341,12 +338,13 @@
             "displayName": "BDC DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'02')]",
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('adBDCModulesURL')]",
               "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
@@ -423,12 +421,13 @@
             "displayName": "Bastion DSC"
           },
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('BastionvmName'),'01')]",
+            "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
           ],
           "properties": {
-            "publisher": "Microsoft.PowerShell.Test",
+            "publisher": "Microsoft.PowerShell",
             "type": "DSC",
-            "typeHandlerVersion": "1.10",
+            "typeHandlerVersion": "2.0",
             "settings": {
               "ModulesUrl": "[variables('BastionModulesURL')]",
               "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",

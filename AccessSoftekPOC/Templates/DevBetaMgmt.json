@@ -255,9 +255,9 @@
                         "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01')]"
                     ],
                     "properties": {
-                        "publisher": "Microsoft.PowerShell.Test",
+                        "publisher": "Microsoft.PowerShell",
                         "type": "DSC",
-                        "typeHandlerVersion": "1.10",
+                        "typeHandlerVersion": "2.0",
                         "settings": {
                             "ModulesUrl": "[variables('adPDCModulesURL')]",
                             "ConfigurationFunction": "[variables('adPDCConfigurationFunction')]",
@@ -342,9 +342,9 @@
                       "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
                     ],
                     "properties": {
-                        "publisher": "Microsoft.PowerShell.Test",
+                        "publisher": "Microsoft.PowerShell",
                         "type": "DSC",
-                        "typeHandlerVersion": "1.10",
+                        "typeHandlerVersion": "2.0",
                         "settings": {
                             "ModulesUrl": "[variables('adBDCModulesURL')]",
                             "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
@@ -425,9 +425,9 @@
                       "[concat('Microsoft.Compute/virtualMachines/', variables('DCvmName'),'01/extensions/CreateADForest')]"
                     ],
                     "properties": {
-                        "publisher": "Microsoft.PowerShell.Test",
+                        "publisher": "Microsoft.PowerShell",
                         "type": "DSC",
-                        "typeHandlerVersion": "1.10",
+                        "typeHandlerVersion": "2.0",
                         "settings": {
                             "ModulesUrl": "[variables('BastionModulesURL')]",
                             "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
