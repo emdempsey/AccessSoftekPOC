@@ -72,7 +72,7 @@
     <None Include="Templates\ProdEnvWeb.json" />
     <None Include="Templates\Public.json" />
     <None Include="Templates\StgEnv.json" />
-    <None Include="Templates\BetaEnv.json" />
+    <None Include="Templates\BetaEnvold.json" />
     <None Include="Templates\DevEnv.json" />
     <None Include="Templates\StgEnvApp.json" />
     <None Include="Templates\StgEnvData.json" />
