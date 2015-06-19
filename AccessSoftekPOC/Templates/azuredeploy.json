@@ -475,30 +475,30 @@
                 "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
             }
         }
-    },
-    //Create Prod Data Environment Stack
-    {
-      "apiVersion": "2015-01-01",
-      "name": "ProdEnvDataTemplate",
-      "type": "Microsoft.Resources/deployments",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('ProdEnvDataTemplateLink')]" },
-        "parameters": {
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "adminUsername": { "value": "[parameters('adminusername')]" },
-          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "DomainName": {"value": "[parameters('StageProdDomainName')]"},
-          "customerLocation": { "value": "[parameters('customerLocation')]" },
-          "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
-          "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-        }
-      }
-    }
+    }//,
+    ////Create Prod Data Environment Stack
+    //{
+    //  "apiVersion": "2015-01-01",
+    //  "name": "ProdEnvDataTemplate",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "dependsOn": [
+    //    "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": { "uri": "[variables('ProdEnvDataTemplateLink')]" },
+    //    "parameters": {
+    //      "adminPassword": { "value": "[parameters('adminPassword')]" },
+    //      "adminUsername": { "value": "[parameters('adminusername')]" },
+    //      "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+    //      "DomainName": {"value": "[parameters('StageProdDomainName')]"},
+    //      "customerLocation": { "value": "[parameters('customerLocation')]" },
+    //      "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
+    //      "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
+    //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
+    //    }
+    //  }
+    //}
     ////Update Virtual Network - apply network security groups
     //{
     //  "apiVersion": "2015-01-01",
