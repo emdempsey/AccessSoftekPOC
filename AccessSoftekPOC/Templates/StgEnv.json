@@ -91,9 +91,6 @@
         "apiVersion": "2015-01-01",
         "name": "StgEnvWebTemplate",
         "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-        ],
         "properties": {
             "mode": "Incremental",
             "templateLink": { "uri": "[variables('StgEnvWebTemplateLink')]" },
@@ -112,9 +109,6 @@
         "apiVersion": "2015-01-01",
         "name": "StgEnvAppTemplate",
         "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-        ],
         "properties": {
             "mode": "Incremental",
             "templateLink": { "uri": "[variables('StgEnvAppTemplateLink')]" },
@@ -133,9 +127,6 @@
       "apiVersion": "2015-01-01",
       "name": "StgEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('StgEnvDataTemplateLink')]" },
