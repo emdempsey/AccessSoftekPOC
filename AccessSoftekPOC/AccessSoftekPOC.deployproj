@@ -67,12 +67,12 @@
     <None Include="Templates\DSC\astwebproddsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\nic.json" />
-    <None Include="Templates\ProdEnv.json" />
+    <None Include="Templates\zzProdEnv-old.json" />
     <None Include="Templates\ProdEnvApp.json" />
     <None Include="Templates\ProdEnvData.json" />
     <None Include="Templates\ProdEnvWeb.json" />
     <None Include="Templates\Public.json" />
-    <None Include="Templates\StgEnv.json" />
+    <None Include="Templates\zzStgEnv-old.json" />
     <None Include="Templates\zzBetaEnv-old.json" />
     <None Include="Templates\DevEnv.json" />
     <None Include="Templates\StgEnvApp.json" />
