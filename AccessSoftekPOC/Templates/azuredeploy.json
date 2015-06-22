@@ -163,27 +163,27 @@
       },
       "defaultValue": "10.0"
     },
-    "sqlServerServiceAccountUserName":{
-			"type":"string",
-			"metadata": {
-				"description": "The SQL Server Service account name"
-			},
-			"defaultValue":"sqlservice"
-		},
-		"sqlServerServiceAccountPassword":{
-			"type": "securestring",
+    "sqlServerServiceAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The SQL Server Service account name"
+      },
+      "defaultValue": "sqlservice"
+    },
+    "sqlServerServiceAccountPassword": {
+      "type": "securestring",
       "metadata": {
         "description": "The SQL Server Service account password"
       },
       "defaultValue": "Office365"
-		}
+    }
   },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
     "BetaEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvApp.json')]",
     "BetaEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvData.json')]",
-    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",    
+    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",
     "DevBetaMgmtTemplateLink": "[concat(variables('AssetLocation'),'/DevBetaMgmt.json')]",
     "DevEnvTemplateLink": "[concat(variables('AssetLocation'),'/DevEnv.json')]",
     "ProdEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvApp.json')]",
@@ -308,45 +308,45 @@
     },
     //Create Beta Web Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "BetaEnvWebTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('BetaEnvWebTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "BetaEnvWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('BetaEnvWebTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Beta App Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "BetaEnvAppTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('BetaEnvAppTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "BetaEnvAppTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('BetaEnvAppTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Beta Data Environment Stack
     {
@@ -371,45 +371,45 @@
     },
     //Create Stage Web Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "StgEnvWebTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('StgEnvWebTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "StgEnvWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgEnvWebTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Stage App Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "StgEnvAppTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('StgEnvAppTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "StgEnvAppTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgEnvAppTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Stage Data Environment Stack
     {
@@ -426,7 +426,7 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "DomainName": {"value": "[parameters('StageProdDomainName')]"},
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
           "customerLocation": { "value": "[parameters('customerLocation')]" },
           "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
           "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
@@ -436,46 +436,46 @@
     },
     //Create Prod Web Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "ProdEnvWebTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('ProdEnvWebTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "ProdEnvWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('ProdEnvWebTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Prod App Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "ProdEnvAppTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "dependsOn": [
-            "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('ProdEnvAppTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "ProdEnvAppTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('ProdEnvAppTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
-    }//,
+      }
+    } //,
     ////Create Prod Data Environment Stack
     //{
     //  "apiVersion": "2015-01-01",

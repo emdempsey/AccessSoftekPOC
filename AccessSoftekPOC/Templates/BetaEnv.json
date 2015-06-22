@@ -58,66 +58,66 @@
       },
       "defaultValue": "devbeta.macuhosted"
     },
-    "sqlServerServiceAccountUserName":{
-			"type":"string",
-			"metadata": {
-				"description": "The SQL Server Service account name"
-			},
-			"defaultValue":"sqlservice"
-		},
-		"sqlServerServiceAccountPassword":{
-			"type": "securestring",
+    "sqlServerServiceAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The SQL Server Service account name"
+      },
+      "defaultValue": "sqlservice"
+    },
+    "sqlServerServiceAccountPassword": {
+      "type": "securestring",
       "metadata": {
         "description": "The SQL Server Service account password"
       },
       "defaultValue": "Office365"
-		}
+    }
   },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
     "BetaEnvAppTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvApp.json')]",
     "BetaEnvDataTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvData.json')]",
-    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",    
+    "BetaEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/BetaEnvWeb.json')]",
     "DevBetaMgmtTemplateLink": "[concat(variables('AssetLocation'),'/DevBetaMgmt.json')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
   },
   "resources": [
     //Create Beta Web Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "BetaEnvWebTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('BetaEnvWebTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "BetaEnvWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('BetaEnvWebTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Beta App Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "BetaEnvAppTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('BetaEnvAppTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-              "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "BetaEnvAppTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('BetaEnvAppTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('DevBetaDomaiNName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Beta Data Environment Stack
     {

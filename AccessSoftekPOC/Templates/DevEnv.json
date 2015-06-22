@@ -117,7 +117,7 @@
     "WebvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'web')]",
     "WebVMSize": "Standard_A2"
   },
-    "resources": [
+  "resources": [
     //Create Storage account for Web and App VMs
     {
       "apiVersion": "2015-05-01-preview",
@@ -155,15 +155,15 @@
       },
       "properties": {
         "ipConfigurations": [
-            {
-                "name": "ipconfig1",
-                "properties": {
-                    "privateIPAllocationMethod": "Dynamic",
-                    "subnet": {
-                        "id": "[variables('WebSubnetRef')]"
-                    }
-                }
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('WebSubnetRef')]"
+              }
             }
+          }
         ]
       }
     },
@@ -304,7 +304,7 @@
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
                 "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleWeb')]",
+                "octRole": "[variables('OctRoleWeb')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -388,7 +388,7 @@
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
                 "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleApp')]",
+                "octRole": "[variables('OctRoleApp')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -472,7 +472,7 @@
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
                 "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleApp')]",
+                "octRole": "[variables('OctRoleApp')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -527,24 +527,24 @@
           },
           "dataDisks": [
             {
-                "vhd": {
-                    "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
-                },
-                "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
-                "caching": "None",
-                "createOption": "empty",
-                "diskSizeGB": "[variables('DataDiskSize')]",
-                "lun": 0
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 0
             },
             {
-                "vhd": {
-                    "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
-                },
-                "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
-                "caching": "None",
-                "createOption": "empty",
-                "diskSizeGB": "[variables('DataDiskSize')]",
-                "lun": 1
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 1
             }
           ]
         },
@@ -578,7 +578,7 @@
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
                 "octEnv": "[variables('OctEnv')]",
-                "octRole":  "[variables('OctRoleData')]",
+                "octRole": "[variables('OctRoleData')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"

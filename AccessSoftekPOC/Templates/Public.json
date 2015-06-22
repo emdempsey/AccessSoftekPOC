@@ -73,7 +73,7 @@
         "displayName": "Public Availability Set"
       },
       "properties": {
-        "platformUpdateDomainCount": 5, 
+        "platformUpdateDomainCount": 5,
         "platformFaultDomainCount": 3
       }
     },
@@ -180,56 +180,56 @@
       }
     },
     //Create Public Virtual Machines - Kemp or other NLB and WAF device
-   // {
-   //   "apiVersion": "2015-05-01-preview",
-   //   "type": "Microsoft.Compute/virtualMachines",
-   //   "name": "[concat(variables('PubvmName'), '01')]",
-   //   "location": "[parameters('customerLocation')]",
-   //   "dependsOn": [
-   //     "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
-   //     "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '0')]",
-   //     "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
-   //   ],
-   //   "tags": {
-   //     "displayName": "Public VM"
-   //   },
-   //   "properties": {
-   //     "availabilitySet": {
-   //       "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
-   //     },
-   //     "hardwareProfile": {
-   //       "vmSize": "[variables('PubVMSize')]"
-   //     },
-   //     "osProfile": {
-   //       "computername": "[concat(variables('PubvmName'), '01')]",
-   //       "adminUsername": "[parameters('adminUsername')]",
-   //       "adminPassword": "[parameters('adminPassword')]"
-   //     },
-   //     "storageProfile": {
-   //       "imageReference": {
-   //         "publisher": "[variables('PubimagePublisher')]",
-   //         "offer": "[variables('PubimageOffer')]",
-   //         "sku": "[variables('PubimageSKU')]",
-   //         "version": "latest"
-   //       },
-   //       "osDisk": {
-   //         "name": "osdisk",
-   //         "vhd": {
-   //           "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'01-osdisk.vhd')]"
-   //         },
-   //         "caching": "ReadWrite",
-   //         "createOption": "FromImage"
-   //       }
-   //     },
-   //     "networkProfile": {
-   //       "networkInterfaces": [
-   //         {
-   //           "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0')]"
-   //         }
-   //       ]
-   //     }
-   //   }
-   // },
+    // {
+    //   "apiVersion": "2015-05-01-preview",
+    //   "type": "Microsoft.Compute/virtualMachines",
+    //   "name": "[concat(variables('PubvmName'), '01')]",
+    //   "location": "[parameters('customerLocation')]",
+    //   "dependsOn": [
+    //     "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
+    //     "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '0')]",
+    //     "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
+    //   ],
+    //   "tags": {
+    //     "displayName": "Public VM"
+    //   },
+    //   "properties": {
+    //     "availabilitySet": {
+    //       "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
+    //     },
+    //     "hardwareProfile": {
+    //       "vmSize": "[variables('PubVMSize')]"
+    //     },
+    //     "osProfile": {
+    //       "computername": "[concat(variables('PubvmName'), '01')]",
+    //       "adminUsername": "[parameters('adminUsername')]",
+    //       "adminPassword": "[parameters('adminPassword')]"
+    //     },
+    //     "storageProfile": {
+    //       "imageReference": {
+    //         "publisher": "[variables('PubimagePublisher')]",
+    //         "offer": "[variables('PubimageOffer')]",
+    //         "sku": "[variables('PubimageSKU')]",
+    //         "version": "latest"
+    //       },
+    //       "osDisk": {
+    //         "name": "osdisk",
+    //         "vhd": {
+    //           "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'01-osdisk.vhd')]"
+    //         },
+    //         "caching": "ReadWrite",
+    //         "createOption": "FromImage"
+    //       }
+    //     },
+    //     "networkProfile": {
+    //       "networkInterfaces": [
+    //         {
+    //           "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0')]"
+    //         }
+    //       ]
+    //     }
+    //   }
+    // },
     //{
     //  "apiVersion": "2015-05-01-preview",
     //  "type": "Microsoft.Compute/virtualMachines",
@@ -304,38 +304,38 @@
           }
         ],
         "backendAddressPools": [
-            {
-                "name": "BackendPool1"
-            }
+          {
+            "name": "BackendPool1"
+          }
         ],
-       // "inboundNatRules": [
-       //             {
-       //                 "name": "OCT-01",
-       //                 "properties": {
-       //                     "frontendIPConfiguration":
-       //                         {
-       //                             "id": "[variables('frontEndIPConfigID')]"
-       //                         },
-       //                     "protocol": "tcp",
-       //                     "frontendPort": 10933,
-       //                     "backendPort": 10933,
-       //                     "enableFloatingIP": false
-       //                 }
-       //             },
-       //             //{
-       //             //    "name": "Oct-01",
-       //             //    "properties": {
-       //             //        "frontendIPConfiguration":
-       //             //            {
-       //             //                "id": "[variables('frontEndIPConfigID')]"
-       //             //            },
-       //             //        "protocol": "tcp",
-       //             //        "frontendPort": 50002,
-       //             //        "backendPort": 3389,
-       //             //        "enableFloatingIP": false
-       //             //    }
-       //             //}
-       //         ],
+        // "inboundNatRules": [
+        //             {
+        //                 "name": "OCT-01",
+        //                 "properties": {
+        //                     "frontendIPConfiguration":
+        //                         {
+        //                             "id": "[variables('frontEndIPConfigID')]"
+        //                         },
+        //                     "protocol": "tcp",
+        //                     "frontendPort": 10933,
+        //                     "backendPort": 10933,
+        //                     "enableFloatingIP": false
+        //                 }
+        //             },
+        //             //{
+        //             //    "name": "Oct-01",
+        //             //    "properties": {
+        //             //        "frontendIPConfiguration":
+        //             //            {
+        //             //                "id": "[variables('frontEndIPConfigID')]"
+        //             //            },
+        //             //        "protocol": "tcp",
+        //             //        "frontendPort": 50002,
+        //             //        "backendPort": 3389,
+        //             //        "enableFloatingIP": false
+        //             //    }
+        //             //}
+        //         ],
         "loadBalancingRules": [
           {
             "name": "HTTP",

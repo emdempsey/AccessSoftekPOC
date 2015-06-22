@@ -121,7 +121,7 @@
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb"
   },
-  "resources": [    
+  "resources": [
     //Create Virtual Network
     {
       "apiVersion": "2015-05-01-preview",

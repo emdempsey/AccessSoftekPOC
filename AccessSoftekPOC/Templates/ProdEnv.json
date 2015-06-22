@@ -60,21 +60,21 @@
     //    "metadata": {
     //        "description": "The number of Web VMs to create"
     //    }
-    //},    
-    "sqlServerServiceAccountUserName":{
-			"type":"string",
-			"metadata": {
-				"description": "The SQL Server Service account name"
-			},
-			"defaultValue":"sqlservice"
-		},
-		"sqlServerServiceAccountPassword":{
-			"type": "securestring",
+    //},
+    "sqlServerServiceAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The SQL Server Service account name"
+      },
+      "defaultValue": "sqlservice"
+    },
+    "sqlServerServiceAccountPassword": {
+      "type": "securestring",
       "metadata": {
         "description": "The SQL Server Service account password"
       },
       "defaultValue": "Office365"
-		}
+    }
   },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
@@ -84,43 +84,43 @@
     "ProdEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/ProdEnvWeb.json')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
   },
-  "resources": [    
+  "resources": [
     //Create Prod Web Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "ProdEnvWebTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('ProdEnvWebTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "ProdEnvWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('ProdEnvWebTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Prod App Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "ProdEnvAppTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('ProdEnvAppTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "ProdEnvAppTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('ProdEnvAppTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
-    }//,
+      }
+    } //,
     ////Create Prod Data Environment Stack
     //{
     //  "apiVersion": "2015-01-01",
@@ -140,6 +140,6 @@
     //      "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
     //    }
     //  }
-    //}    
+    //}
   ]
 }

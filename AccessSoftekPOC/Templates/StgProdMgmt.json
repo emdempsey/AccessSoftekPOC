@@ -115,7 +115,7 @@
         "displayName": "DC Availability Set"
       },
       "properties": {
-        "platformUpdateDomainCount": 5, 
+        "platformUpdateDomainCount": 5,
         "platformFaultDomainCount": 3
       }
     },
@@ -175,7 +175,7 @@
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
-      ],     
+      ],
       "tags": {
         "displayName": "Bastion Interface"
       },

@@ -29,7 +29,7 @@
         "description": "The 3 character prefix of the customer name"
       },
       "defaultValue": "ast"
-    },    
+    },
     "StageProdDomainName": {
       "type": "string",
       "metadata": {
@@ -62,20 +62,20 @@
       },
       "defaultValue": "10.0"
     },
-    "sqlServerServiceAccountUserName":{
-			"type":"string",
-			"metadata": {
-				"description": "The SQL Server Service account name"
-			},
-			"defaultValue":"sqlservice"
-		},
-		"sqlServerServiceAccountPassword":{
-			"type": "securestring",
+    "sqlServerServiceAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The SQL Server Service account name"
+      },
+      "defaultValue": "sqlservice"
+    },
+    "sqlServerServiceAccountPassword": {
+      "type": "securestring",
       "metadata": {
         "description": "The SQL Server Service account password"
       },
       "defaultValue": "Office365"
-		}
+    }
   },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
@@ -85,42 +85,42 @@
     "StgEnvWebTemplateLink": "[concat(variables('AssetLocation'),'/StgEnvWeb.json')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'),'vnet01')]"
   },
-  "resources": [    
+  "resources": [
     //Create Stage Web Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "StgEnvWebTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('StgEnvWebTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "StgEnvWebTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgEnvWebTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Stage App Environment Stack
     {
-        "apiVersion": "2015-01-01",
-        "name": "StgEnvAppTemplate",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": { "uri": "[variables('StgEnvAppTemplateLink')]" },
-            "parameters": {
-                "adminPassword": { "value": "[parameters('adminPassword')]" },
-                "adminUsername": { "value": "[parameters('adminusername')]" },
-                "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-                "DomainName": { "value": "[parameters('StageProdDomainName')]" },
-                "customerLocation": { "value": "[parameters('customerLocation')]" },
-                "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
-            }
+      "apiVersion": "2015-01-01",
+      "name": "StgEnvAppTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('StgEnvAppTemplateLink')]" },
+        "parameters": {
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminusername')]" },
+          "customerPrefix": { "value": "[parameters('customerPrefix')]" },
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
+          "customerLocation": { "value": "[parameters('customerLocation')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
+      }
     },
     //Create Stage Data Environment Stack
     {
@@ -134,13 +134,13 @@
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminusername')]" },
           "customerPrefix": { "value": "[parameters('customerPrefix')]" },
-          "DomainName": {"value": "[parameters('StageProdDomainName')]"},
+          "DomainName": { "value": "[parameters('StageProdDomainName')]" },
           "customerLocation": { "value": "[parameters('customerLocation')]" },
           "sqlServerServiceAccountPassword": { "value": "[parameters('sqlServerServiceAccountPassword')]" },
           "sqlServerServiceAccountUserName": { "value": "[parameters('sqlServerServiceAccountUserName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" }
         }
       }
-    }    
+    }
   ]
 }

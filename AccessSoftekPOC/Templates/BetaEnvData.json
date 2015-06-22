@@ -60,147 +60,147 @@
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]"
   },
-    "resources": [
-        //Create Storage account for Data VMs
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[variables('DataStorageAccountName')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Data Storage Account"
-            },
+  "resources": [
+    //Create Storage account for Data VMs
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('DataStorageAccountName')]",
+      "location": "[parameters('customerLocation')]",
+      "tags": {
+        "displayName": "Data Storage Account"
+      },
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    //Create Data Network Interface
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('DatanicName'), '0')]",
+      "location": "[parameters('customerLocation')]",
+      "tags": {
+        "displayName": "Data Interface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
             "properties": {
-                "accountType": "[variables('storageAccountType')]"
+              "privateIPAlcustomerLocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('DataSubnetRef')]"
+              }
             }
-        },
-        //Create Data Network Interface
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('DatanicName'), '0')]",
-            "location": "[parameters('customerLocation')]",
-            "tags": {
-                "displayName": "Data Interface"
-            },
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "privateIPAlcustomerLocationMethod": "Dynamic",
-                            "subnet": {
-                                "id": "[variables('DataSubnetRef')]"
-                            }
-                        }
-                    }
-                ]
-            }
-        },
-        //Create Data Virtual Machines
-        {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[concat(variables('DatavmName'), '0')]",
-            "location": "[parameters('customerLocation')]",
-            "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('DatanicName'), '0')]"
-            ],
-            "tags": {
-                "displayName": "Data VM"
-            },
-            "properties": {
-                "hardwareProfile": {
-                    "vmSize": "[variables('DataVMSize')]"
-                },
-                "osProfile": {
-                    "computername": "[concat(variables('DatavmName'), '0')]",
-                    "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "[variables('DataimagePublisher')]",
-                        "offer": "[variables('DataimageOffer')]",
-                        "sku": "[variables('DataimageSKU')]",
-                        "version": "latest"
-                    },
-                  "osDisk": {
-                    "name": "osdisk",
-                    "vhd": {
-                      "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'0-osdisk.vhd')]"
-                    },
-                    "caching": "ReadWrite",
-                    "createOption": "FromImage"
-                  },
-                  "dataDisks": [
-                    {
-                        "vhd": {
-                            "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
-                        },
-                        "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
-                        "caching": "None",
-                        "createOption": "empty",
-                        "diskSizeGB": "[variables('DataDiskSize')]",
-                        "lun": 0
-                    },
-                    {
-                        "vhd": {
-                            "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
-                        },
-                        "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
-                        "caching": "None",
-                        "createOption": "empty",
-                        "diskSizeGB": "[variables('DataDiskSize')]",
-                        "lun": 1
-                    }
-                  ]
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DatanicName')), '0')]"
-                        }
-                    ]
-                }
-            }
-        },
-            //Data DSC
-            {
-                "apiVersion": "2015-05-01-preview",
-                "type": "Microsoft.Compute/virtualMachines/extensions",
-                "name": "[concat(variables('DataVMName'),'0/CreateData')]",
-                "location": "[parameters('customerLocation')]",
-                "tags": {
-                    "displayName": "Data DSC"
-                },
-                "dependsOn": [
-                    "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
-                ],
-                "properties": {
-                    "publisher": "Microsoft.PowerShell",
-                    "type": "DSC",
-                    "typeHandlerVersion": "2.0",
-                    "settings": {
-                        "ModulesUrl": "[variables('DataDSCModulesURL')]",
-                        "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
-                        "Properties": {
-                            "DomainName": "[parameters('DomainName')]",
-                            "octEnv": "[variables('OctEnv')]",
-                            "octRole":  "[variables('OctRoleData')]",
-                            "AdminCreds": {
-                                "UserName": "[parameters('adminUserName')]",
-                                "Password": "PrivateSettingsRef:AdminPassword"
-                            }
-                        }
-                    },
-                    "protectedSettings": {
-                        "Items": {
-                            "AdminPassword": "[parameters('adminPassword')]"
-                        }
-                    }
-                }
-            }
+          }
         ]
+      }
+    },
+    //Create Data Virtual Machines
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('DatavmName'), '0')]",
+      "location": "[parameters('customerLocation')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('DataStorageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('DatanicName'), '0')]"
+      ],
+      "tags": {
+        "displayName": "Data VM"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('DataVMSize')]"
+        },
+        "osProfile": {
+          "computername": "[concat(variables('DatavmName'), '0')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('DataimagePublisher')]",
+            "offer": "[variables('DataimageOffer')]",
+            "sku": "[variables('DataimageSKU')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'0-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          },
+          "dataDisks": [
+            {
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 0
+            },
+            {
+              "vhd": {
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+              },
+              "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
+              "caching": "None",
+              "createOption": "empty",
+              "diskSizeGB": "[variables('DataDiskSize')]",
+              "lun": 1
+            }
+          ]
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('DatanicName')), '0')]"
+            }
+          ]
+        }
+      }
+    },
+    //Data DSC
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('DataVMName'),'0/CreateData')]",
+      "location": "[parameters('customerLocation')]",
+      "tags": {
+        "displayName": "Data DSC"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('DataVMName'),'0')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.PowerShell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.0",
+        "settings": {
+          "ModulesUrl": "[variables('DataDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
+          "Properties": {
+            "DomainName": "[parameters('DomainName')]",
+            "octEnv": "[variables('OctEnv')]",
+            "octRole": "[variables('OctRoleData')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUserName')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    }
+  ]
 }
