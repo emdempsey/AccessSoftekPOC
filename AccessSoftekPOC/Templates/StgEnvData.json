@@ -461,7 +461,7 @@
           "vmSize": "[variables('FSWVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('FSWvmName'), '01')]",
+          "computername": "[concat(variables('FSWvmName'))]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -475,7 +475,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('DataStorageAccountName'),'01.blob.core.windows.net/vhds/',variables('FSWvmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('DataStorageAccountName'),'01.blob.core.windows.net/vhds/',variables('FSWvmName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
