@@ -337,7 +337,7 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',variables('DataStorageAccountName'),'01.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'01.blob.core.windows.net/vhds/',variables('DatavmName'),'01-Data-01.vhd')]"
               },
               "name": "[concat(variables('DatavmName'), '-01-data-disk-01')]",
               "caching": "None",
@@ -347,7 +347,7 @@
             },
             {
               "vhd": {
-                "uri": "[concat('http://',variables('DataStorageAccountName'),'01.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'01.blob.core.windows.net/vhds/',variables('DatavmName'),'01-Data-02.vhd')]"
               },
               "name": "[concat(variables('DatavmName'), '-01-data-disk-02')]",
               "caching": "None",
@@ -410,7 +410,7 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-01.vhd')]"
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'02-Data-01.vhd')]"
               },
               "name": "[concat(variables('DatavmName'), '-02-data-disk-01')]",
               "caching": "None",
@@ -420,7 +420,7 @@
             },
             {
               "vhd": {
-                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'-Data-02.vhd')]"
+                "uri": "[concat('http://',variables('DataStorageAccountName'),'02.blob.core.windows.net/vhds/',variables('DatavmName'),'02-Data-02.vhd')]"
               },
               "name": "[concat(variables('DatavmName'), '-02-data-disk-02')]",
               "caching": "None",
