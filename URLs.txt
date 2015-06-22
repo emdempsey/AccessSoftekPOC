@@ -10,17 +10,21 @@ https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekP
 
 ***Template Files***
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/azuredeploy.json'
-$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/BetaEnv.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgProdMgmt.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevEnv.json'
 
-***Vars and Commands for full deployment testing***
-
-$ResourceGroupName = 'ASTServices'
+$ResourceGroupName = 'ASTProject'
 $location = "West US"
 
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -Force -Verbose
+
+***Vars and Commands for full deployment testing***
+
+
 
 ***Extra Vars if you want to change the defaults
 $adminPassword = 'Office365'

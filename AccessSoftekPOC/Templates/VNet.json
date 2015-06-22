@@ -6,55 +6,64 @@
       "type": "string",
       "metadata": {
         "description": "Location where resources will be provisioned"
-      }
+      },
+      "defaultValue": "West US"
     },
     "customerPrefix": {
       "metadata": {
         "description": "The 3 character prefix of the customer name"
       },
-      "type": "string"
+      "type": "string",
+      "defaultValue": "ast"
     },
     "customerVPNAddress": {
       "type": "string",
       "metadata": {
         "description": "The IP address of the VPN device on the customer network"
-      }
+      },
+      "defaultValue": "1.1.1.1"
     },
     "customerVPNFamily": {
       "type": "string",
       "metadata": {
         "description": "The OS family of the VPN Device"
-      }
+      },
+      "defaultValue": "IOS 15.1 (Dynamic)"
     },
     "customerVPNP2SSubnet": {
       "type": "string",
       "metadata": {
         "description": "A single IP address prefix inside the list of prefixes that will be used when assigning IP addresses to incoming Point-to-Site client connection requests"
-      }
+      },
+      "defaultValue": "192.168.1.0/24"
     },
     "customerVPNPlatform": {
       "type": "string",
       "metadata": {
         "description": "The platform of the VPN device"
-      }
+      },
+      "defaultValue": "ISR"
     },
     "customerVPNSubnet": {
       "type": "string",
       "metadata": {
         "description": "One of the subnets onthe customer's local network"
-      }
+      },
+      "defaultValue": "172.16.0.0/16"
     },
     "customerVPNVendor": {
       "type": "string",
       "metadata": {
         "description": "The vendor of the VPN device"
-      }
+      },
+      "defaultValue": "Cisco"
     },
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
         "description": "The name of the virtual Network to be created"
-      }
+      },
+      "defaultValue": "astvnet01"
     },
     "vnetAddressSpacePrefix": {
       "type": "string",
