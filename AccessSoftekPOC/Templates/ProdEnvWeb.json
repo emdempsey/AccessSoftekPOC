@@ -28,19 +28,7 @@
     },
     "DomainName": {
       "type": "string"
-    },
-    //"mfmVMCount": {
-    //    "type": "int",
-    //    "metadata": {
-    //        "description": "The number of MFM VMs to create"
-    //    }
-    //},
-    //"orphVMCount": {
-    //    "type": "int",
-    //    "metadata": {
-    //        "description": "The number of Orph VMs to create"
-    //    }
-    //},
+    },    
     "virtualNetworkName": {
       "type": "string",
       "metadata": {

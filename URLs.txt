@@ -19,10 +19,15 @@ $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/mas
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
 
-$ResourceGroupName = 'ASTProject'
+$ResourceGroupName = 'ASAGroup'
 $location = "West US"
+$prefix = "asa"
 
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -Force -Verbose
+$vnetname = $prefix + "vnet01"
+
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -Force -Verbose
+
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -VirtualNetworkName $vnetname -Force -Verbose
 
 ***Vars and Commands for full deployment testing***
 

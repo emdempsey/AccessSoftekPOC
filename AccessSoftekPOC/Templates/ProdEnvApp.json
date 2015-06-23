@@ -46,13 +46,7 @@
       "metadata": {
         "description": "The name of the virtual Network to be created"
       }
-    },
-    //"webVMCount": {
-    //    "type": "int",
-    //    "metadata": {
-    //        "description": "The number of Web VMs to create"
-    //    }
-    //}
+    }
   },
   "variables": {
     "AppStorageAccountName": "[concat(parameters('customerPrefix'),variables('EnvAbbr'),'astor01')]",
