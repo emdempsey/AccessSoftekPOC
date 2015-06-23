@@ -245,6 +245,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('DatanicName'), '1')]",
       "location": "[parameters('customerLocation')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/',variables('sqllbName'))]"
+      ],
       "tags": {
         "displayName": "Data Interface"
       },
