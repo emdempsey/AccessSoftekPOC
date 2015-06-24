@@ -19,15 +19,14 @@ $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/mas
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
 
-$ResourceGroupName = 'ASBGroup'
-$location = "West US"
 $prefix = "asb"
+$ResourceGroupName = $prefix + 'Group'
+$location = "West US"
 $adminPassword = "Office365"
 $adminUsername = "nimda"
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 #$DomainName = "devbeta.macuhosted"
-#$DomainName = "stageprod.macuhosted"
-
+$DomainName = "stageprod.macuhosted"
 $vnetname = $prefix + "vnet01"
 
 ***Use this command for templates with Default values***
