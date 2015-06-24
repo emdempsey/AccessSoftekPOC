@@ -49,10 +49,8 @@
     "OctRoleWeb": "ofm-web",
     "storageAccountType": "Standard_LRS",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
-    "Web1DSCConfigurationFunction": "astwebbeta1dsc.ps1\\web",
-    "Web1DSCModulesURL": "[concat(variables('AssetLocation'),'/astwebbeta1dsc.ps1.zip')]",
-    "Web2DSCConfigurationFunction": "astwebbeta2dsc.ps1\\web",
-    "Web2DSCModulesURL": "[concat(variables('AssetLocation'),'/astwebbeta2dsc.ps1.zip')]",
+    "WebDSCConfigurationFunction": "astwebdsc.ps1\\web",
+    "WebDSCModulesURL": "[concat(variables('AssetLocation'),'/astwebdsc.ps1.zip')]",
     "WebAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'webas')]",
     "WebimageOffer": "WindowsServer",
     "WebimagePublisher": "MicrosoftWindowsServer",
@@ -206,8 +204,8 @@
         "type": "DSC",
         "typeHandlerVersion": "2.0",
         "settings": {
-          "ModulesUrl": "[variables('Web1DSCModulesURL')]",
-          "ConfigurationFunction": "[variables('Web1DSCConfigurationFunction')]",
+          "ModulesUrl": "[variables('WebDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
             "DNS1": "[variables('DNS1')]",
@@ -295,8 +293,8 @@
         "type": "DSC",
         "typeHandlerVersion": "2.0",
         "settings": {
-          "ModulesUrl": "[variables('Web2DSCModulesURL')]",
-          "ConfigurationFunction": "[variables('Web2DSCConfigurationFunction')]",
+          "ModulesUrl": "[variables('WebDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
             "DNS1": "[variables('DNS1')]",
