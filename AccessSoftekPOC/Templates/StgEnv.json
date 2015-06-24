@@ -55,13 +55,6 @@
     //        "description": "The number of Web VMs to create"
     //    }
     //},
-    "vnetAddressSpacePrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "The address space used by the Virtual network"
-      },
-      "defaultValue": "10.0"
-    },
     "sqlServerServiceAccountUserName": {
       "type": "string",
       "metadata": {

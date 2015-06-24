@@ -16,27 +16,27 @@
       },
       "defaultValue": "nimda"
     },
-    "BetaMFMVMCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of Web VMs to create"
-      },
-      "defaultValue": 2
-    },
-    "BetaOrphVMCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of Web VMs to create"
-      },
-      "defaultValue": 2
-    },
-    "BetaWebVMCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of Web VMs to create"
-      },
-      "defaultValue": 2
-    },
+    //"BetaMFMVMCount": {
+    //  "type": "int",
+    //  "metadata": {
+    //    "description": "The number of Web VMs to create"
+    //  },
+    //  "defaultValue": 2
+    //},
+    //"BetaOrphVMCount": {
+    //  "type": "int",
+    //  "metadata": {
+    //    "description": "The number of Web VMs to create"
+    //  },
+    //  "defaultValue": 2
+    //},
+    //"BetaWebVMCount": {
+    //  "type": "int",
+    //  "metadata": {
+    //    "description": "The number of Web VMs to create"
+    //  },
+    //  "defaultValue": 2
+    //},
     "customerLocation": {
       "type": "string",
       "metadata": {

@@ -19,32 +19,28 @@ $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/mas
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/StgEnv.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnv.json'
 
-$ResourceGroupName = 'ASAGroup'
+$ResourceGroupName = 'ASBGroup'
 $location = "West US"
-$prefix = "asa"
+$prefix = "asb"
+$adminPassword = "Office365"
+$adminUsername = "nimda"
+$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
+#$DomainName = "devbeta.macuhosted"
+#$DomainName = "stageprod.macuhosted"
 
 $vnetname = $prefix + "vnet01"
 
+***Use this command for templates with Default values***
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -Force -Verbose
 
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -VirtualNetworkName $vnetname -Force -Verbose
+***Use this command for environment child templates *EnvApp, *EnvData, *EnvWeb***
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminUsername $adminusername -adminPassword $adminPassword -customerLocation $location -customerPrefix $Prefix -DomainName $DomainName -VirtualNetworkName $vnetname -Force -Verbose
 
-***Vars and Commands for full deployment testing***
 
 
 
 ***Extra Vars if you want to change the defaults
-$adminPassword = 'Office365'
-$adminUsername = 'nimda'
-$customerPrefix = 'sky'
-$customerVPNAddress = '1.1.1.1'
-$customerVPNFamily = 'IOS 15.1 (dynamic)'
-$customerVPNP2SSubnet = '192.168.1.0/24'
-$customerVPNPlatform = 'ISR'
-$customerVPNSubnet = '172.16.0.0/16'
-$customerVPNVendor = 'Cisco'
-$dnsNameForPublicIP = 'astservices'
-$vnetAddressSpacePrefix = '10.0'
+
 $BetaWebVMCount = 2
 $BetaMFMVMCount = 2
 $BetaOrphVMCount = 2
@@ -54,8 +50,7 @@ $StgOrphVMCount = 2
 $ProdWebVMCount = 3
 $ProdMFMVMCount = 3
 $ProdOrphVMCount = 3
-$DevBetaDomainName = 'devbeta.macuhosted'
-$StgProdDomainName = 'stageprod.macuhosted'
+
 
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 
@@ -63,6 +58,17 @@ Switch-AzureMode AzureResourceManager
 
 cls
 
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminPassword $adminPassword -adminUsername $adminUsername -customerLocation $location -customerPrefix $customerPrefix -customerVPNAddress $customerVPNAddress -customerVPNfamily $customerVPNFamily -customerVPNP2SSubnet $customerVPNP2SSubnet -customerVPNPlatform $customerVPNPlatform -customerVPNSubnet $customerVPNSubnet -customerVPNVendor $customerVPNVendor -dnsNameForPublicIP $dnsNameForPublicIP -vnetAddressSpacePrefix $vnetAddressSpacePrefix -BetaWebVMCount $BetaWebVMCount -BetaMFMVMCount $BetaMFMVMCount -BetaOrphVMCount $BetaOrphVMCount -StgWebVMCount $StgWebVMCount -StgMFMVMCount $StgMFMVMCount -StgOrphVMCount $StgOrphVMCount -ProdWebVMCount $ProdWebVMCount -ProdMFMVMCount $ProdMFMVMCount -ProdOrphVMCount $ProdOrphVMCount -DevBetaDomainName $DevBetaDomainName -StgProdDomainName $StgProdDomainName -Force -Verbose
 
 
+
+
+
+
+
+
+    "DNS1": "10.0.15.4",
+    "DNS2": "10.0.15.5",
+
+
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
