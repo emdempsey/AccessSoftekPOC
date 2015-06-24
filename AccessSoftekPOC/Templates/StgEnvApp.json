@@ -60,6 +60,8 @@
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+    "DNS1": "10.0.15.4",
+    "DNS2": "10.0.15.5",
     "EnvAbbr": "s",
     "Environment": "stg",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
@@ -291,6 +293,8 @@
           "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {
@@ -378,6 +382,8 @@
           "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {
@@ -465,6 +471,8 @@
           "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {
@@ -552,6 +560,8 @@
           "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {

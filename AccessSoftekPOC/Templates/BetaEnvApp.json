@@ -42,6 +42,8 @@
     "AppSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('AppSubnetName'))]",
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DSC",
     //"AssetLocation": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/DSC",
+    "DNS1": "10.0.14.4",
+    "DNS2": "10.0.14.5",
     "EnvAbbr": "b",
     "Environment": "beta",
     "MFMAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'mfmappas')]",
@@ -57,10 +59,8 @@
     "OctRoleApp": "ofm-ds",
     "OctRoleData": "ofm-ds-db",
     "OctRoleWeb": "ofm-web",
-    "Orph1AppDSCConfigurationFunction": "astorphbeta1dsc.ps1\\orph",
-    "Orph1AppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphbeta1dsc.ps1.zip')]",
-    "Orph2AppDSCConfigurationFunction": "astorphbeta2dsc.ps1\\orph",
-    "Orph2appDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphbeta2dsc.ps1.zip')]",
+    "OrphAppDSCConfigurationFunction": "astorphdsc.ps1\\orph",
+    "OrphAppDSCModulesURL": "[concat(variables('AssetLocation'),'/astorphdsc.ps1.zip')]",
     "OrphAppAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'orpappas')]",
     "OrphAppimageOffer": "WindowsServer",
     "OrphAppimagePublisher": "MicrosoftWindowsServer",
@@ -275,6 +275,8 @@
           "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {
@@ -362,6 +364,8 @@
           "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {
@@ -445,10 +449,12 @@
         "type": "DSC",
         "typeHandlerVersion": "2.0",
         "settings": {
-          "ModulesUrl": "[variables('Orph1AppDSCModulesURL')]",
-          "ConfigurationFunction": "[variables('Orph1AppDSCConfigurationFunction')]",
+          "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {
@@ -532,10 +538,12 @@
         "type": "DSC",
         "typeHandlerVersion": "2.0",
         "settings": {
-          "ModulesUrl": "[variables('Orph2AppDSCModulesURL')]",
-          "ConfigurationFunction": "[variables('Orph2AppDSCConfigurationFunction')]",
+          "ModulesUrl": "[variables('OrphAppDSCModulesURL')]",
+          "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleApp')]",
             "AdminCreds": {

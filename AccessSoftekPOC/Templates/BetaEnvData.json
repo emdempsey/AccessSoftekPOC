@@ -51,6 +51,8 @@
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
+    "DNS1": "10.0.14.4",
+    "DNS2": "10.0.14.5",
     "EnvAbbr": "b",
     "Environment": "beta",
     "OctEnv": "Skyline-Test",
@@ -187,6 +189,8 @@
           "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
           "Properties": {
             "DomainName": "[parameters('DomainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleData')]",
             "AdminCreds": {

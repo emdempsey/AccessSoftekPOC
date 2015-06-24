@@ -64,6 +64,8 @@
     "DCnicName": "StgProd-DC-nic",
     "DCvmName": "[concat(parameters('customerPrefix'),'stgprodad')]",
     "DCVMSize": "Standard_A1",
+    "DNS1": "10.0.15.4",
+    "DNS2": "10.0.15.5",
     "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'spmbastion')]",
     "nicTemplateUri": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/nic.json",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
@@ -355,6 +357,8 @@
               "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -438,6 +442,8 @@
               "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"

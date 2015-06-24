@@ -51,8 +51,6 @@
     <None Include="Templates\DSC\astbdcproddsc.ps1.zip" />
     <None Include="Templates\DSC\astmfmdsc.ps1.zip" />
     <None Include="Templates\DSC\astmfmproddsc.ps1.zip" />
-    <None Include="Templates\DSC\astorphbeta1dsc.ps1.zip" />
-    <None Include="Templates\DSC\astorphbeta2dsc.ps1.zip" />
     <None Include="Templates\DSC\astorphdsc.ps1.zip" />
     <None Include="Templates\DSC\astorphproddsc.ps1.zip" />
     <None Include="Templates\DSC\astpdcdsc.ps1.zip" />

@@ -64,6 +64,8 @@
     "DCnicName": "DevBeta-DC-nic",
     "DCvmName": "[concat(parameters('customerPrefix'),'devbetaad')]",
     "DCVMSize": "Standard_A1",
+    "DNS1": "10.0.14.4",
+    "DNS2": "10.0.14.5",
     "dnsNameForPublicIP": "[concat(parameters('customerPrefix'),'dbmbastion')]",
     "nicTemplateUri": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/nic.json",
     //"nicTemplateUri": "https://raw.githubusercontent.com/dscninja/ast/master/AccessSoftekPOC/Templates/nic.json",
@@ -356,6 +358,8 @@
               "ConfigurationFunction": "[variables('adBDCConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"
@@ -439,6 +443,8 @@
               "ConfigurationFunction": "[variables('BastionConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "AdminCreds": {
                   "UserName": "[parameters('adminUserName')]",
                   "Password": "PrivateSettingsRef:AdminPassword"

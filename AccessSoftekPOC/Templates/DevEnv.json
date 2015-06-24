@@ -65,7 +65,9 @@
     "DataSubnetName": "[concat(variables('Environment'),'Data')]",
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
-    "DataVMSize": "Standard_A4",
+    "DataVMSize": "Standard_A4",    
+    "DNS1": "10.0.14.4",
+    "DNS2": "10.0.14.5",
     "EnvAbbr": "d",
     "Environment": "dev",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
@@ -303,6 +305,8 @@
               "ConfigurationFunction": "[variables('WebDSCConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "octEnv": "[variables('OctEnv')]",
                 "octRole": "[variables('OctRoleWeb')]",
                 "AdminCreds": {
@@ -386,7 +390,9 @@
               "ModulesUrl": "[variables('MFMAppDSCModulesURL')]",
               "ConfigurationFunction": "[variables('MFMAppDSCConfigurationFunction')]",
               "Properties": {
-                "DomainName": "[parameters('DomainName')]",
+                "DomainName": "[parameters('DomainName')]",                
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "octEnv": "[variables('OctEnv')]",
                 "octRole": "[variables('OctRoleApp')]",
                 "AdminCreds": {
@@ -471,6 +477,8 @@
               "ConfigurationFunction": "[variables('OrphAppDSCConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "octEnv": "[variables('OctEnv')]",
                 "octRole": "[variables('OctRoleApp')]",
                 "AdminCreds": {
@@ -577,6 +585,8 @@
               "ConfigurationFunction": "[variables('DataDSCConfigurationFunction')]",
               "Properties": {
                 "DomainName": "[parameters('DomainName')]",
+                "DNS1": "[variables('DNS1')]",
+                "DNS2": "[variables('DNS2')]",
                 "octEnv": "[variables('OctEnv')]",
                 "octRole": "[variables('OctRoleData')]",
                 "AdminCreds": {

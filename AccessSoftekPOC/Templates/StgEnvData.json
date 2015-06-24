@@ -75,6 +75,8 @@
     "DataSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('DataSubnetName'))]",
     "DatavmName": "[concat(parameters('customerPrefix'),variables('Environment'),'data')]",
     "DataVMSize": "Standard_A4",
+    "DNS1": "10.0.15.4",
+    "DNS2": "10.0.15.5",
     "dnsPrefix": "[concat(parameters('customerPrefix'),variables('Environment'))]",
     "EnvAbbr": "s",
     "Environment": "stg",
@@ -511,6 +513,8 @@
           "configurationFunction": "[variables('fswDSCConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "sharePath": "[variables('FSWSharePath')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleData')]",
@@ -549,6 +553,8 @@
           "configurationFunction": "[variables('sqlAOPrepareConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "sqlAlwaysOnEndpointName": "[variables('sqlAOEPName')]",
             "octEnv": "[variables('OctEnv')]",
             "octRole": "[variables('OctRoleData')]",
@@ -592,6 +598,8 @@
           "configurationFunction": "[variables('createClusterConfigurationFunction')]",
           "properties": {
             "domainName": "[parameters('domainName')]",
+            "DNS1": "[variables('DNS1')]",
+            "DNS2": "[variables('DNS2')]",
             "clusterName": "[variables('clusterName')]",
             "sharePath": "[concat('\\\\',variables('FSWVMName'),'\\',variables('FSWsharePath'))]",
             "nodes": [ "[concat(variables('DataVMName'),'01')]", "[concat(variables('DataVMName'),'02')]" ],
