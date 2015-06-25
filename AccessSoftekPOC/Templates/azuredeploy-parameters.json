@@ -18,6 +18,6 @@
     "dnsNameForPublicIP": { "value": "emdservices" },
     "vnetAddressSpacePrefix": { "value": "10.0" },
     "sqlServerServiceAccountUserName": { "value": "sqlservice" },
-    "sqlServerServiceAccountPassword": {"value": "Office365"}
+    "sqlServerServiceAccountPassword": { "value": "Office365" }
   }
 }
