@@ -116,7 +116,7 @@
   "resources": [
     //Create Network Security Groups
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "NetworkSecurityGroupTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {

@@ -195,7 +195,7 @@
   "resources": [
     //Create Virtual Network
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "VNetTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -240,7 +240,7 @@
     //},
     //Create Dev-Beta Mgmt Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "DevBetaMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -262,7 +262,7 @@
     },
     //Create Stg-Prod Mgmt Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "StgProdMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -284,7 +284,7 @@
     },
     //Create Dev Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "DevEnvTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -307,7 +307,7 @@
     },
     //Create Beta Web Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "BetaEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -329,7 +329,7 @@
     },
     //Create Beta App Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "BetaEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -351,7 +351,7 @@
     },
     //Create Beta Data Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "BetaEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -373,7 +373,7 @@
     },
     //Create Stage Web Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "StgEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -395,7 +395,7 @@
     },
     //Create Stage App Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "StgEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -417,7 +417,7 @@
     },
     //Create Stage Data Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "StgEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -441,7 +441,7 @@
     },
     //Create Prod Web Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "22015-01-01",
       "name": "ProdEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -463,7 +463,7 @@
     },
     //Create Prod App Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "ProdEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "location": "[parameters('customerLocation')]",
@@ -485,7 +485,7 @@
     } //,
     ////Create Prod Data Environment Stack
     //{
-    //  "apiVersion": "2015-05-01-preview",
+    //  "apiVersion": "2015-01-01",
     //  "name": "ProdEnvDataTemplate",
     //  "type": "Microsoft.Resources/deployments",
       //"location": "[parameters('customerLocation')]",
@@ -509,7 +509,7 @@
     //}
     ////Update Virtual Network - apply network security groups
     //{
-    //  "apiVersion": "2015-05-01-preview",
+    //  "apiVersion": "2015-01-01",
     //  "name": "VNetUpdateTemplate",
     //  "type": "Microsoft.Resources/deployments",
     //  "dependsOn": [

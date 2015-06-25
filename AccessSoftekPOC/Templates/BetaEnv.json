@@ -85,7 +85,7 @@
   "resources": [
     //Create Beta Web Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "BetaEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -103,7 +103,7 @@
     },
     //Create Beta App Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "BetaEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -121,7 +121,7 @@
     },
     //Create Beta Data Environment Stack
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-01-01",
       "name": "BetaEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
