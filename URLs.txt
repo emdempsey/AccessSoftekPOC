@@ -1,12 +1,3 @@
-https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-virtual-network%2Fazuredeploy.json
-
-https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Femdempsey%2FAccessSoftekPOC%2Fmaster%2FAccessSoftekPOC%2FTemplates%2Fastazuredeploy.json
-
-https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Femdempsey%2FAccessSoftekPOC%2Fmaster%2FAccessSoftekPOC%2FTemplates%2FLoadBalancedVirtualMachine.json
-
-https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/astazuredeploy.json
-
-https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/DevBetaMgmt.json
 
 ***Template Files***
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/azuredeploy.json'
@@ -59,25 +50,3 @@ $StgOrphVMCount = 2
 $ProdWebVMCount = 3
 $ProdMFMVMCount = 3
 $ProdOrphVMCount = 3
-
-
-$adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
-
-Switch-AzureMode AzureResourceManager
-
-cls
-
-
-
-
-
-
-
-
-
-    "DNS1": "10.0.15.4",
-    "DNS2": "10.0.15.5",
-
-
-            "DNS1": "[variables('DNS1')]",
-            "DNS2": "[variables('DNS2')]",
