@@ -144,12 +144,6 @@
     //        "description": "The number of Web VMs to create"
     //    }
     //},
-    //"StgProdDomainName": {
-    //    "type": "string",
-    //    "metadata": {
-    //        "description": "Active Directory Domain Name for the Stage and Prod Environments"
-    //    }
-    //},
     //"StgWebVMCount": {
     //    "type": "int",
     //    "metadata": {
