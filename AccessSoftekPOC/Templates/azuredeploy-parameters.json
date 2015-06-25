@@ -1,21 +1,23 @@
 ﻿{
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adminPassword": { "value": "Office365" },
     "adminUsername": { "value": "nimda" },
-    "customerPrefix": { "value": "sky" },
+    "BetaMFMVMCount": { "value": 2 },
+    "BetaORPHVMCount": { "value": 2 },
+    "BetaWebVMCount": { "value": 2 },
+    "customerlocation": { "value": "West US" },
+    "customerPrefix": { "value": "emd" },
     "customerVPNAddress": { "value": "1.1.1.1" },
     "customerVPNfamily": { "value": "IOS 15.1 (dynamic)" },
     "customerVPNP2SSubnet": { "value": "192.168.0.0/24" },
     "customerVPNPlatform": { "value": "ISR" },
     "customerVPNSubnet": { "value": "172.16.0.0/16" },
     "customerVPNVendor": { "value": "Cisco" },
-    "dnsNameForPublicIP": { "value": "astservices" },
-    "location": { "value": 2 },
-    "BetaMFMVMCount": { "value": 2 },
-    "BetaORPHVMCount": { "value": 2 },
-    "BetaWebVMCount": { "value": "West US" },
-    "vnetAddressSpacePrefix": { "value": "10.0" }
+    "dnsNameForPublicIP": { "value": "emdservices" },
+    "vnetAddressSpacePrefix": { "value": "10.0" },
+    "sqlServerServiceAccountUserName": { "value": "sqlservice" },
+    "sqlServerServiceAccountPassword": {"value": "Office365"}
   }
 }
