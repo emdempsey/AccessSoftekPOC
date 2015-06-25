@@ -87,7 +87,7 @@
   "resources": [
     //Create Prod Web Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "ProdEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -105,7 +105,7 @@
     },
     //Create Prod App Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "ProdEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -123,7 +123,7 @@
     } //,
     ////Create Prod Data Environment Stack
     //{
-    //  "apiVersion": "2015-01-01",
+    //  "apiVersion": "2015-05-01-preview",
     //  "name": "ProdEnvDataTemplate",
     //  "type": "Microsoft.Resources/deployments",
     //  "properties": {

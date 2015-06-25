@@ -81,7 +81,7 @@
   "resources": [
     //Create Stage Web Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -99,7 +99,7 @@
     },
     //Create Stage App Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -117,7 +117,7 @@
     },
     //Create Stage Data Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
