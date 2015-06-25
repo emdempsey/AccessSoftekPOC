@@ -201,7 +201,7 @@
   "resources": [
     //Create Virtual Network
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "VNetTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -244,7 +244,7 @@
     //},
     //Create Dev-Beta Mgmt Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "DevBetaMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -265,7 +265,7 @@
     },
     //Create Stg-Prod Mgmt Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgProdMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -286,7 +286,7 @@
     },
     //Create Dev Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "DevEnvTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -308,7 +308,7 @@
     },
     //Create Beta Web Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "BetaEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -329,7 +329,7 @@
     },
     //Create Beta App Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "BetaEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -350,7 +350,7 @@
     },
     //Create Beta Data Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "BetaEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -371,7 +371,7 @@
     },
     //Create Stage Web Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -392,7 +392,7 @@
     },
     //Create Stage App Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -413,7 +413,7 @@
     },
     //Create Stage Data Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "StgEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -436,7 +436,7 @@
     },
     //Create Prod Web Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "ProdEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -457,7 +457,7 @@
     },
     //Create Prod App Environment Stack
     {
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-05-01-preview",
       "name": "ProdEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
@@ -478,7 +478,7 @@
     } //,
     ////Create Prod Data Environment Stack
     //{
-    //  "apiVersion": "2015-01-01",
+    //  "apiVersion": "2015-05-01-preview",
     //  "name": "ProdEnvDataTemplate",
     //  "type": "Microsoft.Resources/deployments",
     //  "dependsOn": [
@@ -501,7 +501,7 @@
     //}
     ////Update Virtual Network - apply network security groups
     //{
-    //  "apiVersion": "2015-01-01",
+    //  "apiVersion": "2015-05-01-preview",
     //  "name": "VNetUpdateTemplate",
     //  "type": "Microsoft.Resources/deployments",
     //  "dependsOn": [

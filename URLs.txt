@@ -25,18 +25,22 @@ $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/mas
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnvData.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnvWeb.json'
 
-$prefix = "asb"
+$prefix = "asd"
 $ResourceGroupName = $prefix + 'Group'
 $location = "West US"
+$vnetname = $prefix + "vnet01"
+$dnsname = $prefix + "services"
 $adminPassword = "Office365"
 $adminUsername = "nimda"
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 #$DomainName = "devbeta.macuhosted"
 $DomainName = "stageprod.macuhosted"
-$vnetname = $prefix + "vnet01"
+
+***Use this command for AzureDeploy.json***
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -dnsNameForPublicIP $dnsname -Force -Verbose
 
 ***Use this command for templates with Default values***
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -Force -Verbose
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -VirtualNetworkName $vnetname -Force -Verbose
 
 ***Use this command for environment child templates *EnvApp, *EnvData, *EnvWeb***
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminUsername $adminusername -adminPassword $adminPassword -customerLocation $location -customerPrefix $Prefix -DomainName $DomainName -VirtualNetworkName $vnetname -Force -Verbose
