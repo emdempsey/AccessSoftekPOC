@@ -2,7 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adminPassword": { "value": "Office365" },
     "adminUsername": { "value": "nimda" },
     "BetaMFMVMCount": { "value": 2 },
     "BetaORPHVMCount": { "value": 2 },
@@ -17,7 +16,6 @@
     "customerVPNVendor": { "value": "Cisco" },
     "dnsNameForPublicIP": { "value": "emdservices" },
     "vnetAddressSpacePrefix": { "value": "10.0" },
-    "sqlServerServiceAccountUserName": { "value": "sqlservice" },
-    "sqlServerServiceAccountPassword": { "value": "Office365" }
+    "sqlServerServiceAccountUserName": { "value": "sqlservice" }
   }
 }

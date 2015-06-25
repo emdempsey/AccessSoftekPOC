@@ -204,6 +204,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "VNetTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('VNetTemplateLink')]", "contentVersion": "1.0.0.0" },
@@ -226,6 +227,7 @@
     //  "apiVersion": "2015-01-01",
     //  "name": "PublicTemplate",
     //  "type": "Microsoft.Resources/deployments",
+      //"location": "[parameters('customerLocation')]",
     //  "dependsOn": [
     //    "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
     //  ],
@@ -247,6 +249,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "DevBetaMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
       ],
@@ -268,6 +271,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "StgProdMgmtTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'VNetTemplate')]"
       ],
@@ -289,6 +293,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "DevEnvTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
       ],
@@ -311,6 +316,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "BetaEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
       ],
@@ -332,6 +338,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "BetaEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
       ],
@@ -353,6 +360,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "BetaEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'DevBetaMgmtTemplate')]"
       ],
@@ -374,6 +382,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "StgEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
@@ -395,6 +404,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "StgEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
@@ -416,6 +426,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "StgEnvDataTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
@@ -439,6 +450,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "ProdEnvWebTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
@@ -460,6 +472,7 @@
       "apiVersion": "2015-05-01-preview",
       "name": "ProdEnvAppTemplate",
       "type": "Microsoft.Resources/deployments",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
       ],
@@ -481,6 +494,7 @@
     //  "apiVersion": "2015-05-01-preview",
     //  "name": "ProdEnvDataTemplate",
     //  "type": "Microsoft.Resources/deployments",
+      //"location": "[parameters('customerLocation')]",
     //  "dependsOn": [
     //    "[concat('Microsoft.Resources/deployments/', 'StgProdMgmtTemplate')]"
     //  ],
