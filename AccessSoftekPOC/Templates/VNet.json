@@ -58,13 +58,6 @@
       },
       "defaultValue": "Cisco"
     },
-    "virtualNetworkName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the virtual Network to be created"
-      },
-      "defaultValue": "astvnet01"
-    },
     "vnetAddressSpacePrefix": {
       "type": "string",
       "defaultValue": "10.0",
@@ -119,7 +112,8 @@
     "StgProdMgmtSubnetName": "StgProdMgmt",
     "StgWebNSGName": "[concat(variables('StgWebSubnetName'),'nsg01')]",
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
-    "StgWebSubnetName": "StgWeb"
+    "StgWebSubnetName": "StgWeb",
+    "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]"
   },
   "resources": [
     //Create Virtual Network
