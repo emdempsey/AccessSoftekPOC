@@ -113,7 +113,8 @@
     "StgWebNSGName": "[concat(variables('StgWebSubnetName'),'nsg01')]",
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb",
-    "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]"
+    "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]",
+    "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '0.0/16')]"
   },
   "resources": [
     //Create Virtual Network
@@ -128,7 +129,7 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.0.0.0/16"
+            "[variables('vnetAddressSpace')]"
           ]
         },
         "subnets": [
