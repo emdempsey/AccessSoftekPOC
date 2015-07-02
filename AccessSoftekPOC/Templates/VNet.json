@@ -114,7 +114,7 @@
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb",
     "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]",
-    "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '0.0/16')]"
+    "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '.0.0/16')]"
   },
   "resources": [
     //Create Virtual Network
