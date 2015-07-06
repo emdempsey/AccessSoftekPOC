@@ -25,7 +25,6 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Folder Include="Scripts\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +36,7 @@
     <Content Include="Templates\VNet.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\Start-ArmAutomation.ps1" />
     <None Include="Templates\DSC\astfwdsc.ps1.zip" />
     <None Include="Templates\DSC\astsqlclusterdsc.ps1.zip" />
     <None Include="Templates\DSC\astsqlprepdsc.ps1.zip" />
