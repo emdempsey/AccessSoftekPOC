@@ -1,0 +1,273 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "customerLocation where resources will be provisioned"
+      },
+      "defaultValue": "West US"
+    },
+    "customerPrefix": {
+      "metadata": {
+        "description": "The 3 character prefix of the customer name"
+      },
+      "type": "string",
+      "defaultValue": "ast"
+    },
+    "sqlServerServiceAccountPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The SQL Server Service account password"
+      },
+      "defaultValue": "Office365"
+    },
+    "sqlServerServiceAccountUserName": {
+      "type": "string",
+      "metadata": {
+        "description": "The SQL Server Service account name"
+      },
+      "defaultValue": "sqlservice"
+    },
+    "vnetAddressSpacePrefix": {
+      "metadata": {
+        "description": "The address space used by the Virtual network"
+      },
+      "type": "string",
+      "defaultValue": "10.0"
+    }
+  },
+  "variables": {
+    "DevSQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "DevSQLDBDatabaseName": "[concat(parameters('customerPrefix'),'devcmsdb01')]",
+    "DevSQLDBEdition": "Standard",
+    "DevSQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.255')]",
+    "DevSQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0')]",
+    "DevSQLDBMaxSizeBytes": "268435456000",
+    "DevSQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+    "DevSQLDBServerName": "[concat(parameters('customerPrefix'),'devdbsrv01')]",
+    "DevSQLDBVersion": "12.0",
+    "BetaSQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "BetaSQLDBDatabaseName": "[concat(parameters('customerPrefix'),'betacmsdb01')]",
+    "BetaSQLDBEdition": "Standard",
+    "BetaSQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.5.255')]",
+    "BetaSQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.5.0')]",
+    "BetaSQLDBMaxSizeBytes": "268435456000",
+    "BetaSQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+    "BetaSQLDBServerName": "[concat(parameters('customerPrefix'),'betadbsrv01')]",
+    "BetaSQLDBVersion": "12.0",
+    "StgSQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "StgSQLDBDatabaseName": "[concat(parameters('customerPrefix'),'stgcmsdb01')]",
+    "StgSQLDBEdition": "Standard",
+    "StgSQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.8.255')]",
+    "StgSQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0')]",
+    "StgSQLDBMaxSizeBytes": "268435456000",
+    "StgSQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+    "StgSQLDBServerName": "[concat(parameters('customerPrefix'),'stgdbsrv01')]",
+    "StgSQLDBVersion": "12.0",
+    "ProdSQLDBCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "ProdSQLDBDatabaseName": "[concat(parameters('customerPrefix'),'prodcmsdb01')]",
+    "ProdSQLDBEdition": "Standard",
+    "ProdSQLDBFirewallEndIP": "[concat(parameters('vnetAddressSpacePrefix'),'.11.255')]",
+    "ProdSQLDBFirewallStartIP": "[concat(parameters('vnetAddressSpacePrefix'),'.11.0')]",
+    "ProdSQLDBMaxSizeBytes": "268435456000",
+    "ProdSQLDBRequestedServiceObjectiveId": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+    "ProdSQLDBServerName": "[concat(parameters('customerPrefix'),'proddbsrv01')]",
+    "ProdSQLDBVersion": "12.0"
+  },
+  "resources": [
+    //Create Dev SQL PaaS
+    {
+      "apiVersion": "2014-04-01-preview",
+      "location": "[parameters('customerLocation')]",
+      "name": "[variables('DevSQLDBServerName')]",
+      "type": "Microsoft.Sql/servers",
+      "tags": {
+        "displayName": "Dev SQL PaaS"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('sqlServerServiceAccountUserName')]",
+        "administratorLoginPassword": "[parameters('sqlServerServiceAccountPassword')]",
+        "version": "[variables('DevSQLDBVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "tags": {
+            "displayName": "Dev CMS DB"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('DevSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "[variables('DevSQLDBDatabaseName')]",
+          "properties": {
+            "collation": "[variables('DevSQLDBCollation')]",
+            "edition": "[variables('DevSQLDBEdition')]",
+            "maxSizeBytes": "[variables('DevSQLDBMaxSizeBytes')]",
+            "requestedServiceObjectiveId": "[variables('DevSQLDBRequestedServiceObjectiveId')]"
+          }
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('DevSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "DevFirewallRule1",
+          "properties": {
+            "endIpAddress": "[variables('DevSQLDBFirewallEndIP')]",
+            "startIpAddress": "[variables('DevSQLDBFirewallStartIP')]"
+          },
+          "type": "firewallrules"
+        }
+      ]
+    },
+    //Create Beta SQL PaaS
+    {
+      "apiVersion": "2014-04-01-preview",
+      "location": "[parameters('customerLocation')]",
+      "name": "[variables('BetaSQLDBServerName')]",
+      "type": "Microsoft.Sql/servers",
+      "tags": {
+        "displayName": "Beta SQL PaaS"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('sqlServerServiceAccountUserName')]",
+        "administratorLoginPassword": "[parameters('sqlServerServiceAccountPassword')]",
+        "version": "[variables('BetaSQLDBVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "tags": {
+            "displayName": "Beta CMS DB"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('BetaSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "[variables('BetaSQLDBDatabaseName')]",
+          "properties": {
+            "collation": "[variables('BetaSQLDBCollation')]",
+            "edition": "[variables('BetaSQLDBEdition')]",
+            "maxSizeBytes": "[variables('BetaSQLDBMaxSizeBytes')]",
+            "requestedServiceObjectiveId": "[variables('BetaSQLDBRequestedServiceObjectiveId')]"
+          }
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('BetaSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "BetaFirewallRule1",
+          "properties": {
+            "endIpAddress": "[variables('BetaSQLDBFirewallEndIP')]",
+            "startIpAddress": "[variables('BetaSQLDBFirewallStartIP')]"
+          },
+          "type": "firewallrules"
+        }
+      ]
+    },
+    //Create Stg SQL PaaS
+    {
+      "apiVersion": "2014-04-01-preview",
+      "location": "[parameters('customerLocation')]",
+      "name": "[variables('StgSQLDBServerName')]",
+      "type": "Microsoft.Sql/servers",
+      "tags": {
+        "displayName": "Stage SQL PaaS"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('sqlServerServiceAccountUserName')]",
+        "administratorLoginPassword": "[parameters('sqlServerServiceAccountPassword')]",
+        "version": "[variables('StgSQLDBVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "tags": {
+            "displayName": "Stage CMS DB"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('StgSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "[variables('StgSQLDBDatabaseName')]",
+          "properties": {
+            "collation": "[variables('StgSQLDBCollation')]",
+            "edition": "[variables('StgSQLDBEdition')]",
+            "maxSizeBytes": "[variables('StgSQLDBMaxSizeBytes')]",
+            "requestedServiceObjectiveId": "[variables('StgSQLDBRequestedServiceObjectiveId')]"
+          }
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('StgSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "StageFirewallRule1",
+          "properties": {
+            "endIpAddress": "[variables('StgSQLDBFirewallEndIP')]",
+            "startIpAddress": "[variables('StgSQLDBFirewallStartIP')]"
+          },
+          "type": "firewallrules"
+        }
+      ]
+    },
+    //Create Prod SQL PaaS
+    {
+      "apiVersion": "2014-04-01-preview",
+      "location": "[parameters('customerLocation')]",
+      "name": "[variables('ProdSQLDBServerName')]",
+      "type": "Microsoft.Sql/servers",
+      "tags": {
+        "displayName": "Prod SQL PaaS"
+      },
+      "properties": {
+        "administratorLogin": "[parameters('sqlServerServiceAccountUserName')]",
+        "administratorLoginPassword": "[parameters('sqlServerServiceAccountPassword')]",
+        "version": "[variables('ProdSQLDBVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "tags": {
+            "displayName": "Prod CMS DB"
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('ProdSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "[variables('ProdSQLDBDatabaseName')]",
+          "properties": {
+            "collation": "[variables('ProdSQLDBCollation')]",
+            "edition": "[variables('ProdSQLDBEdition')]",
+            "maxSizeBytes": "[variables('ProdSQLDBMaxSizeBytes')]",
+            "requestedServiceObjectiveId": "[variables('ProdSQLDBRequestedServiceObjectiveId')]"
+          }
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('ProdSQLDBServerName'))]"
+          ],
+          "location": "[parameters('customerLocation')]",
+          "name": "ProdFirewallRule1",
+          "properties": {
+            "endIpAddress": "[variables('ProdSQLDBFirewallEndIP')]",
+            "startIpAddress": "[variables('ProdSQLDBFirewallStartIP')]"
+          },
+          "type": "firewallrules"
+        }
+      ]
+    }
+  ]
+}
