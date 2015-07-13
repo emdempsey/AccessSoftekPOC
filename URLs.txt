@@ -16,9 +16,10 @@ $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/mas
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnvApp.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnvData.json'
 $TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/ProdEnvWeb.json'
+$TemplateFile = 'https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/SQLPaaS.json'
 
-$prefix = "asf"
-$ResourceGroupName = $prefix + 'Group'
+$prefix = "mac"
+$ResourceGroupName = $prefix + 'ResourceGroup'
 $location = "West US"
 $vnetname = $prefix + "vnet01"
 $dnsname = $prefix + "services"
@@ -27,6 +28,10 @@ $adminUsername = "nimda"
 $adminPassword = ConvertTo-SecureString -AsPlainText -Force -String $adminPassword
 #$DomainName = "devbeta.macuhosted"
 $DomainName = "stageprod.macuhosted"
+$vnetAddressSpacePrefix = "10.0"
+$sqlServerServiceAccountPassword = "Office365"
+$sqlServerServiceAccountPassword = ConvertTo-SecureString -AsPlainText -Force -String $sqlServerServiceAccountPassword
+$sqlServerServiceAccountUsername = "sqlService"
 
 ***Use this command for AzureDeploy.json***
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -dnsNameForPublicIP $dnsname -Force -Verbose
@@ -36,6 +41,10 @@ New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFil
 
 ***Use this command for environment child templates *EnvApp, *EnvData, *EnvWeb***
 New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminUsername $adminusername -adminPassword $adminPassword -customerLocation $location -customerPrefix $Prefix -DomainName $DomainName -VirtualNetworkName $vnetname -Force -Verbose
+
+
+***Use this command to deploy the SQL PaaS***
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerLocation $location -customerPrefix $customerPrefix -sqlServerServiceAccountPassword $sqlServerServiceAccountPassword -sqlServerServiceAccountUsername $sqlServerServiceAccountUsername -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
 
 
 

@@ -14,7 +14,7 @@
         "description": "The 3 character prefix of the customer name"
       },
       "type": "string",
-      "defaultValue": "ast"
+      "defaultValue": "mac"
     },
     "sqlServerServiceAccountPassword": {
       "type": "securestring",
