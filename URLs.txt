@@ -44,7 +44,7 @@ New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFil
 
 
 ***Use this command to deploy the SQL PaaS***
-New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerLocation $location -customerPrefix $customerPrefix -sqlServerServiceAccountPassword $sqlServerServiceAccountPassword -sqlServerServiceAccountUsername $sqlServerServiceAccountUsername -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
+New-AzureResourceGroup -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerLocation $location -customerPrefix $prefix -sqlServerServiceAccountPassword $sqlServerServiceAccountPassword -sqlServerServiceAccountUsername $sqlServerServiceAccountUsername -vnetAddressSpacePrefix $vnetAddressSpacePrefix -Force -Verbose
 
 
 
