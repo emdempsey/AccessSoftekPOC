@@ -63,6 +63,7 @@
     "PubStorageAccountName": "[concat(parameters('customerPrefix'),variables('Environment'),'stor01')]",
     "PubSubnetName": "Public",
     "PubSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
+    "PubVMCount": "2",
     "PubvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'vm')]",
     "PubVMSize": "Standard_A3",
     "storageAccountType": "Standard_LRS",
@@ -206,11 +207,15 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('PubnicName'), '0')]",
+      "name": "[concat(variables('PubnicName'), copyIndex())]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
       ],
+      "copy": {
+        "name": "Pub-Nic-Loop",
+        "count": "[variables('PubVMCount')]"
+      },
       "tags": {
         "displayName": "Public Interface"
       },
@@ -230,64 +235,31 @@
               ]
             }
           }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.15.4",
-            "10.0.15.5"
-          ]
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('PubnicName'), '1')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
-      ],
-      "tags": {
-        "displayName": "Public Interface"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAlcustomerLocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('PubSubnetRef')]"
-              },
-              "loadBalancerBackendAddressPools": [
-                {
-                  "id": "[concat(variables('lbID'), '/backendAddressPools/BackendPool1')]"
-                }
-              ]
-            }
-          }
-        ],
-        "dnsSettings": {
-          "dnsServers": [
-            "10.0.15.4",
-            "10.0.15.5"
-          ]
-        }
+        ]
       }
     },
     //Create Public Virtual Machines - Kemp or other NLB and WAF device
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('PubvmName'), '01')]",
+      "name": "[concat(variables('PubvmName'), copyIndex())]",
       "location": "[parameters('customerLocation')]",
+      "copy": {
+        "name": "Pub-VM-Loop",
+        "count": "[variables('PubVMCount')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '0')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), copyIndex())]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
       ],
       "tags": {
         "displayName": "Public VM"
+      },
+      "plan": {
+        "name": "[variables('PubimageSku')]",
+        "publisher": "[variables('PubimagePublisher')]",
+        "product": "[variables('PubimageOffer')]"
       },
       "properties": {
         "availabilitySet": {
@@ -297,7 +269,7 @@
           "vmSize": "[variables('PubVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('PubvmName'), '01')]",
+          "computername": "[concat(variables('PubvmName'), copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -311,7 +283,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'01-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),copyIndex(),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -320,61 +292,11 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '0')]"
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), copyIndex())]"
             }
           ]
         }
       }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('PubvmName'), '02')]",
-      "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('PubStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('PubnicName'), '1')]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('PubAvailabilitySetName'))]"
-      ],
-      "tags": {
-        "displayName": "Public VM"
-      },
-      "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('PubAvailabilitySetName'))]"
-        },
-        "hardwareProfile": {
-          "vmSize": "[variables('PubVMSize')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('PubvmName'), '02')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('PubimagePublisher')]",
-            "offer": "[variables('PubimageOffer')]",
-            "sku": "[variables('PubimageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',variables('PubStorageAccountName'),'.blob.core.windows.net/vhds/',variables('PubvmName'),'02-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('PubnicName')), '1')]"
-            }
-          ]
-        }
-      }
-    } 
+    }
   ]
 }
