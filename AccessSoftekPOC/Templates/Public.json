@@ -63,7 +63,7 @@
     "PubStorageAccountName": "[concat(parameters('customerPrefix'),variables('Environment'),'stor01')]",
     "PubSubnetName": "Public",
     "PubSubnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
-    "PubVMCount": "2",
+    "PubVMCount": 2,
     "PubvmName": "[concat(parameters('customerPrefix'),variables('Environment'),'vm')]",
     "PubVMSize": "Standard_A3",
     "storageAccountType": "Standard_LRS",
@@ -209,13 +209,13 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('PubnicName'), copyIndex())]",
       "location": "[parameters('customerLocation')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
-      ],
       "copy": {
         "name": "Pub-Nic-Loop",
         "count": "[variables('PubVMCount')]"
       },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
+      ],      
       "tags": {
         "displayName": "Public Interface"
       },
