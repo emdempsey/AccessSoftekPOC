@@ -54,7 +54,7 @@
     "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "vlm-azure",
-    "PubimagePublisher": "KempTech",
+    "PubimagePublisher": "[resourceID(concat('Microsoft.Compute/locations/',parameters('customerLocation'),'/Publishers'),'Kemptech')]",//"KempTech",
     "PubimageSKU": "basic-byol",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
@@ -215,7 +215,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
-      ],      
+      ],
       "tags": {
         "displayName": "Public Interface"
       },
@@ -269,9 +269,14 @@
           "vmSize": "[variables('PubVMSize')]"
         },
         "osProfile": {
-          "computername": "[concat(variables('PubvmName'), copyIndex())]",
+          "adminPassword": "[parameters('adminPassword')]",
           "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
+          "computername": "[concat(variables('PubvmName'), copyIndex())]",
+          "customData": null,
+          "LinuxConfiguration": {
+            "DisablePasswordAuthentication": false
+          },
+          "Secrets": [ ]
         },
         "storageProfile": {
           "imageReference": {
