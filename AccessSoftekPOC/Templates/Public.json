@@ -54,7 +54,7 @@
     "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "vlm-azure",
-    "PubimagePublisher": "[resourceID(concat('Microsoft.Compute/locations/',parameters('customerLocation'),'/Publishers'),'Kemptech')]",//"KempTech",
+    "PubimagePublisher": "[resourceID('Microsoft.Compute/locations',parameters('customerLocation'),'Publishers','Kemptech')]",//"KempTech",
     "PubimageSKU": "basic-byol",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
