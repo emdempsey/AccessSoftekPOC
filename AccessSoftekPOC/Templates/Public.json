@@ -55,7 +55,7 @@
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "vlm-azure",
     "PubimageOfferID": "vlm-azure",
-    "PubimagePublisherID": "[resourceID('Microsoft.Compute/locations',parameters('customerLocation'),'Publishers','Kemptech')]", //"KempTech",
+    "PubimagePublisherID": "[concat('Microsoft.Compute/locations/',parameters('customerLocation'),'/Publishers/','Kemptech')]",
     "PubimagePublisher": "KempTech",
     "PubimageSKU": "basic-byol",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
