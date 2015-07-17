@@ -54,7 +54,7 @@
     "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "vlm-azure",
-    "PubimageOfferID": "vlm-azure",
+    "PubimageOfferID": "[concat('Microsoft.Compute/locations/',parameters('customerLocation'),'/Publishers/KempTech/ArtifactTypes/VMImage/Officers/vlm-azure/Skus/basic-byol')]",
     "PubimagePublisherID": "[concat('Microsoft.Compute/locations/',parameters('customerLocation'),'/Publishers/','Kemptech')]",
     "PubimagePublisher": "KempTech",
     "PubimageSKU": "basic-byol",
