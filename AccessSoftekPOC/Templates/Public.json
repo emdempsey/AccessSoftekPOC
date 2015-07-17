@@ -54,7 +54,9 @@
     "loadBalancerName": "[concat(parameters('customerPrefix'),variables('Environment'),'lb01')]",
     "PubAvailabilitySetName": "[concat(parameters('customerPrefix'),variables('Environment'),'as')]",
     "PubimageOffer": "vlm-azure",
-    "PubimagePublisher": "[resourceID('Microsoft.Compute/locations',parameters('customerLocation'),'Publishers','Kemptech')]",//"KempTech",
+    "PubimageOfferID": "vlm-azure",
+    "PubimagePublisherID": "[resourceID('Microsoft.Compute/locations',parameters('customerLocation'),'Publishers','Kemptech')]", //"KempTech",
+    "PubimagePublisher": "KempTech",
     "PubimageSKU": "basic-byol",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),variables('Environment'),'pip01')]",
@@ -258,8 +260,8 @@
       },
       "plan": {
         "name": "[variables('PubimageSku')]",
-        "publisher": "[variables('PubimagePublisher')]",
-        "product": "[variables('PubimageOffer')]"
+        "publisher": "[variables('PubimagePublisherID')]",
+        "product": "[variables('PubimageOfferID')]"
       },
       "properties": {
         "availabilitySet": {
