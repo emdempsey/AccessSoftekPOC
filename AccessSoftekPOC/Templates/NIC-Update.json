@@ -13,7 +13,8 @@
       "type": "string",
       "metadata": {
         "Description": "The name of the NIC to Create or Update"
-      }
+      },
+      "defaultValue": "stg-MFMApp-nic0"
     },
     "dnsServers": {
       "type": "array",
@@ -26,10 +27,12 @@
       ]
     },
     "subnetName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "stgApp"
     }
   },
   "variables": {
+    "ipConfiguration": "[resourceID('Microsoft.Network/NetworkInterfaces',parameters('nicName'),'ipConfigurations',ipConfig1')]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
     "vnetID": "[resourceID('Microsoft.Network/virtualNetworks','macvnet01')]"
   },
@@ -40,17 +43,7 @@
       "location": "[parameters('location')]",
       "apiVersion": "2015-05-01-preview",
       "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAlcustomerLocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('subnetRef')]"
-              }
-            }
-          }
-        ],
+        "ipConfigurations": "[variables('ipConfiguration')]",
         "dnsSettings": "[parameters('dnsServers')]"
       }
     }
