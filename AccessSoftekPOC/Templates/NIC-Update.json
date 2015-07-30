@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "metadata": {
+        "Description": "The region to deploy the resources into"
+      },
+      "defaultValue": "West US"
+    },
+    "nicName": {
+      "type": "string",
+      "metadata": {
+        "Description": "The name of the NIC to Create or Update"
+      }
+    },
+    "dnsServers": {
+      "type": "array",
+      "metadata": {
+        "Description": "The DNS Servers of the NIC"
+      },
+      "defaultValue": [
+        "10.0.15.4",
+        "10.0.15.5"
+      ]
+    },
+    "subnetName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
+    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks','macvnet01')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('nicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "apiVersion": "2015-05-01-preview",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAlcustomerLocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ],
+        "dnsSettings": "[parameters('dnsServers')]"
+      }
+    }
+  ]
+}
