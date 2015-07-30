@@ -41,7 +41,6 @@
     <None Include="Templates\DSC\astsqlclusterdsc.ps1.zip" />
     <None Include="Templates\DSC\astsqlprepdsc.ps1.zip" />
     <None Include="Templates\NIC-Update-Deploy.json" />
-    <None Include="Templates\NIC-Update.json" />
     <None Include="Templates\ProdEnv.json" />
     <None Include="Templates\SQLPaaS.json" />
     <None Include="Templates\StgEnv.json" />
