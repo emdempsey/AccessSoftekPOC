@@ -5,7 +5,7 @@
   },
   "variables": {
     "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
-    "nicTemplateUri": "[concat(parameters('AssetLocation'),'/nic.json')]",
+    "nicTemplateUri": "[concat(variables('AssetLocation'),'/nic.json')]",
     "location": "West US",
     "VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'macvnet01')]"
   },
