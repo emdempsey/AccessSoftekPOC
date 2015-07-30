@@ -103,7 +103,7 @@
             "value": "[variables('location')]"
           },
           "nicName": {
-            "value": "stg-OrphApp-nic0"
+            "value": "stg-OrpApp-nic0"
           },
           "ipConfigurations": {
             "value": [
@@ -142,7 +142,7 @@
             "value": "[variables('location')]"
           },
           "nicName": {
-            "value": "stg-OrphApp-nic1"
+            "value": "stg-OrpApp-nic1"
           },
           "ipConfigurations": {
             "value": [
