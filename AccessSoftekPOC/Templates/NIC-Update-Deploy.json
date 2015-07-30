@@ -1,0 +1,248 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+  },
+  "variables": {
+    "AssetLocation": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates",
+    "nicTemplateUri": "[concat(parameters('AssetLocation'),'/nic.json')]",
+    "location": "West US",
+    "VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'macvnet01')]"
+  },
+  "resources": [
+    {
+      "name": "UpdateStgMFMApp0",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "nicName": {
+            "value": "stg-MFMApp-nic0"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "subnet": {
+                    "id": "[concat(variables('VnetID'),'/subnets/stgApp')]"
+                  }
+                }
+              }
+            ]
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateStgMFMApp1",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "nicName": {
+            "value": "stg-MFMApp-nic1"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "subnet": {
+                    "id": "[concat(variables('VnetID'),'/subnets/stgApp')]"
+                  }
+                }
+              }
+            ]
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateStgOrphApp0",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "nicName": {
+            "value": "stg-OrphApp-nic0"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "subnet": {
+                    "id": "[concat(variables('VnetID'),'/subnets/stgApp')]"
+                  }
+                }
+              }
+            ]
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateStgOrphApp1",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "nicName": {
+            "value": "stg-OrphApp-nic1"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "subnet": {
+                    "id": "[concat(variables('VnetID'),'/subnets/stgApp')]"
+                  }
+                }
+              }
+            ]
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateStgWeb0",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nicTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "nicName": {
+            "value": "stg-Web-nic0"
+          },
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "subnet": {
+                    "id": "[concat(variables('VnetID'),'/subnets/stgWeb')]"
+                  }
+                }
+              }
+            ]
+          },
+          "dnsServers": {
+            "value": [
+              "10.0.15.4",
+              "10.0.15.5"
+            ]
+          }
+        }
+      }
+    },
+    {
+			"name": "UpdateStgWeb1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('nicTemplateUri')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[variables('location')]"
+					},
+					"nicName": {
+						"value": "stg-Web-nic1"
+					},
+          "ipConfigurations": {
+            "value": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "subnet": {
+                    "id": "[concat(variables('VnetID'),'/subnets/stgWeb')]"
+                  }
+                }
+              }
+            ]
+          },
+					"dnsServers": {
+						"value": [
+              "10.0.15.4",
+              "10.0.15.5"
+						]
+					}
+				}
+			}
+		}
+  ]
+}
