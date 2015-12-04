@@ -269,7 +269,11 @@
       },
       "properties": {
         "GatewayIpAddress": "[parameters('customerVPNAddress')]",
-        "AddressPrefix": "[parameters('customerVPNSubnet')]"
+        "localNetworkAddressSpace": {
+          "addressPrefixes": [
+            "[parameters('customerVPNSubnet')]" 
+          ]
+        }
       }
     },
     //Create Virtual Network Gateway
