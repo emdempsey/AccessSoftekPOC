@@ -49,7 +49,7 @@
       "metadata": {
         "description": "One of the subnets onthe customer's local network"
       },
-      "defaultValue": "172.16.0.0/16"
+      "defaultValue": "10.13.0.0/24"
     },
     "customerVPNVendor": {
       "type": "string",
@@ -88,6 +88,8 @@
     "DevWebNSGName": "[concat(variables('DevWebSubnetName'),'nsg01')]",
     "DevWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0/24')]",
     "DevWebSubnetName": "DevWeb",
+    "dnsNameForPublicIP": "[concat(variables('virtualNetworkName'),'gw')]",
+    "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-lan01')]",
     "NSGTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/NetworkSecurityGroups.json",
     "ProdAppNSGName": "[concat(variables('ProdAppSubnetName'),'nsg01')]",
     "ProdAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.12.0/24')]",
@@ -98,6 +100,9 @@
     "ProdWebNSGName": "[concat(variables('ProdWebSubnetName'),'nsg01')]",
     "ProdWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.11.0/24')]",
     "ProdWebSubnetName": "ProdWeb",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "publicIPAddressName": "[concat(parameters('customerPrefix'),'gwpip1')]",
+    "publicIPAddressType": "Static",
     "PubNSGName": "[concat(variables('PubSubnetName'),'nsg01')]",
     "PubSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.1.0/24')]",
     "PubSubnetName": "Public",
@@ -113,12 +118,28 @@
     "StgWebNSGName": "[concat(variables('StgWebSubnetName'),'nsg01')]",
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
+    "VirtualGatewayName": "[concat(variables('virtualNetworkName'),'-Gateway')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]",
     "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '.0.0/16')]",
-    "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-lan01')]",
-    "VirtualGatewayName": "[concat(variables('virtualNetworkName'),'-Gateway')]"
+    "vnetID": "[resourceID('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]"
   },
   "resources": [
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[parameters('customerLocation')]",
+      "tags": {
+        "displayName": "Virtual Network Gateway Public IP Address"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('dnsNameForPublicIP')]"
+        }
+      }
+    },
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworks",
@@ -239,11 +260,8 @@
         "displayName": "Customer Local Network"
       },
       "properties": {
-        "ipAddress": "[parameters('customerVPNAddress')]",
-        "subnet": "[parameters('customerVPNSubnet')]",
-        "vendor": "[parameters('customerVPNVendor')]",
-        "platform": "[parameters('customerVPNplatform')]",
-        "osFamily": "[parameters('customerVPNfamily')]"
+        "GatewayIpAddress": "[parameters('customerVPNAddress')]",
+        "AddressPrefix": "[parameters('customerVPNSubnet')]"
       }
     },
     //Create Virtual Network Gateway
@@ -257,13 +275,26 @@
         "[concat('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
       ],
       "tags": {
-        "displayName": "Customer Virtual Network Gateway"
+        "displayName": "Virtual Network Gateway"
       },
       "properties": {
-        //"gatewayType": "StaticRouting",
-        "gatewaySize": "Default"//,
-        //"bgpEnabled": false,
-        //"defaultSite": "[variables('LocalNetworkGatewayName')]"
+        "gatewayType": "Vpn",
+        "VpnType": "PolicyBased",
+        "bgpEnabled": false,
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
       }
     },
     {
@@ -280,21 +311,13 @@
         "[concat('Microsoft.Network/virtualNetworkGateways/', variables('VirtualGatewayName'))]"
       ],
       "properties": {
-        "gateway1": {
+        "VirtualNetworkGateway1": {
           "name": "[variables('VirtualGatewayName')]"
         },
-        "gateway2": {
+        "LocalNetworkGateway2": {
           "name": "[variables('LocalNetworkGatewayName')]"
         },
-        "connectionType": "SiteToSite",
-        "connectivityState": "Disconnected",
-        "ipsecParameters": {
-          "encryptionType": "{encryptionType}",
-          "pfsGroup": "{pfsGroup}",
-          "saDataSizeKilobytes": "{saDataSizeKilobytes}",
-          "saLifeTimeSeconds": "{saLifeTimeSeconds}",
-          "hashAlgorithm": "{hashAlgorithm}"
-        }
+        "connectionType": "IPsec"
       }
     }
   ]
