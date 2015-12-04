@@ -231,6 +231,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/localnetworkgateways",
       "name": "[variables('LocalNetworkGatewayName')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
       ],
@@ -250,6 +251,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworkGateways",
       "name": "[concat(variables('virtualNetworkName'),'-Gateway')]",
+      "location": "[parameters('customerLocation')]",
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
       ],
@@ -265,9 +267,11 @@
     },
     {
       "name": "VPNConnection",
-      "location": "North Central US",
+      "location": "[parameters('customerLocation')]",
       "type": "Microsoft.Network/Connections",
-      "tags": { "key1": "value1" },
+      "tags": {
+        "displayName": "VPN Connection"
+      },
       "apiVersion": "2015-05-01-preview",
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
