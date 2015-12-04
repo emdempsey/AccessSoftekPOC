@@ -145,7 +145,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAlcustomerLocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
@@ -167,7 +167,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAlcustomerLocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
@@ -190,7 +190,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAlcustomerLocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('AppSubnetRef')]"
               }
