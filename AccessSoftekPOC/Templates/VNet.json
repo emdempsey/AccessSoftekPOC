@@ -250,19 +250,20 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworkGateways",
-      "name": "[concat(variables('virtualNetworkName'),'-Gateway')]",
+      "name": "[variables('virtualGatewayName')]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
       ],
       "tags": {
         "displayName": "Customer Virtual Network Gateway"
       },
       "properties": {
-        "gatewayType": "StaticRouting",
-        "gatewaySize": "Default",
-        "bgpEnabled": false,
-        "defaultSite": "[variables('LocalNetworkGatewayName')]"
+        //"gatewayType": "StaticRouting",
+        "gatewaySize": "Default"//,
+        //"bgpEnabled": false,
+        //"defaultSite": "[variables('LocalNetworkGatewayName')]"
       }
     },
     {
