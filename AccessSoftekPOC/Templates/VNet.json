@@ -21,7 +21,7 @@
       "metadata": {
         "description": "The IP address of the VPN device on the customer network"
       },
-      "defaultValue": "1.1.1.1"
+      "defaultValue": "52.13.3.17"
     },
     "customerVPNFamily": {
       "type": "string",
@@ -30,12 +30,12 @@
       },
       "defaultValue": "IOS 15.1 (Dynamic)"
     },
-    "customerVPNP2SSubnet": {
+    "customerVPNS2SSubnet": {
       "type": "string",
       "metadata": {
         "description": "A single IP address prefix inside the list of prefixes that will be used when assigning IP addresses to incoming Point-to-Site client connection requests"
       },
-      "defaultValue": "192.168.1.0/24"
+      "defaultValue": "10.13.0.0/24"
     },
     "customerVPNPlatform": {
       "type": "string",
@@ -114,10 +114,11 @@
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb",
     "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]",
-    "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '.0.0/16')]"
+    "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '.0.0/16')]",
+    "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-lan01')]",
+    "VirtualGatewayName": "[concat(variables('virtualNetworkName'),'-Gateway')]"
   },
   "resources": [
-    //Create Virtual Network
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworks",
@@ -224,39 +225,72 @@
             }
           }
         ]
-      } //VNet Properties close
-    }, //, //Virtual Network close
-    //Create Local Network Site/Gateway
-    //{
-    //  "apiVersion": "2015-05-01-preview",
-    //  "type": "Microsoft.Network/localnetworkgateways",
-    //  "name": "[concat(parameters('customerPrefix'),'-lan01')]",
-    //  "tags": {
-    //    "displayName": "Customer Local Network"
-    //  },
-    //  "properties": {
-    //    "ipAddress": "[parameters('customerVPNAddress')]",
-    //    "subnet": "[parameters('customerVPNSubnet')]",
-    //    "vendor": "[parameters('customerVPNVendor')]",
-    //    "platform": "[parameters('customerVPNplatform')]",
-    //    "osFamily": "[parameters('customerVPNfamily')]"
-    //  }
-    //},
-    ////Create Virtual Network Gateway
-    //{
-    //  "apiVersion": "2015-05-01-preview",
-    //  "type": "Microsoft.Network/virtualNetworkGateways",
-    //  "name": "[concat(parameters('virtualNetworkName'),'-Gateway')]",
-    //  "tags": {
-    //    "displayName": "Customer Virtual Network Gateway"
-    //  },
-    //  "properties": {
-    //    "gatewayType": "DynamicRouting",
-    //    "gatewaySize": "Default",
-    //    "bgpEnabled": false,
-    //    "vpnClientAddressPool": "[parameters('customerVPNP2SSubnet')]",
-    //    "defaultSite": "[concat(parameters('customerPrefix'),'-lan01')]"
-    //  }
-    //},
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/localnetworkgateways",
+      "name": "[variables('LocalNetworkGatewayName')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "tags": {
+        "displayName": "Customer Local Network"
+      },
+      "properties": {
+        "ipAddress": "[parameters('customerVPNAddress')]",
+        "subnet": "[parameters('customerVPNSubnet')]",
+        "vendor": "[parameters('customerVPNVendor')]",
+        "platform": "[parameters('customerVPNplatform')]",
+        "osFamily": "[parameters('customerVPNfamily')]"
+      }
+    },
+    //Create Virtual Network Gateway
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/virtualNetworkGateways",
+      "name": "[concat(variables('virtualNetworkName'),'-Gateway')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "tags": {
+        "displayName": "Customer Virtual Network Gateway"
+      },
+      "properties": {
+        "gatewayType": "StaticRouting",
+        "gatewaySize": "Default",
+        "bgpEnabled": false,
+        "defaultSite": "[variables('LocalNetworkGatewayName')]"
+      }
+    },
+    {
+      "name": "VPNConnection",
+      "location": "North Central US",
+      "type": "Microsoft.Network/Connections",
+      "tags": { "key1": "value1" },
+      "apiVersion": "2015-05-01-preview",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]",
+        "[concat('Microsoft.Network/virtualNetworkGateways/', variables('VirtualGatewayName'))]"
+      ],
+      "properties": {
+        "gateway1": {
+          "name": "[variables('VirtualGatewayName')]"
+        },
+        "gateway2": {
+          "name": "[variables('LocalNetworkGatewayName')]"
+        },
+        "connectionType": "SiteToSite",
+        "connectivityState": "Disconnected",
+        "ipsecParameters": {
+          "encryptionType": "{encryptionType}",
+          "pfsGroup": "{pfsGroup}",
+          "saDataSizeKilobytes": "{saDataSizeKilobytes}",
+          "saLifeTimeSeconds": "{saLifeTimeSeconds}",
+          "hashAlgorithm": "{hashAlgorithm}"
+        }
+      }
+    }
   ]
 }
