@@ -321,10 +321,10 @@
       ],
       "properties": {
         "VirtualNetworkGateway1": {
-          "name": "[variables('VirtualGatewayName')]"
+          "name": "[resourceID('Microsoft.Network/virtualNetworkGateways/',variables('VirtualGatewayName'))]"
         },
         "LocalNetworkGateway2": {
-          "name": "[variables('LocalNetworkGatewayName')]"
+          "name": "[resourceID('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
         },
         "connectionType": "IPsec"
       }
