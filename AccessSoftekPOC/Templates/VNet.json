@@ -102,7 +102,7 @@
     "ProdWebSubnetName": "ProdWeb",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),'gwpip1')]",
-    "publicIPAddressType": "Static",
+    "publicIPAddressType": "Dynamic",
     "PubNSGName": "[concat(variables('PubSubnetName'),'nsg01')]",
     "PubSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.1.0/24')]",
     "PubSubnetName": "Public",
