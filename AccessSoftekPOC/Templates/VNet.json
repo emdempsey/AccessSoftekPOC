@@ -118,7 +118,9 @@
     "StgWebNSGName": "[concat(variables('StgWebSubnetName'),'nsg01')]",
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('PubSubnetName'))]",
+    "GatewaySubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.16.0/24')]",
+    "GatewaySubnetName": "GatewaySubnet",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('GatewaySubnetName'))]",
     "VirtualGatewayName": "[concat(variables('virtualNetworkName'),'-Gateway')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]",
     "vnetAddressSpace": "[concat(parameters('vnetAddressSpacePrefix'), '.0.0/16')]",
@@ -244,6 +246,12 @@
             "properties": {
               "addressPrefix": "[variables('StgProdMgmtSubnetAddressPrefix')]"
             }
+          },
+          {
+            "name": "[variables('GatewaySubnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('GatewaySubnetAddressPrefix')]"
+            }
           }
         ]
       }
@@ -285,7 +293,8 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "10.0.16.4",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               },
