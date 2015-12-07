@@ -89,7 +89,7 @@
     "DevWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0/24')]",
     "DevWebSubnetName": "DevWeb",
     "dnsNameForPublicIP": "[concat(variables('virtualNetworkName'),'gw')]",
-    "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-lan01')]",
+    "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-localgateway')]",
     "NSGTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/NetworkSecurityGroups.json",
     "ProdAppNSGName": "[concat(variables('ProdAppSubnetName'),'nsg01')]",
     "ProdAppSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.12.0/24')]",
