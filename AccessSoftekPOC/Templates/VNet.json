@@ -283,8 +283,7 @@
       "name": "[variables('virtualGatewayName')]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
-        "[concat('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
       ],
       "tags": {
         "displayName": "Virtual Network Gateway"
