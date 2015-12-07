@@ -128,7 +128,7 @@
   },
   "resources": [
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
       "location": "[parameters('customerLocation')]",
@@ -143,7 +143,7 @@
       }
     },
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
       "location": "[parameters('customerLocation')]",
@@ -257,7 +257,7 @@
       }
     },
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/localnetworkgateways",
       "name": "[variables('LocalNetworkGatewayName')]",
       "location": "[parameters('customerLocation')]",
@@ -278,7 +278,7 @@
     },
     //Create Virtual Network Gateway
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworkGateways",
       "name": "[variables('virtualGatewayName')]",
       "location": "[parameters('customerLocation')]",
@@ -317,7 +317,7 @@
       "tags": {
         "displayName": "VPN Connection"
       },
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
         "[concat('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]",
