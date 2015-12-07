@@ -330,7 +330,8 @@
         "LocalNetworkGateway2": {
           "id": "[resourceID('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
         },
-        "connectionType": "IPsec"
+        "connectionType": "IPsec",
+        "sharedKey": "a1b2c3D4"
       }
     }
   ]

@@ -34,13 +34,13 @@ $sqlServerServiceAccountPassword = ConvertTo-SecureString -AsPlainText -Force -S
 $sqlServerServiceAccountUsername = "sqlService"
 
 ***Use this command for AzureDeploy.json***
-New-AzureRmResourceGroupDeployment -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -dnsNameForPublicIP $dnsname -Force -Verbose
+New-AzureRmResourceGroupDeployment -Name $ResourceGroupName -TemplateFile $TemplateFile -customerPrefix $prefix -dnsNameForPublicIP $dnsname -Force -Verbose
 
 ***Use this command for templates with Default values***
-New-AzureRmResourceGroupDeployment -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -customerPrefix $prefix -VirtualNetworkName $vnetname -Force -Verbose
+New-AzureRmResourceGroupDeployment -Name $ResourceGroupName -TemplateFile $TemplateFile -customerPrefix $prefix -VirtualNetworkName $vnetname -Force -Verbose
 
 ***Use this command for environment child templates *EnvApp, *EnvData, *EnvWeb***
-New-AzureRmResourceGroupDeployment -Name $ResourceGroupName -Location $location -TemplateFile $TemplateFile -adminUsername $adminusername -adminPassword $adminPassword -customerLocation $location -customerPrefix $Prefix -DomainName $DomainName -VirtualNetworkName $vnetname -Force -Verbose
+New-AzureRmResourceGroupDeployment -Name $ResourceGroupName -TemplateFile $TemplateFile -adminUsername $adminusername -adminPassword $adminPassword -customerLocation $location -customerPrefix $Prefix -DomainName $DomainName -VirtualNetworkName $vnetname -Force -Verbose
 
 
 ***Use this command to deploy the SQL PaaS***
