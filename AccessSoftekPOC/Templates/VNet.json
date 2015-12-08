@@ -89,6 +89,8 @@
     "DevWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0/24')]",
     "DevWebSubnetName": "DevWeb",
     "dnsNameForPublicIP": "[concat(variables('virtualNetworkName'),'gw')]",
+    "GatewaySubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.16.0/24')]",
+    "GatewaySubnetName": "GatewaySubnet",
     "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-localgateway')]",
     "NSGTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/NetworkSecurityGroups.json",
     "ProdAppNSGName": "[concat(variables('ProdAppSubnetName'),'nsg01')]",
@@ -118,8 +120,6 @@
     "StgWebNSGName": "[concat(variables('StgWebSubnetName'),'nsg01')]",
     "StgWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.8.0/24')]",
     "StgWebSubnetName": "StgWeb",
-    "GatewaySubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.16.0/24')]",
-    "GatewaySubnetName": "GatewaySubnet",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('GatewaySubnetName'))]",
     "VirtualGatewayName": "[concat(variables('virtualNetworkName'),'-Gateway')]",
     "virtualNetworkName": "[concat(parameters('customerPrefix'), 'vnet01')]",
@@ -283,7 +283,8 @@
       "name": "[variables('virtualGatewayName')]",
       "location": "[parameters('customerLocation')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/PublicIPAddresses/',variables('publicIPAddressName'))]"
       ],
       "tags": {
         "displayName": "Virtual Network Gateway"
@@ -330,7 +331,7 @@
           "id": "[resourceID('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
         },
         "connectionType": "IPsec",
-        "sharedKey": "a1b2c3D4"
+        "sharedKey": "gOCCNKhjVfZxndAfodmrdqZsrQuZUJMH"
       }
     }
   ]
