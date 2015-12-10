@@ -21,7 +21,7 @@
       "metadata": {
         "description": "The IP address of the VPN device on the customer network"
       },
-      "defaultValue": "52.13.3.17"
+      "defaultValue": "52.10.3.17"
     },
     "customerVPNFamily": {
       "type": "string",
