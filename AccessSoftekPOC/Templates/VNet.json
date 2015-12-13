@@ -238,7 +238,7 @@
         "GatewayIpAddress": "[parameters('customerVPNAddress')]",
         "localNetworkAddressSpace": {
           "addressPrefixes": [
-            "[parameters('customerVPNSubnet')]" 
+            "[parameters('customerVPNS2SSubnet')]" 
           ]
         }
       }
