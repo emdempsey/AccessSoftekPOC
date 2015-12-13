@@ -14,7 +14,7 @@
         "description": "The 3 character prefix of the customer name"
       },
       "type": "string",
-      "defaultValue": "ast"
+      "defaultValue": "mac"
     },
     "customerVPNAddress": {
       "type": "string",
@@ -22,13 +22,6 @@
         "description": "The IP address of the VPN device on the customer network"
       },
       "defaultValue": "52.10.3.17"
-    },
-    "customerVPNFamily": {
-      "type": "string",
-      "metadata": {
-        "description": "The OS family of the VPN Device"
-      },
-      "defaultValue": "IOS 15.1 (Dynamic)"
     },
     "customerVPNS2SSubnet": {
       "type": "string",
@@ -43,20 +36,6 @@
         "description": "The platform of the VPN device"
       },
       "defaultValue": "ISR"
-    },
-    "customerVPNSubnet": {
-      "type": "string",
-      "metadata": {
-        "description": "One of the subnets onthe customer's local network"
-      },
-      "defaultValue": "10.13.0.0/24"
-    },
-    "customerVPNVendor": {
-      "type": "string",
-      "metadata": {
-        "description": "The vendor of the VPN device"
-      },
-      "defaultValue": "Cisco"
     },
     "vnetAddressSpacePrefix": {
       "type": "string",
@@ -88,8 +67,7 @@
     "DevWebNSGName": "[concat(variables('DevWebSubnetName'),'nsg01')]",
     "DevWebSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.2.0/24')]",
     "DevWebSubnetName": "DevWeb",
-    "dnsNameForPublicIP": "[concat(variables('virtualNetworkName'),'gw')]",
-    "GatewaySubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.16.0/24')]",
+    "GatewaySubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.16.0/29')]",
     "GatewaySubnetName": "GatewaySubnet",
     "LocalNetworkGatewayName": "[concat(parameters('customerPrefix'),'-localgateway')]",
     "NSGTemplateLink": "https://raw.githubusercontent.com/emdempsey/AccessSoftekPOC/master/AccessSoftekPOC/Templates/NetworkSecurityGroups.json",
@@ -104,7 +82,6 @@
     "ProdWebSubnetName": "ProdWeb",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "publicIPAddressName": "[concat(parameters('customerPrefix'),'gwpip1')]",
-    "publicIPAddressType": "Dynamic",
     "PubNSGName": "[concat(variables('PubSubnetName'),'nsg01')]",
     "PubSubnetAddressPrefix": "[concat(parameters('vnetAddressSpacePrefix'),'.1.0/24')]",
     "PubSubnetName": "Public",
@@ -136,10 +113,7 @@
         "displayName": "Virtual Network Gateway Public IP Address"
       },
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel": "[variables('dnsNameForPublicIP')]"
-        }
+        "publicIPAllocationMethod": "Dynamic"
       }
     },
     {
@@ -292,13 +266,12 @@
       "properties": {
         "gatewayType": "Vpn",
         "VpnType": "PolicyBased",
-        "bgpEnabled": false,
+        "enableBgp": "false",
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "10.0.16.4",
+              "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               },
@@ -319,7 +292,6 @@
       },
       "apiVersion": "2015-06-15",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
         "[concat('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]",
         "[concat('Microsoft.Network/virtualNetworkGateways/', variables('VirtualGatewayName'))]"
       ],
@@ -331,6 +303,7 @@
           "id": "[resourceID('Microsoft.Network/localnetworkgateways/', variables('LocalNetworkGatewayName'))]"
         },
         "connectionType": "IPsec",
+        "routingWeight": 10,
         "sharedKey": "gOCCNKhjVfZxndAfodmrdqZsrQuZUJMH"
       }
     }
