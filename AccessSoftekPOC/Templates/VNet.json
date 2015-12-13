@@ -30,13 +30,6 @@
       },
       "defaultValue": "10.13.0.0/24"
     },
-    "customerVPNPlatform": {
-      "type": "string",
-      "metadata": {
-        "description": "The platform of the VPN device"
-      },
-      "defaultValue": "ISR"
-    },
     "vnetAddressSpacePrefix": {
       "type": "string",
       "defaultValue": "10.0",
