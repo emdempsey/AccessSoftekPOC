@@ -59,6 +59,7 @@
     <None Include="Templates\DSC\astwebdsc.ps1.zip" />
     <None Include="Templates\NetworkSecurityGroups.json" />
     <None Include="Templates\nic.json" />
+    <None Include="Templates\VNet.parameters.json" />
     <None Include="Templates\zzProdEnv-old.json" />
     <None Include="Templates\ProdEnvApp.json" />
     <None Include="Templates\ProdEnvData.json" />
