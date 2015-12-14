@@ -36,6 +36,12 @@
       "metadata": {
         "description": "The address space used by the Virtual network"
       }
+    },
+    "VPNSharedKey": {
+      "type": "string",
+      "metadata": {
+        "description": "The shared key that will be used by the VPN device to connect with the Azure Gateway"
+      }
     }
   },
   "variables": {
@@ -296,7 +302,7 @@
         },
         "connectionType": "IPsec",
         "routingWeight": 10,
-        "sharedKey": "gOCCNKhjVfZxndAfodmrdqZsrQuZUJMH"
+        "sharedKey": "[parameters('VPNSharedKey')]"
       }
     }
   ]
